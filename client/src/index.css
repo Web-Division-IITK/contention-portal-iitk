@@ -1,0 +1,27 @@
+:root {
+  --primary-color: #202022;
+  --light-background-color: #fbfbfd;
+  --secondary-color: #7678ed;
+  --accent-color: #ff7a55;
+  --dull-color: #888888;
+
+  --primary-font: "Quicksand", sans-serif;
+  --logo-font: "Offside", sans-serif;
+  
+  color-scheme: only dark;
+  background-color: var(--primary-color);
+  font-family: var(--primary-font);
+  color: var(--light-background-color);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}

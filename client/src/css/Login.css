@@ -1,9 +1,28 @@
+
 .login-signup-box {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100dvh;
+  min-height: 100vh;
   padding: 25px 0;
+  
+  background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400/75986c19110981.562d51daa0a74.jpg');
+  background-image:url('https://png.pngtree.com/background/20230419/original/pngtree-website-science-and-technology-light-effect-ring-background-picture-image_2448025.jpg');
+  background-color: var(--background-color);  
+  background-size: cover;
+  /* background-size: 50% 100%; */
+  background-position: left;
+  background-repeat: no-repeat;
+  
+  
+  font-family: var(--primary-font);
+  font-size: 1.2em;
+  line-height: 1.5;
+  text-align: center;
+  gap: 2em;
+  flex-wrap: wrap;
+
+
 
   .illustartion {
     width: 550px;
@@ -11,6 +30,10 @@
   }
 
   .login-box {
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     .divider {
       display: flex;
       justify-content: center;
@@ -22,8 +45,28 @@
         flex-grow: 1;
       }
 
+
+
+      span {
+        margin: 0 1em;
+        color: var(--dull-color);
+      }
+    }
+
+    .illustartion {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: auto;
+
+      img {
+        width: 100%;
+        height: auto;
+}
       span {
         margin: 2em 1em;
+        
       }
     }
 
@@ -33,6 +76,8 @@
       align-items: center;
       margin-bottom: 2em;
       padding: 0 1.5em;
+      width: 100%;
+    
 
       img {
         height: 7em;
@@ -123,4 +168,31 @@
   .login-signup-box .illustartion {
     display: none;
   }
+}
+.illustrationImg{
+  width: 250%;
+  height: auto;
+  
+  margin-right: 2em;
+}
+.switch-to-signup{
+  cursor: pointer;
+  color: #7f7fff;
+  text-decoration:none;
+  font-weight: bold;
+}
+
+
+.switch-to-login{
+  cursor: pointer;
+  color: #7f7fff;
+  text-decoration:none;
+  font-weight: bold;
+}
+.alr{
+  text-align: center;
+  width: 100%;
+  display: block;
+  color:rgb(255, 255, 255);
+  font-weight: bold;
 }

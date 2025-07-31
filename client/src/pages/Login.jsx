@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router";
 import { HiEye, HiEyeOff, HiMail } from "react-icons/hi";
-import illustartionImg from "../assets/connected-illustration.svg";
+import illustrationImg from "../assets/image.png";  
 import "../css/Login.css";
 import { useEffect, useState } from "react";
 import { createUser, isUserLoggedin, loginUser } from "../utils/Login";
@@ -16,11 +16,11 @@ export function Signinup() {
   return (
     <div className="login-signup-box">
       <div className="illustartion">
-        <img
-          className="illustartionImg"
+        {/* <img
+          className="illustrationImg"
           src={illustartionImg}
           alt="Connected Peoples Image"
-        />
+        /> */}
       </div>
       {isLogin ? (
         <Login switchToSignup={() => setIsLogin(false)} />
@@ -38,8 +38,8 @@ export function Login({ switchToSignup }) {
   return (
     <div className="login-box">
       <div className="logo">
-        <img src="/Logo-Transperent.png" alt="logo" />
-        <span>Fedox</span>
+        {/* <img src={illustrationImg} alt="logo" /> */}
+        <span>TAKNEEK'25</span>
       </div>
 
       <form
@@ -76,6 +76,7 @@ export function Login({ switchToSignup }) {
         <span
           style={{ color: "#7f7fff", textDecoration: "underline" }}
           onClick={switchToSignup}
+          className= "switch-to-signup"
         >
           Signup
         </span>
@@ -91,8 +92,8 @@ export function Signup({ switchToLogin }) {
   return (
     <div className="login-box">
       <div className="logo">
-        <img src="/Logo-Transperent.png" alt="logo" />
-        <span>Fedox</span>
+        {/* <img src="/Logo-Transperent.png" alt="logo" /> */}
+        <span>TAKNEEK'25</span>
       </div>
 
       <form
@@ -130,11 +131,12 @@ export function Signup({ switchToLogin }) {
         </label>
         <input type="submit" value={"Signup"} />
       </form>
-      <span style={{ textAlign: "center", width: "100%", display: "block" }}>
+      <span className="alr" style={{ textAlign: "center", width: "100%", display: "block" }}>
         Already Have an account?{" "}
         <span
           style={{ color: "#7f7fff", textDecoration: "underline" }}
           onClick={switchToLogin}
+          className="switch-to-login"
         >
           Login
         </span>

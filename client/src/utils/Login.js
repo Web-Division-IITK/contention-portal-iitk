@@ -1,7 +1,8 @@
 import { jwtDecode } from "jwt-decode";
 
 // const BASEURL = "http://localhost:8080/api";
-const BASEURL = window.location.origin + "/api";
+// const BASEURL = window.location.origin + "/api";
+const BASEURL = "https://localhost:27017/api";
 
 export async function loginUser(email, password) {
   try {

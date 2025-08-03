@@ -4,7 +4,7 @@ import illustrationImg from "../assets/image.png";
 import "../css/Login.css";
 import { useEffect, useState } from "react";
 import { createUser, isUserLoggedin, loginUser } from "../utils/Login";
-
+import logo from "../assets/logo.png";
 export function Signinup() {
   let [isLogin, setIsLogin] = useState(true);
   let navigate = useNavigate();
@@ -15,6 +15,16 @@ export function Signinup() {
 
   return (
     <div className="login-signup-box">
+       <div className="navbar" style={{ display: "flex", color:"white", flexDirection: "row", alignItems: "center" }}>
+        <img src={logo} alt="IIT Kanpur Logo" className="portal-logo" />
+        
+        <div className="navbar-center">
+          <h2 className="portal-subtitle">Contention Portal</h2>
+          <h3 className="portal-subtitle">TAKNEEK | IIT Kanpur</h3>
+        </div>
+        
+      
+      </div>
       <div className="illustartion">
         {/* <img
           className="illustrationImg"
@@ -36,10 +46,20 @@ export function Login({ switchToSignup }) {
   let [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="login-box">
+
+
+
+  
+     
+  
+  
+        
+ <div className="login-box">
+       
+             
       <div className="logo">
         {/* <img src={illustrationImg} alt="logo" /> */}
-        <span>TAKNEEK'25</span>
+        <span style={{color:"whitesmoke"}}  className="eventlogo" >TAKNEEK'25</span>
       </div>
 
       <form
@@ -55,11 +75,11 @@ export function Login({ switchToSignup }) {
           }
         }}
       >
-        <label htmlFor="email">
+        <label htmlFor="email" style={{color:"white"  }}  >
           <input type="email" placeholder="Email" required />
           <HiMail />
         </label>
-        <label htmlFor="password">
+        <label htmlFor="password" style={{color:"white"  }}  >
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Password"
@@ -71,17 +91,14 @@ export function Login({ switchToSignup }) {
         </label>
         <input type="submit" value={"Login"} />
       </form>
-      <span style={{ textAlign: "center", width: "100%", display: "block" }}>
-        Don't Have an account?{" "}
-        <span
-          style={{ color: "#7f7fff", textDecoration: "underline" }}
-          onClick={switchToSignup}
-          className= "switch-to-signup"
-        >
-          Signup
-        </span>
-      </span>
+     
     </div>
+
+  
+ 
+
+    
+    
   );
 }
 

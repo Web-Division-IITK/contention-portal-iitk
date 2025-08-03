@@ -4,6 +4,8 @@ import { getUserDetails, isUserLoggedin, logoutUser } from "../utils/Login";
 import "../css/Portal.css";
 import { HiMiniBolt } from "react-icons/hi2";
 import io from "socket.io-client";
+import "bootstrap/dist/css/bootstrap.min.css";
+import logo from "../assets/logo.png";
 
 // const SOCKET_URI = "http://localhost:8080";
 const SOCKET_URI = window.location.origin;
@@ -13,6 +15,11 @@ export function Portal() {
   const [socket, setSocket] = useState(null);
   const [feedback, setFeedback] = useState("");
   const [feedbacks, setFeedbacks] = useState([]);
+  const [hall, setHall] = useState("");
+  const [aHall, setAHall] = useState("");
+  const [problemStatement, setProblemStatement] = useState("");
+  const [para, setPara] = useState("");
+  const [link, setLink] = useState("");
 
   useEffect(() => {
     // Connect to backend
@@ -30,6 +37,7 @@ export function Portal() {
     });
 
     newSocket.on("load_feedbacks", (a) => {
+      console.log("Loaded feedbacks:", a);
       setFeedbacks(a);
     });
 
@@ -63,37 +71,143 @@ export function Portal() {
 
   return (
     <div className="portal-box">
-      {getUserDetails().role == "user" && (
-        <form
+      <div className="navbar" style={{ display: "flex", color:"white", flexDirection: "row", alignItems: "center" }}>
+  <img src={logo} alt="IIT Kanpur Logo" className="portal-logo" />
+  
+  <div className="navbar-center">
+    <h2 className="portal-subtitle">Contention Portal</h2>
+    <h3 className="portal-subtitle">TAKNEEK | IIT Kanpur</h3>
+  </div>
+   <button id="logout" onClick={() => logoutUser()}>Logout</button>
+
+</div>
+      
+      <div className="contention-form">
+        
+        {getUserDetails().role == "user" && (
+          <>
+          
+             <form
           className="feedback-input"
           onSubmit={(e) => {
             e.preventDefault();
-            if (feedback.length < 1) {
-              alert("Please enter feedback");
+            if ( hall.length < 1 || aHall.length < 1 || problemStatement.length < 1 ) {
+              alert("Please enter all required fields");
               return;
             }
             const userData = getUserDetails();
             socket.emit("submit_feedback", {
               username: userData.name,
-              feedback,
+ 
+  hall,
+  againstHall: aHall,
+  problemStatement,
+  para,
+  link,
             });
+             console.log("Submitted:", {
+    username: userData.name,
+    hall,
+    aHall,
+    problemStatement,
+    para,
+    link,
+  });
+
             setFeedback("");
+            setHall("");
+            setAHall("");
+            setProblemStatement("");
+            setPara("");
+            setLink("");
+           
+
           }}
         >
-          <label htmlFor="feedback">
+         
+
+
+
+
+          <label htmlFor="hall" >
             <input
               className="feedback-submit"
               type="text"
-              placeholder="Feedback"
-              value={feedback}
-              onChange={(e) => setFeedback(e.target.value)}
+              placeholder="Enter hall name"
+              value={hall}
+              onChange={(e) => setHall(e.target.value)}
+             
               required
             />
             <HiMiniBolt />
-            <input type="submit" value={"Submit"} />
+           
+            
           </label>
+           <label htmlFor="against-hall">
+            <input
+              className="feedback-submit"
+              type="text"
+              placeholder="Enter hall against which you are raising contention"
+              value={aHall}
+              onChange={(e) => setAHall(e.target.value)}
+              
+              required
+            />
+            <HiMiniBolt />
+           
+            
+          </label>
+          <label htmlFor="problem-statement" style={{height:"100px"}}>
+            <input
+              className="feedback-submit"
+              type="text"
+              placeholder="Enter problem statement"
+              value={problemStatement}
+              onChange={(e) => setProblemStatement(e.target.value)}
+              
+              required
+            />
+            <HiMiniBolt />
+           
+            
+          </label>
+          <label htmlFor="text" style={{height:"100px"}}>
+            <input
+              className="feedback-submit"
+              type="text"
+              placeholder="Enter your remarks"
+              value={para}
+              onChange={(e) => setPara(e.target.value)}
+              
+              
+            />
+            <HiMiniBolt />
+           
+            
+          </label>
+          <label htmlFor="link">
+            <input
+              className="feedback-submit"
+              type="text"
+              placeholder="Any references or links"
+              value={link}
+              onChange={(e) => setLink(e.target.value)}
+              
+            />
+            <HiMiniBolt />
+           
+            
+          </label>
+        
+         
+         <input type="submit" value={"Submit"}/>
         </form>
+        </>
+     
       )}
+      
+      </div>
+      
 
       <div className="container">
         {feedbacks.length > 0 ? (
@@ -128,11 +242,14 @@ export function Portal() {
             );
           })
         ) : (
-          <h2>No feedbacks yet</h2>
+          <h2>No contentions yet</h2>
         )}
       </div>
 
-      <button id="logout" onClick={() => logoutUser()}>Logout</button>
+     
     </div>
   );
 }
+
+
+

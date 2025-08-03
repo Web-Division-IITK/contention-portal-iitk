@@ -5,6 +5,7 @@ import "../css/Login.css";
 import { useEffect, useState } from "react";
 import { createUser, isUserLoggedin, loginUser } from "../utils/Login";
 import logo from "../assets/logo.png";
+import { HiNumberedList } from "react-icons/hi2";
 export function Signinup() {
   let [isLogin, setIsLogin] = useState(true);
   let navigate = useNavigate();
@@ -15,22 +16,18 @@ export function Signinup() {
 
   return (
     <div className="login-signup-box">
-       <div className="navbar" style={{ display: "flex", color:"white", flexDirection: "row", alignItems: "center" }}>
+       <div className="navbar" style={{ display: "flex", border:"2px solid #7f7fff",   borderTop:"none", borderLeft:"none", borderRight:"none", color:"white", flexDirection: "row", alignItems: "center" }}>
         <img src={logo} alt="IIT Kanpur Logo" className="portal-logo" />
         
         <div className="navbar-center">
           <h2 className="portal-subtitle">Contention Portal</h2>
-          <h3 className="portal-subtitle">TAKNEEK | IIT Kanpur</h3>
+          <h3 className="portal-subtitle">TAKNEEK'25 | IIT Kanpur</h3>
         </div>
         
       
       </div>
       <div className="illustartion">
-        {/* <img
-          className="illustrationImg"
-          src={illustartionImg}
-          alt="Connected Peoples Image"
-        /> */}
+       
       </div>
       {isLogin ? (
         <Login switchToSignup={() => setIsLogin(false)} />
@@ -46,19 +43,12 @@ export function Login({ switchToSignup }) {
   let [showPassword, setShowPassword] = useState(false);
 
   return (
-
-
-
   
-     
-  
-  
-        
  <div className="login-box">
        
              
       <div className="logo">
-        {/* <img src={illustrationImg} alt="logo" /> */}
+       
         <span style={{color:"whitesmoke"}}  className="eventlogo" >TAKNEEK'25</span>
       </div>
 
@@ -75,30 +65,28 @@ export function Login({ switchToSignup }) {
           }
         }}
       >
-        <label htmlFor="email" style={{color:"white"  }}  >
-          <input type="email" placeholder="Email" required />
+        <label htmlFor="email" style={{color:"white"   }}  >
+          <input type="email" placeholder="Email" style={{border:"2px solid rgba(244, 236, 236, 1)"}} required />
           <HiMail />
         </label>
         <label htmlFor="password" style={{color:"white"  }}  >
           <input
-            type={showPassword ? "text" : "password"}
+            type="password"
             placeholder="Password"
-            onFocus={() => setShowPassword(true)}
-            onBlur={() => setShowPassword(false)}
+            onFocus={() => setShowPassword(false)}
+           
+            style={{border:"2px solid rgba(244, 236, 236, 1)"}}
             required
           />
           {showPassword ? <HiEye /> : <HiEyeOff />}
         </label>
+       
+        
         <input type="submit" value={"Login"} />
       </form>
      
     </div>
 
-  
- 
-
-    
-    
   );
 }
 

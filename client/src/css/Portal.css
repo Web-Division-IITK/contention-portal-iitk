@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   font-family: 'Poppins', sans-serif;
+  
 }
 
 .portal-box {
@@ -11,6 +12,8 @@
   flex-direction: column;
   min-height: 100dvh;
   padding: 25px 0;
+  background-color:#000000;
+  
 
   .feedback-input {
     margin-bottom: 50px;
@@ -730,6 +733,147 @@ form{
   
   #logout {
     padding: 8px 16px;
+    font-size: 13px;
+  }
+}
+.portal-logo{
+  width:80px;
+  height:80px;
+}
+.portal-box {
+  background-color: rgb(0, 0, 0);
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+}
+
+
+.navbar{
+  border:#7f7fff 2px solid;
+  
+}
+.contention-form{
+  border-bottom:2px solid #7f7fff;
+  border-top:2px solid #7f7fff;
+  border-right:2px solid #7f7fff;
+  background-color: black;
+  color: rgb(2, 2, 2);
+  border-left:8px solid #7f7fff;
+  padding:20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Label container styling */
+label[for="against-hall"] {
+  color: #333; /* Changed from white for visibility on white background */
+  background-color: white;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Select dropdown styling */
+.feedback-submit {
+  flex: 1;
+  background-color: white;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+/* Select focus state */
+.feedback-submit:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* Select hover state */
+.feedback-submit:hover {
+  border-color: #999;
+}
+
+/* Option styling */
+.feedback-submit option {
+  background-color: white;
+  color: #333;
+  padding: 8px;
+}
+
+/* Icon styling (assuming HiMiniBolt is an icon) */
+.feedback-submit + * {
+  color: #666;
+  font-size: 16px;
+  margin-left: 4px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  label[for="against-hall"] {
+    padding: 6px 10px;
+  }
+  
+  .feedback-submit {
+    padding: 6px 10px;
     font-size: 13px;
   }
 }

@@ -14,7 +14,7 @@
   /* background-size: 50% 100%; */
   background-position: left;
   background-repeat: no-repeat;
-  background:linear-gradient(135deg, rgba(4, 7, 3, 0.8), rgba(6, 53, 243, 0.8));
+  background:linear-gradient(135deg, rgba(4, 7, 3, 0.8), rgba(6, 6, 6, 0.8));
   color: var(--text-color);
   
   font-family: var(--primary-font);
@@ -363,9 +363,120 @@
     font-size: 13px;
   }
 }
+
+
+.login-signup-box {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1));
+}
+
+.login-box{
+  background-color: rgba(5, 5, 5, 0.8);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 20px, rgba(0, 0, 0, 0.22) 0px 6px 6px;
+  width:50%;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  border:2px solid rgb(2, 46, 149);
+}
+.login-sgnup-box .navbar{
+  border:#7f7fff 2px solid;
+  border-bottom:#7f7fff 2px solid;
+  border-top:#7f7fff 2px solid;
+}
+
+
+
 .navbar{
-  background:linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
-  padding: 15px 20px;
-  border-bottom:2px solid rgba(247, 5, 5, 1);
-  border-top:2px solid rgba(247, 5, 5, 1);
+  border:#7f7fff 2px solid;
+  
+}
+
+.login-box{
+  border-bottom:2px solid #7f7fff;
+  border-top:2px solid #7f7fff;
+  border-right:2px solid #7f7fff;
+  background-color: black;
+  color: rgb(2, 2, 2);
+  border-left:8px solid #7f7fff;
+  border-radius: 20px;
+}
+
+
+
+/* Label container styling */
+label[for="against-hall"] {
+  color: #333; /* Changed from white for visibility on white background */
+  background-color: white;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Select dropdown styling */
+.feedback-submit {
+  flex: 1;
+  background-color: white;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+/* Select focus state */
+.feedback-submit:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* Select hover state */
+.feedback-submit:hover {
+  border-color: #999;
+}
+
+/* Option styling */
+.feedback-submit option {
+  background-color: white;
+  color: #333;
+  padding: 8px;
+}
+
+/* Icon styling (assuming HiMiniBolt is an icon) */
+.feedback-submit + * {
+  color: #666;
+  font-size: 16px;
+  margin-left: 4px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  label[for="against-hall"] {
+    padding: 6px 10px;
+  }
+  
+  .feedback-submit {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+}
+
+.login-box{
+  margin-top:60px;
+  gap:0px;
+  font-size:0.7em;
+  
+  
 }

@@ -71,7 +71,7 @@ export function Portal() {
 
   return (
     <div className="portal-box">
-      <div className="navbar" style={{ display: "flex", color:"white", flexDirection: "row", alignItems: "center" }}>
+      <div className="navbar" style={{ display: "flex", color:"white", flexDirection: "row",  border:"2px solid #7f7fff", borderTop:"none", borderLeft:"none", borderRight:"none",  alignItems: "center", backgroundColor:"#000000" }}>
   <img src={logo} alt="IIT Kanpur Logo" className="portal-logo" />
   
   <div className="navbar-center">
@@ -129,35 +129,37 @@ export function Portal() {
 
 
 
-          <label htmlFor="hall" >
-            <input
-              className="feedback-submit"
-              type="text"
-              placeholder="Enter hall name"
-              value={hall}
-              onChange={(e) => setHall(e.target.value)}
-             
-              required
-            />
-            <HiMiniBolt />
-           
-            
+          
+
+ <label htmlFor="against-hall" style={{color:"white", backgroundColor:"white" ,width:"100%"}}> 
+            <select className="feedback-submit" >
+        <option value={hall}>Select Your Pool</option>
+        <option value={hall}> Pool1</option>
+        <option value={hall}> Pool2</option>
+        <option value={hall}> Pool3</option>
+        <option value={hall}>Pool4</option>
+         <option value={hall}> Pool5</option>
+    </select>
+
+    
           </label>
-           <label htmlFor="against-hall">
-            <input
-              className="feedback-submit"
-              type="text"
-              placeholder="Enter hall against which you are raising contention"
-              value={aHall}
-              onChange={(e) => setAHall(e.target.value)}
-              
-              required
-            />
-            <HiMiniBolt />
-           
+
+
+          
+          <label htmlFor="against-hall" style={{color:"white", backgroundColor:"white" ,width:"100%"}}> 
             
+            <select className="feedback-submit" >
+                <option value={aHall}>Against</option>
+        <option value={aHall}>Pool 1</option>
+        <option value={aHall}>Pool 2</option>
+        <option value={aHall}>Pool 3</option>
+        <option value={aHall}>Pool 4</option>
+         <option value={aHall}>Pool 5</option>
+    </select>
+    
           </label>
-          <label htmlFor="problem-statement" style={{height:"100px"}}>
+    
+          <label htmlFor="problem-statement" >
             <input
               className="feedback-submit"
               type="text"
@@ -171,11 +173,11 @@ export function Portal() {
            
             
           </label>
-          <label htmlFor="text" style={{height:"100px"}}>
+          <label htmlFor="text" >
             <input
               className="feedback-submit"
               type="text"
-              placeholder="Enter your remarks"
+              placeholder="Description"
               value={para}
               onChange={(e) => setPara(e.target.value)}
               

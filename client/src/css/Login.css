@@ -1,9 +1,30 @@
+
 .login-signup-box {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100dvh;
+  min-height: 100vh;
   padding: 25px 0;
+  
+  /* background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400/75986c19110981.562d51daa0a74.jpg');
+  background-image:url('https://png.pngtree.com/background/20230419/original/pngtree-website-science-and-technology-light-effect-ring-background-picture-image_2448025.jpg');
+  background-color: var(--background-color);   */
+  background:linear-gradient(135deg, rgb(233, 235, 232), rgb(144, 140, 140));
+  background-size: cover;
+  /* background-size: 50% 100%; */
+  background-position: left;
+  background-repeat: no-repeat;
+  background:linear-gradient(135deg, rgba(4, 7, 3, 0.8), rgba(6, 6, 6, 0.8));
+  color: var(--text-color);
+  
+  font-family: var(--primary-font);
+  font-size: 1.2em;
+  line-height: 1.5;
+  text-align: center;
+  gap: 2em;
+  flex-wrap: wrap;
+
+
 
   .illustartion {
     width: 550px;
@@ -11,6 +32,10 @@
   }
 
   .login-box {
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     .divider {
       display: flex;
       justify-content: center;
@@ -22,8 +47,28 @@
         flex-grow: 1;
       }
 
+
+
+      span {
+        margin: 0 1em;
+        color: var(--dull-color);
+      }
+    }
+
+    .illustartion {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: auto;
+
+      img {
+        width: 100%;
+        height: auto;
+}
       span {
         margin: 2em 1em;
+        
       }
     }
 
@@ -33,6 +78,8 @@
       align-items: center;
       margin-bottom: 2em;
       padding: 0 1.5em;
+      width: 100%;
+    
 
       img {
         height: 7em;
@@ -123,4 +170,313 @@
   .login-signup-box .illustartion {
     display: none;
   }
+}
+.illustrationImg{
+  width: 250%;
+  height: auto;
+  
+  margin-right: 2em;
+}
+.switch-to-signup{
+  cursor: pointer;
+  color: #7f7fff;
+  text-decoration:none;
+  font-weight: bold;
+}
+
+
+.switch-to-login{
+  cursor: pointer;
+  color: #7f7fff;
+  text-decoration:none;
+  font-weight: bold;
+}
+.alr{
+  text-align: center;
+  width: 100%;
+  
+  display: block;
+  color:rgb(255, 255, 255);
+  font-weight: bold;
+}
+
+.login-box{
+  background-color:rgb(16, 14, 14);
+  
+  /* background:transparent; */
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  padding:30px;
+  border-radius:20px;
+  box-shadow: #f8f8f9;
+  
+}
+.feedback-submit{
+   border-left: 2px solid rgb(250, 63, 1);
+  
+  border-radius: 20px;
+}
+
+
+.login-box form label {
+  color: white;
+}
+.login-box{
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 20px, rgba(0, 0, 0, 0.22) 0px 6px 6px;
+  width:50%;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+}
+@media (max-width: 768px) {
+  .login-box {
+    width: 90%;
+  }
+  .eventlogo {
+    font-size: 2em;
+  }
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.login-signup-box {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* .login-signup-box .navbar {
+
+  padding: 15px 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
+  width: 100%;
+  box-sizing: border-box;
+  justify-content: space-between;
+  position:fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  
+} */
+
+
+.portal-logo {
+  height: 50px;
+  width: auto;
+  margin-right: 20px;
+  filter: brightness(1.1);
+  transition: transform 0.3s ease;
+}
+
+.portal-logo:hover {
+  transform: scale(1.05);
+}
+
+
+.navbar-center {
+  flex: 1;
+  text-align: left;
+  margin-left: 10px;
+}
+
+.portal-subtitle {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  font-weight: 600;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  line-height: 1.2;
+}
+
+.portal-subtitle:first-child {
+  font-size: 24px;
+  color: white;
+  margin-bottom: 5px;
+}
+
+.portal-subtitle:last-child {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 400;
+}
+
+
+
+
+
+
+
+
+
+@media (max-width: 768px) {
+  .login-signup-box .navbar {
+    padding: 12px 15px;
+    flex-wrap: wrap;
+   
+  }
+  .login-box{
+    margin-top: 80px;
+    width: 90%;
+    padding: 20px;
+  }
+  .portal-logo {
+    height: 40px;
+    margin-right: 15px;
+  }
+  
+  .navbar-center {
+    margin-left: 5px;
+  }
+  
+  .portal-subtitle:first-child {
+    font-size: 20px;
+  }
+  
+  .portal-subtitle:last-child {
+    font-size: 14px;
+  }
+  
+  #logout {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}
+
+
+.login-signup-box {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1));
+}
+
+.login-box{
+  background-color: rgba(5, 5, 5, 0.8);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 20px, rgba(0, 0, 0, 0.22) 0px 6px 6px;
+  width:50%;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  border:2px solid rgb(2, 46, 149);
+}
+.login-sgnup-box .navbar{
+  border:#7f7fff 2px solid;
+  border-bottom:#7f7fff 2px solid;
+  border-top:#7f7fff 2px solid;
+}
+
+
+
+.navbar{
+  border:#7f7fff 2px solid;
+  
+}
+
+.login-box{
+  border-bottom:2px solid #7f7fff;
+  border-top:2px solid #7f7fff;
+  border-right:2px solid #7f7fff;
+  background-color: black;
+  color: rgb(2, 2, 2);
+  border-left:8px solid #7f7fff;
+  border-radius: 20px;
+}
+
+
+
+/* Label container styling */
+label[for="against-hall"] {
+  color: #333; /* Changed from white for visibility on white background */
+  background-color: white;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Select dropdown styling */
+.feedback-submit {
+  flex: 1;
+  background-color: white;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+/* Select focus state */
+.feedback-submit:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* Select hover state */
+.feedback-submit:hover {
+  border-color: #999;
+}
+
+/* Option styling */
+.feedback-submit option {
+  background-color: white;
+  color: #333;
+  padding: 8px;
+}
+
+/* Icon styling (assuming HiMiniBolt is an icon) */
+.feedback-submit + * {
+  color: #666;
+  font-size: 16px;
+  margin-left: 4px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  label[for="against-hall"] {
+    padding: 6px 10px;
+  }
+  
+  .feedback-submit {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+}
+
+.login-box{
+  margin-top:60px;
+  gap:0px;
+  font-size:0.7em;
+  
+  
 }

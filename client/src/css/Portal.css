@@ -1,9 +1,19 @@
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  
+}
+
 .portal-box {
   display: flex;
   align-items: center;
   flex-direction: column;
   min-height: 100dvh;
   padding: 25px 0;
+  background-color:#000000;
+  
 
   .feedback-input {
     margin-bottom: 50px;
@@ -30,11 +40,13 @@
       margin: 0.5em 0;
       height: 100%;
       font-family: var(--primary-font);
-      color: #ffffff;
-      background-color: #000000;
+      color: #000000;
+      background-color: #f7f4f4;
       font-size: 0.8em;
       border: 2px solid transparent;
       transition: 250ms;
+     
+
     }
 
     input.feedback-submit {
@@ -184,7 +196,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
   .login-signup-box .login-box .logo {
     img {
       height: 5em;
@@ -192,11 +204,676 @@
     span {
       font-size: 3.5em;
     }
+    input{
+      height:20px;
+      font-size: 1em;
+    
+    }
   }
 }
 
 @media (max-width: 1020px) {
   .login-signup-box .illustartion {
     display: none;
+  }
+}
+.contention-form{
+  
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+   width:500px;
+  
+  color:rgb(15, 50, 251);
+  border-radius:20px;
+ background-color:white;
+  
+  border-width: 5px;
+  
+
+}
+form{
+  display:flex;
+  flex-wrap: wrap;
+  width:500px;
+  padding:20px 20px;
+  gap:20px;
+  margin:20px;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+}
+
+.portal-box{
+  background-color:rgb(1, 23, 1);
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+}
+.container{
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  padding:50px;
+}
+
+.feedback-card{
+  background-color:blue;
+}
+.event-name{
+  color:white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  padding: 15px 30px;
+  
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 70px;
+}
+
+.portal-logo {
+  height: 50px;
+  width: auto;
+  margin-right: 20px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+  border-radius:50%;
+  margin-left:10px;
+}
+
+.portal-logo:hover {
+  transform: scale(1.05);
+}
+
+
+.navbar-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.portal-subtitle {
+  margin: 2px 0;
+  text-align: center;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+.navbar h2.portal-subtitle {
+  font-size: 1.8rem;
+  color: #ffffff;
+  margin-bottom: 2px;
+}
+
+.navbar h3.portal-subtitle {
+  font-size: 1rem;
+  color: #e5e7eb;
+  font-weight: 400;
+  margin-top: 0;
+}
+
+.user-details {
+  margin-left: 20px;
+  padding: 5px 10px;
+  text-align: right;
+  flex-shrink: 0;
+  min-width: 100px;
+}
+
+
+@media (max-width: 768px) {
+  .portal-box {
+    padding: 15px 10px;
+    min-height: 100vh;
+    background-color: rgb(1, 23, 1);
+  }
+
+  .portal-box .feedback-input {
+    margin-bottom: 30px;
+    width: 100%;
+  }
+
+  .portal-box .feedback-input input {
+    width: 100%;
+    padding: 0.8em 0.8em;
+    padding-left: 2.5em;
+    font-size: 0.9em;
+    border-radius: 8px;
+    margin: 0.3em 0;
+  }
+
+  .portal-box .feedback-input input.feedback-submit {
+    width: 95vw;
+    max-width: 100%;
+    font-size: 0.85em;
+  }
+
+  .portal-box .feedback-input label svg {
+    left: 10px;
+    font-size: 0.9em;
+  }
+
+  .portal-box .feedback-input input[type="submit"] {
+    width: auto;
+    min-width: 120px;
+    padding: 0.8em 1.8em;
+    margin: 10px 5px;
+    font-size: 0.85em;
+  }
+
+  .portal-box .container {
+    width: 95%;
+    max-width: none;
+    padding: 20px 15px;
+  }
+
+  .portal-box h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    padding: 0 10px;
+  }
+
+  .portal-box .feedback-card {
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+    position: relative;
+  }
+
+  .portal-box .feedback-card:hover {
+    transform: translateY(-2px) scale(1.005);
+  }
+
+  .portal-box .status {
+    position: static;
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-size: 0.7rem;
+    padding: 0.3rem 0.7rem;
+  }
+
+  .portal-box .feedback-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    word-wrap: break-word;
+  }
+
+  .portal-box .username {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .portal-box .toggle-btn {
+    position: static;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.7rem;
+    font-size: 0.85rem;
+    border-radius: 0.5rem;
+  }
+
+  .portal-box #logout {
+   
+    padding: 0.6em 1.5em;
+    font-size: 0.8em;
+    border-radius: 8px;
+    z-index: 1000;
+  }
+
+  .contention-form {
+    width: 95%;
+    max-width: 400px;
+    margin: 0 auto;
+    border-radius: 15px;
+    border-width: 3px;
+    padding: 10px;
+  }
+
+  .contention-form form {
+    width: 100%;
+    padding: 15px 10px;
+    gap: 15px;
+    margin: 10px;
+    flex-direction: column;
+  }
+
+  .contention-form form input,
+  .contention-form form textarea,
+  .contention-form form select {
+    width: 100%;
+    min-width: unset;
+    font-size: 0.9em;
+    padding: 0.7em;
+  }
+
+  .event-name {
+    color: white;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  
+  .login-signup-box .login-box .logo img {
+    height: 3.5em;
+  }
+
+  .login-signup-box .login-box .logo span {
+    font-size: 2.5em;
+  }
+
+  .login-signup-box .login-box input {
+    height: auto;
+    font-size: 0.9em;
+    padding: 0.8em;
+    width: 100%;
+  }
+
+  
+  .login-signup-box .illustration {
+    display: none;
+  }
+
+  
+  .portal-box .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+ 
+  .portal-box .feedback-card .status.pending,
+  .portal-box .feedback-card .status.reviewed {
+    margin-bottom: 0.8rem;
+  }
+
+  
+  .portal-box .toggle-btn,
+  .portal-box #logout,
+  .portal-box input[type="submit"] {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+
+  
+  body, html {
+    overflow-x: hidden;
+  }
+
+  
+  .portal-box .feedback-card + .feedback-card {
+    margin-top: 1rem;
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.navbar {
+    padding: 10px 15px;
+    min-height: 60px;
+  }
+  
+  .portal-logo {
+    height: 40px;
+    margin-right: 12px;
+    border-radius:50%;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.2));
+    transition: transform 0.2s ease;
+  }
+  
+  .navbar h2.portal-subtitle {
+    font-size: 1.3rem;
+    margin-bottom: 1px;
+  }
+  
+  .navbar h3.portal-subtitle {
+    font-size: 0.85rem;
+    margin-top: 0;
+  }
+  
+  .user-details {
+    margin-left: 15px;
+    padding: 3px 8px;
+    min-width: 80px;
+  }
+
+
+.navbar{
+  margin:0px;
+  padding:0px;
+  position: fixed;
+  top:0px;
+  min-height:100px;
+  width: 100%;
+  background-color: white;
+  z-index: 1000;
+  padding:0px 0px;
+
+}
+
+
+}
+.contention-form{
+  margin-top:50px;
+  
+}
+.portal-logo{
+  border-radius:50%;
+}
+.navbar{
+  background-color: white;
+  border-bottom: 1px solid rgba(242, 8, 8, 1);
+  border-top: 1px solid rgba(242, 8, 8, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px 20px;
+}
+.contention-form{
+  border-left: 10px solid rgb(1, 30, 250);
+  
+  border-radius: 20px;
+}
+.feedback-submit{
+  border-bottom: 1px solid rgb(250, 63, 1);
+  border-radius: 2px;
+ border-left: 1px solid rgb(250, 250, 250);
+
+  
+ 
+  font-weight: bold;
+ 
+  transition: background-color 0.3s ease;
+  
+}
+
+
+
+
+
+
+.login-signup-box {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.login-signup-box .navbar {
+  
+  padding: 15px 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
+  width: 100%;
+  box-sizing: border-box;
+  justify-content: space-between;
+  position:fixed;
+  top: 10px;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  border-top:2px solid rgba(247, 5, 5, 1);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
+  border-bottom:2px solid rgba(247, 5, 5, 1);
+}
+
+
+.portal-logo {
+  height: 50px;
+  width: auto;
+  margin-right: 20px;
+  filter: brightness(1.1);
+  transition: transform 0.3s ease;
+}
+
+.portal-logo:hover {
+  transform: scale(1.05);
+}
+
+
+.navbar-center {
+  flex: 1;
+  text-align: left;
+  margin-left: 10px;
+}
+
+.portal-subtitle {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  font-weight: 600;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  line-height: 1.2;
+}
+
+.portal-subtitle:first-child {
+  font-size: 24px;
+  color: white;
+  margin-bottom: 5px;
+}
+
+.portal-subtitle:last-child {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 400;
+}
+
+
+
+
+
+
+
+
+
+@media (max-width: 768px) {
+  .login-signup-box .navbar {
+    padding: 12px 15px;
+    flex-wrap: wrap;
+   
+  }
+  .login-box{
+    margin-top: 80px;
+    width: 90%;
+    padding: 20px;
+  }
+  .portal-logo {
+    height: 40px;
+    margin-right: 15px;
+  }
+  
+  .navbar-center {
+    margin-left: 5px;
+  }
+  
+  .portal-subtitle:first-child {
+    font-size: 20px;
+  }
+  
+  .portal-subtitle:last-child {
+    font-size: 14px;
+  }
+  
+  #logout {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}
+.portal-logo{
+  width:80px;
+  height:80px;
+}
+.portal-box {
+  background-color: rgb(0, 0, 0);
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+}
+
+
+.navbar{
+  border:#7f7fff 2px solid;
+  
+}
+.contention-form{
+  border-bottom:2px solid #7f7fff;
+  border-top:2px solid #7f7fff;
+  border-right:2px solid #7f7fff;
+  background-color: black;
+  color: rgb(2, 2, 2);
+  border-left:8px solid #7f7fff;
+  padding:20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Label container styling */
+label[for="against-hall"] {
+  color: #333; /* Changed from white for visibility on white background */
+  background-color: white;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Select dropdown styling */
+.feedback-submit {
+  flex: 1;
+  background-color: white;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+/* Select focus state */
+.feedback-submit:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* Select hover state */
+.feedback-submit:hover {
+  border-color: #999;
+}
+
+/* Option styling */
+.feedback-submit option {
+  background-color: white;
+  color: #333;
+  padding: 8px;
+}
+
+/* Icon styling (assuming HiMiniBolt is an icon) */
+.feedback-submit + * {
+  color: #666;
+  font-size: 16px;
+  margin-left: 4px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  label[for="against-hall"] {
+    padding: 6px 10px;
+  }
+  
+  .feedback-submit {
+    padding: 6px 10px;
+    font-size: 13px;
   }
 }

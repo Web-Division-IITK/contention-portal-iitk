@@ -1,10 +1,11 @@
 import { Link, useNavigate } from "react-router";
 import { HiEye, HiEyeOff, HiMail } from "react-icons/hi";
-import illustartionImg from "../assets/connected-illustration.svg";
+import illustrationImg from "../assets/image.png";  
 import "../css/Login.css";
 import { useEffect, useState } from "react";
 import { createUser, isUserLoggedin, loginUser } from "../utils/Login";
-
+import logo from "../assets/logo.png";
+import { HiNumberedList } from "react-icons/hi2";
 export function Signinup() {
   let [isLogin, setIsLogin] = useState(true);
   let navigate = useNavigate();
@@ -15,12 +16,18 @@ export function Signinup() {
 
   return (
     <div className="login-signup-box">
+       <div className="navbar" style={{ display: "flex", border:"2px solid #7f7fff",   borderTop:"none", borderLeft:"none", borderRight:"none", color:"white", flexDirection: "row", alignItems: "center" }}>
+        <img src={logo} alt="IIT Kanpur Logo" className="portal-logo" />
+        
+        <div className="navbar-center">
+          <h2 className="portal-subtitle">Contention Portal</h2>
+          <h3 className="portal-subtitle">TAKNEEK'25 | IIT Kanpur</h3>
+        </div>
+        
+      
+      </div>
       <div className="illustartion">
-        <img
-          className="illustartionImg"
-          src={illustartionImg}
-          alt="Connected Peoples Image"
-        />
+       
       </div>
       {isLogin ? (
         <Login switchToSignup={() => setIsLogin(false)} />
@@ -36,10 +43,13 @@ export function Login({ switchToSignup }) {
   let [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="login-box">
+  
+ <div className="login-box">
+       
+             
       <div className="logo">
-        <img src="/Logo-Transperent.png" alt="logo" />
-        <span>Fedox</span>
+       
+        <span style={{color:"whitesmoke"}}  className="eventlogo" >TAKNEEK'25</span>
       </div>
 
       <form
@@ -55,32 +65,28 @@ export function Login({ switchToSignup }) {
           }
         }}
       >
-        <label htmlFor="email">
-          <input type="email" placeholder="Email" required />
+        <label htmlFor="email" style={{color:"white"   }}  >
+          <input type="email" placeholder="Email" style={{border:"2px solid rgba(244, 236, 236, 1)"}} required />
           <HiMail />
         </label>
-        <label htmlFor="password">
+        <label htmlFor="password" style={{color:"white"  }}  >
           <input
-            type={showPassword ? "text" : "password"}
+            type="password"
             placeholder="Password"
-            onFocus={() => setShowPassword(true)}
-            onBlur={() => setShowPassword(false)}
+            onFocus={() => setShowPassword(false)}
+           
+            style={{border:"2px solid rgba(244, 236, 236, 1)"}}
             required
           />
           {showPassword ? <HiEye /> : <HiEyeOff />}
         </label>
+       
+        
         <input type="submit" value={"Login"} />
       </form>
-      <span style={{ textAlign: "center", width: "100%", display: "block" }}>
-        Don't Have an account?{" "}
-        <span
-          style={{ color: "#7f7fff", textDecoration: "underline" }}
-          onClick={switchToSignup}
-        >
-          Signup
-        </span>
-      </span>
+     
     </div>
+
   );
 }
 
@@ -91,8 +97,8 @@ export function Signup({ switchToLogin }) {
   return (
     <div className="login-box">
       <div className="logo">
-        <img src="/Logo-Transperent.png" alt="logo" />
-        <span>Fedox</span>
+        {/* <img src="/Logo-Transperent.png" alt="logo" /> */}
+        <span>TAKNEEK'25</span>
       </div>
 
       <form
@@ -130,11 +136,12 @@ export function Signup({ switchToLogin }) {
         </label>
         <input type="submit" value={"Signup"} />
       </form>
-      <span style={{ textAlign: "center", width: "100%", display: "block" }}>
+      <span className="alr" style={{ textAlign: "center", width: "100%", display: "block" }}>
         Already Have an account?{" "}
         <span
           style={{ color: "#7f7fff", textDecoration: "underline" }}
           onClick={switchToLogin}
+          className="switch-to-login"
         >
           Login
         </span>

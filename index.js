@@ -1,19 +1,27 @@
-const path = require("path");
 const http = require("http");
-const express = require("express");
-const cors = require("cors");
-const { Server } = require("socket.io");
 const dotenv = require("dotenv");
+const express = require("express");
+const { Server } = require("socket.io");
+const cors = require("cors");
+const path = require("path");
+
 const { connectDB } = require("./config/db.js");
-const jwt = require("jsonwebtoken");
-
-const { UserRoutes } = require("./routes/User.js");
-
-const { Feedback } = require("./model/Feedback.js");
+const { setupRoutes } = require("./routes/index.js");
+const { setupSocketIO } = require("./sockets/index.js");
 
 dotenv.config();
 
 const app = express();
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+
+// Serve React static files
+app.use(express.static(path.join(__dirname, "../client/dist")));
+
+// Create HTTP server and Socket.IO
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -21,82 +29,20 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
-const PORT = process.env.PORT || 8080;
-const { JWT_SECRET } = process.env;
 
+// Configuration
+const PORT = process.env.PORT || 8080;
+
+// Connect to database
 connectDB();
 
-io.use((socket, next) => {
-  const token = socket.handshake.auth.token;
-  if (!token) return next(new Error("No token provided"));
+// Setup routes
+setupRoutes(app);
 
-  try {
-    const user = jwt.verify(token, JWT_SECRET);
-    socket.user = user; // save user to socket
-    next();
-  } catch (err) {
-    console.log("Token:", err);
-    next(new Error("Invalid token"));
-  }
-});
+// Setup Socket.IO
+setupSocketIO(io);
 
-io.on("connection", async (socket) => {
-  console.log("A user connected:", socket.id);
-
-  // Load feedbacks from the database
-  const feedbacks = await Feedback.find({}).sort({ createdAt: -1 });
-
-  // Emit feedbacks to the client
-  socket.emit("load_feedbacks", feedbacks);
-
-  // Listen for feedback submission
-  socket.on("submit_feedback", async (data) => {
-    if (socket.user.role == "admin") return;
-
-    const feedback = new Feedback({
-      username: data.username,
-      feedbackText: data.feedback,
-    });
-
-    await feedback.save();
-
-    // Emit the new feedback to all clients
-    io.emit("new_feedback", feedback);
-  });
-
-  // add event to change status only by admin
-  socket.on("change_status", async (data) => {
-    if (socket.user.role == "user") return;
-
-    let feedbackId = data.id;
-    await Feedback.findByIdAndUpdate(
-      feedbackId,
-      { status: data.status },
-      { new: true }
-    );
-
-    io.emit("status_changed", data);
-  });
-
-  socket.on("disconnect", () => {
-    console.log("User disconnected:", socket.id);
-  });
-});
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors());
-
-// Serve React static files
-app.use(express.static(path.join(__dirname, "client/dist")));
-
-app.use("/api/user", UserRoutes);
-
-// Catch-all route to serve index.html on unmatched routes
-app.get(/.*/, (req, res) => {
-  res.sendFile(path.join(__dirname, "client/dist", "index.html"));
-});
-
+// Start server
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

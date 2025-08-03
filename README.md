@@ -1,4 +1,8 @@
-# Feedback-portal
+# Contention-portal
+
+## Environment Variables
+Create a .env file in the root directory
+Refer to .envsample for the structure
 
 use following commands to run
 

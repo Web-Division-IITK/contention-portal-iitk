@@ -1,8 +1,5 @@
-
 export function MyContentions({ feedbacks }) {
   const myContentions = feedbacks;
-
-  console.log(myContentions);
 
   return (
     <div className="contentions-section">

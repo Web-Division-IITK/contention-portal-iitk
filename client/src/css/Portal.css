@@ -150,12 +150,16 @@
     color: #9ca3af;
   }
 
-  .toggle-btn {
+  .toggle-buttons-box {
     position: absolute;
     bottom: 1.5rem;
     right: 1.5rem;
     margin-top: 1.5rem;
-    background: linear-gradient(to right, #4f46e5, #3b82f6);
+    display: flex;
+    gap: 0.8rem;
+  }
+
+  .toggle-btn {
     color: #fff;
     border: none;
     padding: 0.6rem 1.2rem;
@@ -164,7 +168,6 @@
     border-radius: 0.7rem;
     cursor: pointer;
     transition: background 0.3s, transform 0.2s;
-    display: inline-block;
   }
 
   .toggle-btn:hover {
@@ -843,4 +846,12 @@
     z-index: 1000;
     display: flex;
   }
+}
+
+.contention-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }

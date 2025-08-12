@@ -3,11 +3,7 @@ import { getUserDetails } from "../utils/Login";
 export function ContentionsAgainstMe({ feedbacks, socket }) {
   const userData = getUserDetails();
 
-  console.log(userData)
-
   const contentionsAgainstMe = feedbacks;
-
-  console.log(contentionsAgainstMe);
 
   return (
     <div className="contentions-section">

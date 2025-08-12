@@ -37,14 +37,9 @@ export function Portal() {
     // Save socket instance to state
     setSocket(newSocket);
 
-    newSocket.on("connect", () => {
-      console.log("✅ Connected to server:", newSocket.id);
-    });
+    newSocket.on("connect", () => {});
 
     newSocket.on("load_feedbacks", (a) => {
-      console.log("=== LOAD FEEDBACKS ===");
-      console.log("Feedbacks data:", a);
-
       if (userData.role === "admin") {
         setPoolContension(a.data);
       } else {
@@ -54,12 +49,16 @@ export function Portal() {
     });
 
     newSocket.on("new_feedback", (feedback) => {
-      console.log("=== NEW FEEDBACK RECEIVED ===");
-      console.log("New feedback:", feedback);
+      console.log(1);
       if (userData.role === "admin") {
         setPoolContension((data) => {
-          let tempData = data;
-          data[feedback.pool].push(feedback);
+          let tempData = { ...data };
+          const feedbackExists = tempData[feedback.pool].some(
+            (item) => item._id === feedback._id
+          );
+          if (!feedbackExists) {
+            tempData[feedback.pool].push(feedback);
+          }
           return tempData;
         });
       } else {
@@ -73,33 +72,31 @@ export function Portal() {
     newSocket.on("status_changed", (statusData) => {
       if (userData.role === "admin") {
         setPoolContension((data) => {
-          let tempData = data;
-          tempData[statusData.feedback.pool].find((e) => e._id == feedback.id)[
-            "status"
-          ] = statusData.status;
+          let tempData = { ...data };
+          tempData[statusData.feedback.pool].find(
+            (e) => e._id == statusData.feedback._id
+          )["status"] = statusData.status;
           return tempData;
         });
       } else {
         if (userData.pool == statusData.feedback.pool)
           setPoolContension((data) => {
-            let tempData = data;
-            tempData.find((e) => e._id == feedback.id)["status"] =
+            let tempData = [...data];
+            tempData.find((e) => e._id == statusData.feedback._id)["status"] =
               statusData.status;
             return tempData;
           });
         else
           setAgainstContension((data) => {
-            let tempData = data;
-            tempData.find((e) => e._id == feedback.id)["status"] =
+            let tempData = [...data];
+            tempData.find((e) => e._id == statusData.feedback._id)["status"] =
               statusData.status;
             return tempData;
           });
       }
     });
 
-    newSocket.on("disconnect", () => {
-      console.log("❌ Disconnected from server");
-    });
+    newSocket.on("disconnect", () => {});
 
     return () => {
       newSocket.disconnect();
@@ -119,7 +116,6 @@ export function Portal() {
       link.length < 1
     ) {
       console.error("Form submission error: Please fill all fields correctly.");
-      console.log(aHall);
       alert("Please enter all required fields");
       return;
     }
@@ -130,10 +126,6 @@ export function Portal() {
       alert("Pool cannot be the same as Against Pool.");
       return;
     }
-
-    console.log("=== FORM SUBMISSION DEBUG ===");
-    console.log("User details:", userData);
-    console.log("Current feedbacks before submit:", poolContension.length);
 
     socket.emit("submit_feedback", {
       againstPool: aHall,
@@ -148,9 +140,6 @@ export function Portal() {
     setLink("");
 
     setActiveTab("my-contentions");
-
-    console.log("Switched to tab: my-contentions");
-    console.log("Current feedbacks after submit:", poolContension.length);
   };
 
   return (
@@ -321,9 +310,7 @@ export function Portal() {
         )}
 
         {getUserDetails().role === "admin" && (
-          <>
-            <Admin poolContension={poolContension} socket={socket} />
-          </>
+          <Admin poolContension={poolContension} socket={socket} />
         )}
       </div>
     </div>

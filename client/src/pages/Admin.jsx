@@ -1,9 +1,8 @@
 import { getUserDetails } from "../utils/Login";
+import { VscCheck, VscChromeClose } from "react-icons/vsc";
 
 export function Admin({ poolContension, socket }) {
   const userData = getUserDetails();
-
-  // console.log(123456, poolContension.keys());
 
   return (
     <>
@@ -17,12 +16,12 @@ export function Admin({ poolContension, socket }) {
             let contensions = poolContension[pool];
             return (
               <>
-                <div>
+                <div className="pool-section" key={pool}>
                   <h1>{pool}:</h1>
                   {contensions.length > 0 ? (
                     contensions.map((contension) => {
                       return (
-                        <div className="feedback-card" key={contension._id}>
+                        <div className="feedback-card" key={`${contension._id}-${pool}`}>
                           <div className="feedback-header">
                             <span className={`status ${contension.status}`}>
                               {contension.status}
@@ -62,20 +61,32 @@ export function Admin({ poolContension, socket }) {
                               ).toLocaleDateString()}
                             </small>
 
-                            <button
-                              className="toggle-btn"
-                              onClick={() => {
-                                socket.emit("change_status", {
-                                  id: contension._id,
-                                  status:
-                                    contension.status === "pending"
-                                      ? "reviewed"
-                                      : "pending",
-                                });
-                              }}
-                            >
-                              Toggle Review
-                            </button>
+                            {contension.status === "pending" && (
+                              <div className="toggle-buttons-box">
+                                <button
+                                  className="toggle-btn"
+                                  style={{ backgroundColor: "green" }}
+                                  onClick={() => {
+                                    socket.emit("mark_accepted", {
+                                      id: contension._id,
+                                    });
+                                  }}
+                                >
+                                  <VscCheck />
+                                </button>
+                                <button
+                                  className="toggle-btn"
+                                  style={{ backgroundColor: "red" }}
+                                  onClick={() => {
+                                    socket.emit("mark_rejected", {
+                                      id: contension._id,
+                                    });
+                                  }}
+                                >
+                                  <VscChromeClose />
+                                </button>
+                              </div>
+                            )}
                           </div>
                         </div>
                       );

@@ -42,6 +42,19 @@ setupRoutes(app);
 // Setup Socket.IO
 setupSocketIO(io);
 
+// Serve static files from dist under /a
+app.use("/", express.static(path.join(__dirname, "client/dist")));
+
+// Serve index.html for /a
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/dist", "index.html"));
+});
+
+// Serve index.html for any SPA route under /a/*
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/dist", "index.html"));
+});
+
 // Start server
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

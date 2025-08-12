@@ -4,7 +4,7 @@ const auth = require("../middleware/auth");
 
 const UserRoutes = Router();
 
-UserRoutes.post("/createUser", auth.authAdmin, userController.createUser);
+UserRoutes.post("/createUser", userController.createUser);
 UserRoutes.post("/login", userController.loginUser);
 
 module.exports = { UserRoutes };

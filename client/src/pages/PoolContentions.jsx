@@ -42,12 +42,45 @@ export function MyContentions({ feedbacks }) {
                       </a>
                     </p>
                   )}
-                  <small className="submission-time">
+                  {/* <small className="submission-time">
                     Submitted:{" "}
                     {new Date(
                       contention.createdAt || Date.now()
                     ).toLocaleDateString()}
-                  </small>
+                  </small> */}
+
+                            <small className="submission-time">
+                              Submitted:{" "}
+                              {new Date(
+                                contention.createdAt || Date.now()
+                              ).toLocaleDateString("en-us",{
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                    })}
+
+                     {contention.createdAt && 
+                               (Date.now() - new Date(contention.createdAt).getTime()) < 30 * 60 * 1000 && (
+                                <span 
+                                  style={{
+                                    marginLeft: "10px",
+                                    backgroundColor: "#ff4757",
+                                    color: "white",
+                                    padding: "2px 6px",
+                                    borderRadius: "3px",
+                                    fontSize: "10px",
+                                    fontWeight: "bold"
+                                  }}
+                                >
+                                  NEW
+                                </span>
+                              )}
+                    </small>
+
+
+
                 </div>
               </div>
             </div>

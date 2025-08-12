@@ -150,6 +150,7 @@ export function Portal() {
         color: "white",
         marginTop: "0px",
         position: "relative",
+       
       }}
     >
       <div
@@ -164,7 +165,7 @@ export function Portal() {
           borderRight: "none",
           alignItems: "center",
           backgroundColor: "#000000",
-          marginTop: "0px",
+         
         }}
       >
         <img src={logo} alt="IIT Kanpur Logo" className="portal-logo" />
@@ -176,9 +177,12 @@ export function Portal() {
         <button id="logout" onClick={() => logoutUser()}>
           Logout
         </button>
+       
       </div>
 
+
       {getUserDetails().role == "user" && (
+        
         <div
           className="tab-navigation"
           style={{
@@ -191,24 +195,30 @@ export function Portal() {
             position: "sticky",
             top: "0",
             zIndex: 1000,
-            backgroundColor: "#1a1a1a",
+            backgroundColor: "#000000ff",
             border: "0",
             padding: "10px 0",
+            position:"sticky",
+            
           }}
         >
+         
           <button
+         
             className={`tab-button ${activeTab === "submit" ? "active" : ""}`}
             onClick={() => setActiveTab("submit")}
             style={{
               backgroundColor:
                 activeTab === "submit" ? "#7f7fff" : "transparent",
               color: activeTab === "submit" ? "#000" : "#fff",
+
             }}
           >
             Submit
           </button>
 
           <button
+          
             className={`tab-button ${
               activeTab === "my-contentions" ? "active" : ""
             }`}
@@ -217,11 +227,13 @@ export function Portal() {
               backgroundColor:
                 activeTab === "my-contentions" ? "#7f7fff" : "transparent",
               color: activeTab === "my-contentions" ? "#000" : "#fff",
+              
             }}
           >
             My Contentions
           </button>
           <button
+          
             className={`tab-button ${
               activeTab === "against-me" ? "active" : ""
             }`}
@@ -239,14 +251,14 @@ export function Portal() {
 
       <div className="tab-content">
         {getUserDetails().role === "user" && activeTab === "submit" && (
-          <div className="contention-form">
+          <div className="contention-form"  style={{marginTop:"1px",   borderTop:"2px solid #7f7fff", borderRight:"2px solid #7f7fff", borderBottom:"2px solid #7f7fff", borderLeft:"8px solid #7f7fff"}}>
             <form className="feedback-input" onSubmit={handleFormSubmit}>
               <label
                 htmlFor="against-hall"
                 style={{
                   color: "white",
                   backgroundColor: "white",
-                  width: "100%",
+                 
                 }}
               >
                 <select

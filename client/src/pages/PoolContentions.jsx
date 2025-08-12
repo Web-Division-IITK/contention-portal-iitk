@@ -1,8 +1,5 @@
-import { getUserDetails } from "../utils/Login";
 
 export function MyContentions({ feedbacks }) {
-  const userData = getUserDetails();
-
   const myContentions = feedbacks;
 
   console.log(myContentions);

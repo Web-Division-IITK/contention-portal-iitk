@@ -13,12 +13,13 @@ const SOCKET_URI = "http://localhost:8080";
 // const SOCKET_URI = window.location.origin;
 
 export function Portal() {
+  const userData = getUserDetails();
+
   let navigate = useNavigate();
   const [socket, setSocket] = useState(null);
   const [poolContension, setPoolContension] = useState([]);
   const [againstContension, setAgainstContension] = useState([]);
-  const [hall, setHall] = useState("");
-  const [aHall, setAHall] = useState("");
+  const [aHall, setAHall] = useState(userData.pool);
   const [problemStatement, setProblemStatement] = useState("");
   const [para, setPara] = useState("");
   const [link, setLink] = useState("");
@@ -31,8 +32,6 @@ export function Portal() {
         token: localStorage.getItem("token"),
       },
     });
-
-    console.log(newSocket);
 
     // Save socket instance to state
     setSocket(newSocket);
@@ -52,8 +51,10 @@ export function Portal() {
     newSocket.on("new_feedback", (feedback) => {
       console.log("=== NEW FEEDBACK RECEIVED ===");
       console.log("New feedback:", feedback);
-      console.log("Previous feedbacks count:", poolContension.length);
-      setPoolContension((prevFeedbacks) => [feedback, ...prevFeedbacks]);
+      if (feedback.pool == userData.pool)
+        setPoolContension((prevFeedbacks) => [feedback, ...prevFeedbacks]);
+      else
+        setAgainstContension((prevFeedbacks) => [feedback, ...prevFeedbacks]);
       console.log("Updated feedbacks count:", poolContension.length + 1);
     });
 
@@ -84,17 +85,17 @@ export function Portal() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (
-      hall.length < 1 ||
       aHall.length < 1 ||
       problemStatement.length < 1 ||
       para.length < 1 ||
       link.length < 1
     ) {
       console.error("Form submission error: Please fill all fields correctly.");
+      console.log(aHall);
       alert("Please enter all required fields");
       return;
     }
-    if (hall === aHall) {
+    if (userData.pool == aHall) {
       console.error(
         "Form submission error: Pool cannot be the same as Against Pool."
       );
@@ -102,31 +103,18 @@ export function Portal() {
       return;
     }
 
-    const userData = getUserDetails();
     console.log("=== FORM SUBMISSION DEBUG ===");
     console.log("User details:", userData);
     console.log("Current feedbacks before submit:", poolContension.length);
 
     socket.emit("submit_feedback", {
-      username: userData.name,
-      hall,
-      aHall,
-      problemStatement,
-      para,
-      link,
+      againstPool: aHall,
+      headline: problemStatement,
+      description: para,
+      drive: link,
     });
 
-    console.log("Submitted:", {
-      username: userData.name,
-      hall,
-      aHall,
-      problemStatement,
-      para,
-      link,
-    });
-
-    setHall("");
-    setAHall("");
+    setAHall(userData.pool);
     setProblemStatement("");
     setPara("");
     setLink("");
@@ -140,7 +128,12 @@ export function Portal() {
   return (
     <div
       className="portal-box"
-      style={{ backgroundColor: "#000000", color: "white", marginTop: "0px" }}
+      style={{
+        backgroundColor: "#000000",
+        color: "white",
+        marginTop: "0px",
+        position: "relative",
+      }}
     >
       <div
         className="navbar"
@@ -155,7 +148,6 @@ export function Portal() {
           alignItems: "center",
           backgroundColor: "#000000",
           marginTop: "0px",
-          position: "fixed",
         }}
       >
         <img src={logo} alt="IIT Kanpur Logo" className="portal-logo" />
@@ -179,25 +171,21 @@ export function Portal() {
             flexWrap: "wrap",
             width: "100%",
             flexDirection: "row",
-            position: "fixed",
-            top: "100px",
+            position: "sticky",
+            top: "0",
             zIndex: 1000,
             backgroundColor: "#1a1a1a",
-            borderBottom: "2px solid #7f7fff",
-            padding: "0",
+            border: "0",
+            padding: "10px 0",
           }}
         >
           <button
             className={`tab-button ${activeTab === "submit" ? "active" : ""}`}
             onClick={() => setActiveTab("submit")}
             style={{
-              padding: "15px 30px",
               backgroundColor:
                 activeTab === "submit" ? "#7f7fff" : "transparent",
               color: activeTab === "submit" ? "#000" : "#fff",
-              border: "none",
-              cursor: "pointer",
-              borderRight: "1px solid #7f7fff",
             }}
           >
             Submit
@@ -209,13 +197,9 @@ export function Portal() {
             }`}
             onClick={() => setActiveTab("my-contentions")}
             style={{
-              padding: "15px 30px",
               backgroundColor:
                 activeTab === "my-contentions" ? "#7f7fff" : "transparent",
               color: activeTab === "my-contentions" ? "#000" : "#fff",
-              border: "none",
-              cursor: "pointer",
-              borderRight: "1px solid #7f7fff",
             }}
           >
             My Contentions
@@ -226,12 +210,9 @@ export function Portal() {
             }`}
             onClick={() => setActiveTab("against-me")}
             style={{
-              padding: "15px 30px",
               backgroundColor:
                 activeTab === "against-me" ? "#7f7fff" : "transparent",
               color: activeTab === "against-me" ? "#000" : "#fff",
-              border: "none",
-              cursor: "pointer",
             }}
           >
             Against My Pool
@@ -243,28 +224,6 @@ export function Portal() {
         {getUserDetails().role === "user" && activeTab === "submit" && (
           <div className="contention-form">
             <form className="feedback-input" onSubmit={handleFormSubmit}>
-              <label
-                htmlFor="pool-select"
-                style={{
-                  color: "white",
-                  backgroundColor: "white",
-                  width: "100%",
-                }}
-              >
-                <select
-                  className="feedback-submit"
-                  value={hall}
-                  onChange={(e) => setHall(e.target.value)}
-                >
-                  <option value="">Select Your Pool</option>
-                  <option value="Pool1">Pool1</option>
-                  <option value="Pool2">Pool2</option>
-                  <option value="Pool3">Pool3</option>
-                  <option value="Pool4">Pool4</option>
-                  <option value="Pool5">Pool5</option>
-                </select>
-              </label>
-
               <label
                 htmlFor="against-hall"
                 style={{
@@ -278,12 +237,11 @@ export function Portal() {
                   value={aHall}
                   onChange={(e) => setAHall(e.target.value)}
                 >
-                  <option value="">Against</option>
-                  <option value="Pool1">Pool1</option>
-                  <option value="Pool2">Pool2</option>
-                  <option value="Pool3">Pool3</option>
-                  <option value="Pool4">Pool4</option>
-                  <option value="Pool5">Pool5</option>
+                  <option value="Pool 1">Pool 1</option>
+                  <option value="Pool 2">Pool 2</option>
+                  <option value="Pool 3">Pool 3</option>
+                  <option value="Pool 4">Pool 4</option>
+                  <option value="Pool 5">Pool 5</option>
                 </select>
               </label>
 
@@ -404,6 +362,3 @@ export function Portal() {
     </div>
   );
 }
-
-
-

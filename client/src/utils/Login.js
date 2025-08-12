@@ -84,6 +84,7 @@ export function getUserDetails() {
 
   try {
     decodedToken = jwtDecode(token);
+    console.log(decodedToken)
     return decodedToken;
   } catch (error) {
     logoutUser();

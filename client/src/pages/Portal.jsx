@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { getUserDetails, isUserLoggedin, logoutUser } from "../utils/Login";
 import "../css/Portal.css";
 import { HiMiniBolt } from "react-icons/hi2";
@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../assets/logo.png";
 import { MyContentions } from "./PoolContentions";
 import { ContentionsAgainstMe } from "./ContentionsAgainstPool";
+import { Admin } from "./Admin";
 
 const SOCKET_URI = "http://localhost:8080";
 // const SOCKET_URI = window.location.origin;
@@ -44,29 +45,56 @@ export function Portal() {
       console.log("=== LOAD FEEDBACKS ===");
       console.log("Feedbacks data:", a);
 
-      setPoolContension(a.data["byPool"]);
-      setAgainstContension(a.data["againstPool"]);
+      if (userData.role === "admin") {
+        setPoolContension(a.data);
+      } else {
+        setPoolContension(a.data["byPool"]);
+        setAgainstContension(a.data["againstPool"]);
+      }
     });
 
     newSocket.on("new_feedback", (feedback) => {
       console.log("=== NEW FEEDBACK RECEIVED ===");
       console.log("New feedback:", feedback);
-      if (feedback.pool == userData.pool)
-        setPoolContension((prevFeedbacks) => [feedback, ...prevFeedbacks]);
-      else
-        setAgainstContension((prevFeedbacks) => [feedback, ...prevFeedbacks]);
-      console.log("Updated feedbacks count:", poolContension.length + 1);
+      if (userData.role === "admin") {
+        setPoolContension((data) => {
+          let tempData = data;
+          data[feedback.pool].push(feedback);
+          return tempData;
+        });
+      } else {
+        if (feedback.pool == userData.pool)
+          setPoolContension((prevFeedbacks) => [feedback, ...prevFeedbacks]);
+        else
+          setAgainstContension((prevFeedbacks) => [feedback, ...prevFeedbacks]);
+      }
     });
 
-    newSocket.on("status_changed", (feedback) => {
-      setPoolContension((prevFeedbacks) =>
-        prevFeedbacks.map((e) => {
-          if (e._id == feedback.id) {
-            e.status = feedback.status;
-          }
-          return e;
-        })
-      );
+    newSocket.on("status_changed", (statusData) => {
+      if (userData.role === "admin") {
+        setPoolContension((data) => {
+          let tempData = data;
+          tempData[statusData.feedback.pool].find((e) => e._id == feedback.id)[
+            "status"
+          ] = statusData.status;
+          return tempData;
+        });
+      } else {
+        if (userData.pool == statusData.feedback.pool)
+          setPoolContension((data) => {
+            let tempData = data;
+            tempData.find((e) => e._id == feedback.id)["status"] =
+              statusData.status;
+            return tempData;
+          });
+        else
+          setAgainstContension((data) => {
+            let tempData = data;
+            tempData.find((e) => e._id == feedback.id)["status"] =
+              statusData.status;
+            return tempData;
+          });
+      }
     });
 
     newSocket.on("disconnect", () => {
@@ -293,70 +321,9 @@ export function Portal() {
         )}
 
         {getUserDetails().role === "admin" && (
-          <div className="container">
-            <h2 style={{ color: "white", marginBottom: "20px" }}>
-              All Contentions
-            </h2>
-            {poolContension.length > 0 ? (
-              poolContension.map((feedback) => {
-                return (
-                  <div className="feedback-card" key={feedback._id}>
-                    <div className="feedback-header">
-                      <span className={`status ${feedback.status}`}>
-                        {feedback.status}
-                      </span>
-                      <p>
-                        <strong>From:</strong> {feedback.hall}
-                      </p>
-                      <p>
-                        <strong>Against:</strong> {feedback.againstHall}
-                      </p>
-                      <p>
-                        <strong>Problem:</strong> {feedback.problemStatement}
-                      </p>
-                      {feedback.para && (
-                        <p>
-                          <strong>Description:</strong> {feedback.para}
-                        </p>
-                      )}
-                      {feedback.link && (
-                        <p>
-                          <strong>Link:</strong>{" "}
-                          <a
-                            href={feedback.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {feedback.link}
-                          </a>
-                        </p>
-                      )}
-                      <span className="username">
-                        Submitted by: {feedback.username}
-                      </span>
-
-                      <button
-                        className="toggle-btn"
-                        onClick={() => {
-                          socket.emit("change_status", {
-                            id: feedback._id,
-                            status:
-                              feedback.status === "pending"
-                                ? "reviewed"
-                                : "pending",
-                          });
-                        }}
-                      >
-                        Toggle Review
-                      </button>
-                    </div>
-                  </div>
-                );
-              })
-            ) : (
-              <h2>No contentions yet</h2>
-            )}
-          </div>
+          <>
+            <Admin poolContension={poolContension} socket={socket} />
+          </>
         )}
       </div>
     </div>

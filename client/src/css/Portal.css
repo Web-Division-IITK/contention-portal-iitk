@@ -139,9 +139,14 @@
     color: #1a1a1a;
   }
 
-  .status.reviewed {
+  .status.accepted {
     background: linear-gradient(to right, #34d399, #10b981);
     color: #1a1a1a;
+  }
+
+  .status.rejected {
+    background: linear-gradient(to right, #d35434, #b91010);
+    color: #d5d5d5;
   }
 
   .feedback-text {

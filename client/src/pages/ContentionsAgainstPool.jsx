@@ -1,4 +1,3 @@
-import React from "react";
 import { getUserDetails } from "../utils/Login";
 
 export function ContentionsAgainstMe({ feedbacks, socket }) {
@@ -6,7 +5,7 @@ export function ContentionsAgainstMe({ feedbacks, socket }) {
 
   const contentionsAgainstMe = feedbacks;
 
-  console.log(contentionsAgainstMe)
+  console.log(contentionsAgainstMe);
 
   return (
     <div className="contentions-section">
@@ -27,35 +26,32 @@ export function ContentionsAgainstMe({ feedbacks, socket }) {
                 </span>
                 <div className="contention-details">
                   <p>
-                    <strong>From:</strong> {contention.hall}
+                    <strong>From:</strong> {contention.pool}
                   </p>
                   <p>
-                    <strong>Against:</strong> {contention.againstHall} (Your
+                    <strong>Against:</strong> {contention.againstPool} (Your
                     Pool)
                   </p>
                   <p>
-                    <strong>Problem:</strong> {contention.problemStatement}
+                    <strong>Problem:</strong> {contention.headline}
                   </p>
-                  {contention.para && (
+                  {contention.description && (
                     <p>
-                      <strong>Description:</strong> {contention.para}
+                      <strong>Description:</strong> {contention.description}
                     </p>
                   )}
-                  {contention.link && (
+                  {contention.drive && (
                     <p>
-                      <strong>Link:</strong>{" "}
+                      <strong>drive:</strong>{" "}
                       <a
-                        href={contention.link}
+                        href={contention.drive}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {contention.link}
+                        {contention.drive}
                       </a>
                     </p>
                   )}
-                  <span className="username">
-                    Submitted by: {contention.username}
-                  </span>
                   <small className="submission-time">
                     Submitted:{" "}
                     {new Date(

@@ -9,9 +9,22 @@ import logo from "../assets/logo.png";
 import { MyContentions } from "./PoolContentions";
 import { ContentionsAgainstMe } from "./ContentionsAgainstPool";
 import { Admin } from "./Admin";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 
 const SOCKET_URI = "http://localhost:8080";
 // const SOCKET_URI = window.location.origin;
+
+const toastData = {
+  position: "top-right",
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: false,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: "colored",
+  transition: Bounce,
+};
 
 export function Portal() {
   const userData = getUserDetails();
@@ -51,6 +64,10 @@ export function Portal() {
     newSocket.on("new_feedback", (feedback) => {
       console.log(1);
       if (userData.role === "admin") {
+        toast.info(
+          `${feedback.pool} filed a contension against ${feedback.againstPool}`,
+          toastData
+        );
         setPoolContension((data) => {
           let tempData = { ...data };
           const feedbackExists = tempData[feedback.pool].some(
@@ -62,15 +79,35 @@ export function Portal() {
           return tempData;
         });
       } else {
-        if (feedback.pool == userData.pool)
+        if (feedback.pool == userData.pool) {
+          toast.info(
+            `Your Pool filed a contension against ${feedback.againstPool}`,
+            toastData
+          );
           setPoolContension((prevFeedbacks) => [feedback, ...prevFeedbacks]);
-        else
+        } else {
+          toast.warn(`${feedback.pool} files a contension against You`, {
+            ...toastData,
+            onClick: () => setActiveTab("my-contentions"),
+          });
           setAgainstContension((prevFeedbacks) => [feedback, ...prevFeedbacks]);
+        }
       }
     });
 
     newSocket.on("status_changed", (statusData) => {
       if (userData.role === "admin") {
+        if (statusData.status == "accepted")
+          toast.info(
+            `${statusData.feedback.pool}'s contension against ${statusData.feedback.againstPool} got Accepted`,
+            toastData
+          );
+        else
+          toast.info(
+            `${statusData.feedback.pool}'s contension against ${statusData.feedback.againstPool} got Rejected`,
+            toastData
+          );
+
         setPoolContension((data) => {
           let tempData = { ...data };
           tempData[statusData.feedback.pool].find(
@@ -79,20 +116,43 @@ export function Portal() {
           return tempData;
         });
       } else {
-        if (userData.pool == statusData.feedback.pool)
+        if (userData.pool == statusData.feedback.pool) {
+          if (statusData.status == "accepted")
+            toast.success(
+              `Your contension against ${statusData.feedback.againstPool} got Accepted`,
+              toastData
+            );
+          else
+            toast.warn(
+              `Your contension against ${statusData.feedback.againstPool} got Rejected`,
+              toastData
+            );
+
           setPoolContension((data) => {
             let tempData = [...data];
             tempData.find((e) => e._id == statusData.feedback._id)["status"] =
               statusData.status;
             return tempData;
           });
-        else
+        } else {
+          if (statusData.status == "accepted")
+            toast.error(
+              `${statusData.feedback.pool}s contension against You got Accepted`,
+              toastData
+            );
+          else
+            toast.success(
+              `${statusData.feedback.pool}s contension against You got Rejected`,
+              toastData
+            );
+
           setAgainstContension((data) => {
             let tempData = [...data];
             tempData.find((e) => e._id == statusData.feedback._id)["status"] =
               statusData.status;
             return tempData;
           });
+        }
       }
     });
 
@@ -150,9 +210,22 @@ export function Portal() {
         color: "white",
         marginTop: "0px",
         position: "relative",
-       
       }}
     >
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Bounce}
+      />
+
       <div
         className="navbar"
         style={{
@@ -165,7 +238,6 @@ export function Portal() {
           borderRight: "none",
           alignItems: "center",
           backgroundColor: "#000000",
-         
         }}
       >
         <img src={logo} alt="IIT Kanpur Logo"   className="portal-logo" />
@@ -177,12 +249,9 @@ export function Portal() {
         <button  id="logout" onClick={() => logoutUser()}>
           Logout
         </button>
-       
       </div>
 
-
       {getUserDetails().role == "user" && (
-        
         <div
           className="tab-navigation"
           style={{
@@ -199,26 +268,22 @@ export function Portal() {
             border: "0",
             padding: "10px 0",
             position:"sticky",
-            fontStyle:"initial",fontFamily:"serif" 
+            
           }}
         >
-         
           <button
-         
             className={`tab-button ${activeTab === "submit" ? "active" : ""}`}
             onClick={() => setActiveTab("submit")}
             style={{
               backgroundColor:
                 activeTab === "submit" ? "#7f7fff" : "transparent",
               color: activeTab === "submit" ? "#000" : "#fff",
-
             }}
           >
             Submit
           </button>
 
           <button
-          
             className={`tab-button ${
               activeTab === "my-contentions" ? "active" : ""
             }`}
@@ -227,13 +292,11 @@ export function Portal() {
               backgroundColor:
                 activeTab === "my-contentions" ? "#7f7fff" : "transparent",
               color: activeTab === "my-contentions" ? "#000" : "#fff",
-              
             }}
           >
             My Contentions
           </button>
           <button
-          
             className={`tab-button ${
               activeTab === "against-me" ? "active" : ""
             }`}
@@ -253,14 +316,23 @@ export function Portal() {
 
       <div className="tab-content">
         {getUserDetails().role === "user" && activeTab === "submit" && (
-          <div className="contention-form"  style={{marginTop:"1px",   borderTop:"2px solid #7f7fff", borderRight:"2px solid #7f7fff", borderBottom:"2px solid #7f7fff", borderLeft:"8px solid #7f7fff"}}>
+          <div
+            className="contention-form"
+            style={{
+              marginTop: "1px",
+              borderTop: "2px solid #7f7fff",
+              borderRight: "2px solid #7f7fff",
+              borderBottom: "2px solid #7f7fff",
+              borderLeft: "8px solid #7f7fff",
+            }}
+          >
             <form className="feedback-input" onSubmit={handleFormSubmit}>
               <label
                 htmlFor="against-hall"
                 style={{
                   color: "white",
                   backgroundColor: "white",
-                 fontSize:"1rem"
+                 
                 }}
               >
                 <select

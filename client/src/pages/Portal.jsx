@@ -202,6 +202,8 @@ export function Portal() {
     setActiveTab("my-contentions");
   };
 
+  
+
   return (
     <div
       className="portal-box"
@@ -241,11 +243,26 @@ export function Portal() {
         }}
       >
         <img src={logo} alt="IIT Kanpur Logo"   className="portal-logo" />
-
-        <div className="navbar-center">
+           {getUserDetails().role === "admin" && activeTab === "submit" && (
+              <div  style={{color:"#f3f3f9ff",    fontSize:"1rem", backgroundColor:"redgreen", fontWeight:"bold", fontFamily:"serif"}}    id="logout">Admin</div>
+            )}
+   {getUserDetails().role === "user" && activeTab === "submit" && (
+              <div id="logout"  style={{color:"#f2f2f6ff", fontSize:"1rem", backgroundColor:"#7f7fff ", borderRadius:"10px", padding:"10x", height:"100%", width:"10%",  fontWeight:"bold", fontStyle:"initial", fontFamily:"serif", alignItems:"center", display:"flex", justifyContent:"center"}}>
+               
+                {userData.pool}
+              </div>
+            )}
+           
+        <div className="navbar-center" >
           <h2 className="portal-subtitle" style={{fontStyle:"initial",fontFamily:"serif" }}  >Contention Portal</h2>
-          <h3 className="portal-subtitle"  style={{fontStyle:"initial",fontFamily:"serif" }}>TAKNEEK | IIT Kanpur</h3>
+          <h3 className="portal-subtitle"  style={{fontStyle:"initial",fontFamily:"serif" }}>TAKNEEK | IIT Kanpur
+        
+           
+          </h3>
         </div>
+
+ 
+
         <button  id="logout" onClick={() => logoutUser()}>
           Logout
         </button>
@@ -339,7 +356,7 @@ export function Portal() {
                   className="feedback-submit"
                   value={aHall}
                   onChange={(e) => setAHall(e.target.value)}
-style={{fontSize:"1rem"}}
+                  style={{fontSize:"1rem"}}
                 >
                   <option value="Pool 1" style={{fontSize:"1rem"}}>Pool 1</option>
                   <option value="Pool 2" style={{fontSize:"1rem"}}>Pool 2</option>

@@ -425,6 +425,10 @@ label[for="against-hall"] {
     padding: 6px 10px;
     font-size: 13px;
   }
+  .login-box{
+    width:80%;
+  }
+
 }
 
 .login-box {
@@ -432,3 +436,5 @@ label[for="against-hall"] {
   gap: 0px;
   font-size: 0.7em;
 }
+
+

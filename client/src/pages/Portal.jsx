@@ -168,13 +168,13 @@ export function Portal() {
          
         }}
       >
-        <img src={logo} alt="IIT Kanpur Logo" className="portal-logo" />
+        <img src={logo} alt="IIT Kanpur Logo"   className="portal-logo" />
 
         <div className="navbar-center">
-          <h2 className="portal-subtitle">Contention Portal</h2>
-          <h3 className="portal-subtitle">TAKNEEK | IIT Kanpur</h3>
+          <h2 className="portal-subtitle" style={{fontStyle:"initial",fontFamily:"serif" }}  >Contention Portal</h2>
+          <h3 className="portal-subtitle"  style={{fontStyle:"initial",fontFamily:"serif" }}>TAKNEEK | IIT Kanpur</h3>
         </div>
-        <button id="logout" onClick={() => logoutUser()}>
+        <button  id="logout" onClick={() => logoutUser()}>
           Logout
         </button>
        
@@ -199,7 +199,7 @@ export function Portal() {
             border: "0",
             padding: "10px 0",
             position:"sticky",
-            
+            fontStyle:"initial",fontFamily:"serif" 
           }}
         >
          
@@ -246,7 +246,9 @@ export function Portal() {
           >
             Against My Pool
           </button>
+           <hr style={{width:"100%", color:"#7f7fff", opacity:"1",  border:"1px solid #7f7fff"}}  />
         </div>
+
       )}
 
       <div className="tab-content">
@@ -258,19 +260,20 @@ export function Portal() {
                 style={{
                   color: "white",
                   backgroundColor: "white",
-                 
+                 fontSize:"1rem"
                 }}
               >
                 <select
                   className="feedback-submit"
                   value={aHall}
                   onChange={(e) => setAHall(e.target.value)}
+style={{fontSize:"1rem"}}
                 >
-                  <option value="Pool 1">Pool 1</option>
-                  <option value="Pool 2">Pool 2</option>
-                  <option value="Pool 3">Pool 3</option>
-                  <option value="Pool 4">Pool 4</option>
-                  <option value="Pool 5">Pool 5</option>
+                  <option value="Pool 1" style={{fontSize:"1rem"}}>Pool 1</option>
+                  <option value="Pool 2" style={{fontSize:"1rem"}}>Pool 2</option>
+                  <option value="Pool 3" style={{fontSize:"1rem"}}>Pool 3</option>
+                  <option value="Pool 4" style={{fontSize:"1rem"}}>Pool 4</option>
+                  <option value="Pool 5" style={{fontSize:"1rem"}}>Pool 5</option>
                 </select>
               </label>
 
@@ -282,8 +285,9 @@ export function Portal() {
                   value={problemStatement}
                   onChange={(e) => setProblemStatement(e.target.value)}
                   required
+                  style={{fontSize:"1rem"}}
                 />
-                <HiMiniBolt />
+                <HiMiniBolt style={{fontSize:"1rem"}} />
               </label>
 
               <label htmlFor="text">
@@ -293,8 +297,9 @@ export function Portal() {
                   placeholder="Description"
                   value={para}
                   onChange={(e) => setPara(e.target.value)}
+                  style={{fontSize:"1rem"}}
                 />
-                <HiMiniBolt />
+                <HiMiniBolt style={{fontSize:"1rem"}} />
               </label>
 
               <label htmlFor="link">
@@ -304,11 +309,12 @@ export function Portal() {
                   placeholder="Any references or links"
                   value={link}
                   onChange={(e) => setLink(e.target.value)}
+                  style={{fontSize:"1rem"}}
                 />
-                <HiMiniBolt />
+                <HiMiniBolt style={{fontSize:"1rem"}} />
               </label>
 
-              <input type="submit" value={"Submit"} />
+              <input style={{fontSize:"1rem"}} type="submit" value={"Submit"} />
             </form>
           </div>
         )}

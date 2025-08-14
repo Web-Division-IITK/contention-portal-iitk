@@ -49,7 +49,7 @@ export function Login({ switchToSignup }) {
              
       <div className="logo">
        
-        <span style={{color:"whitesmoke"}}  className="eventlogo" >TAKNEEK'25</span>
+        <span style={{color:"whitesmoke", fontStyle:"inherit", fontFamily:"serif"}}  className="eventlogo" >TAKNEEK'25</span>
       </div>
 
       <form
@@ -66,8 +66,8 @@ export function Login({ switchToSignup }) {
         }}
       >
         <label htmlFor="email" style={{color:"white"   }}  >
-          <input type="email" placeholder="Email" style={{border:"2px solid rgba(244, 236, 236, 1)"}} required />
-          <HiMail />
+          <input type="email" placeholder="Email" style={{border:"2px solid #f7f7f9ff", color:"white", fontSize:"1rem"}} required />
+          <HiMail style={{fontSize:"1rem"}} />
         </label>
         <label htmlFor="password" style={{color:"white"  }}  >
           <input
@@ -75,14 +75,14 @@ export function Login({ switchToSignup }) {
             placeholder="Password"
             onFocus={() => setShowPassword(false)}
            
-            style={{border:"2px solid rgba(244, 236, 236, 1)"}}
+            style={{border:"2px solid #f8f8fbff", color:"white", fontSize:"1rem"}}
             required
           />
-          {showPassword ? <HiEye /> : <HiEyeOff />}
+          {showPassword ? <HiEye style={{fontSize:"1rem"}} /> : <HiEyeOff style={{fontSize:"1rem"}} />}
         </label>
        
         
-        <input type="submit" value={"Login"} />
+        <input style={{fontSize:"1rem"}} type="submit" value={"Login"} />
       </form>
      
     </div>

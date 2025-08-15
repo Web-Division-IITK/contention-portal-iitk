@@ -53,7 +53,7 @@ Both scripts will prompt for the following information:
 | **Password** | String | User password | Required, Min 6 characters |
 | **Phone Number** | String | Contact number | Required, 10 digits |
 | **Role** | String | User role | Required (`user` or `admin`) |
-| **Pool** | String | Pool assignment | Required (`Pool 1` to `Pool 5`) |
+| **Pool** | String | Pool assignment | Required (`Aryans` to `Shauryas`) |
 
 ## 🎯 User Roles
 
@@ -71,11 +71,11 @@ Both scripts will prompt for the following information:
 
 ## 🏊‍♂️ Available Pools
 
-- Pool 1
-- Pool 2  
-- Pool 3
-- Pool 4
-- Pool 5
+- Aryans
+- Nawabs  
+- Peshwas
+- Kshatriyas
+- Shauryas
 
 ## ⚠️ Important Notes
 
@@ -147,11 +147,11 @@ Available roles:
 Select role (1 for user, 2 for admin): 1
 
 Available pools:
-1. Pool 1
-2. Pool 2
-3. Pool 3
-4. Pool 4
-5. Pool 5
+1. Aryans
+2. Nawabs
+3. Peshwas
+4. Kshatriyas
+5. Shauryas
 Select pool (1-5): 1
 
 User Details:
@@ -160,7 +160,7 @@ Email: john.doe@example.com
 Password: **************
 Phone: 9876543210
 Role: user
-Pool: Pool 1
+Pool: Aryans
 
 Create this user? (y/n): y
 

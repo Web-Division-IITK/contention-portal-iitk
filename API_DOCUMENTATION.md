@@ -39,7 +39,7 @@ All protected endpoints require JWT token in the `Authorization` heade+.
   "email": "string",        // Valid email address
   "password": "string",     // Password (will be hashed)
   "number": "string",       // Contact number
-  "pool": "string"          // Pool assignment (Pool 1-5)
+  "pool": "string"          // Pool assignment (Aryans-5)
 }
 ```
 
@@ -50,7 +50,7 @@ All protected endpoints require JWT token in the `Authorization` heade+.
   "email": "john@example.com",
   "password": "securepass123",
   "number": "9876543210",
-  "pool": "Pool 1"
+  "pool": "Aryans"
 }
 ```
 
@@ -79,7 +79,7 @@ All protected endpoints require JWT token in the `Authorization` heade+.
 **Validation Rules:**
 - All fields are required
 - Email must be unique
-- Pool must be one of: "Pool 1", "Pool 2", "Pool 3", "Pool 4", "Pool 5"
+- Pool must be one of: "Aryans", "Nawabs", "Peshwas", "Kshatriyas", "Shauryas"
 
 ---
 
@@ -135,7 +135,7 @@ All protected endpoints require JWT token in the `Authorization` heade+.
   "email": "john@example.com",
   "number": "9876543210",
   "role": "user",
-  "pool": "Pool 1"
+  "pool": "Aryans"
 }
 ```
 
@@ -188,7 +188,7 @@ const socket = io("ws://localhost:8080", {
   "headline": "string",        // Brief title
   "description": "string",     // Detailed feedback
   "drive": "string",          // Optional drive link
-  "againstPool": "string"     // Target pool (Pool 1-5)
+  "againstPool": "string"     // Target pool (Aryans-5)
 }
 ```
 
@@ -198,7 +198,7 @@ const socket = io("ws://localhost:8080", {
   "headline": "Improvement suggestion",
   "description": "The current system could be enhanced by...",
   "drive": "https://drive.google.com/...",
-  "againstPool": "Pool 3"
+  "againstPool": "Peshwas"
 }
 ```
 
@@ -282,22 +282,22 @@ const socket = io("ws://localhost:8080", {
 {
   "type": "grouped",
   "data": {
-    "Pool 1": [
+    "Aryans": [
       {
         "_id": "64f8a9b2c3d4e5f6a7b8c9d0",
         "headline": "Feedback title",
         "description": "Feedback content",
         "drive": "https://drive.google.com/...",
-        "pool": "Pool 1",
-        "againstPool": "Pool 2",
+        "pool": "Aryans",
+        "againstPool": "Nawabs",
         "status": "pending",
         "createdAt": "2025-01-01T10:00:00.000Z"
       }
     ],
-    "Pool 2": [...],
-    "Pool 3": [...],
-    "Pool 4": [...],
-    "Pool 5": [...]
+    "Nawabs": [...],
+    "Peshwas": [...],
+    "Kshatriyas": [...],
+    "Shauryas": [...]
   }
 }
 ```
@@ -310,11 +310,11 @@ const socket = io("ws://localhost:8080", {
     "byPool": [
       {
         "_id": "64f8a9b2c3d4e5f6a7b8c9d0",
-        "headline": "Our feedback to Pool 3",
+        "headline": "Our feedback to Peshwas",
         "description": "Feedback content",
         "drive": "https://drive.google.com/...",
-        "pool": "Pool 1",
-        "againstPool": "Pool 3",
+        "pool": "Aryans",
+        "againstPool": "Peshwas",
         "status": "accepted",
         "createdAt": "2025-01-01T10:00:00.000Z"
       }
@@ -323,16 +323,16 @@ const socket = io("ws://localhost:8080", {
       {
         "_id": "64f8a9b2c3d4e5f6a7b8c9d1",
         "headline": "Feedback about us",
-        "description": "Feedback about Pool 1",
+        "description": "Feedback about Aryans",
         "drive": null,
-        "pool": "Pool 2",
-        "againstPool": "Pool 1",
+        "pool": "Nawabs",
+        "againstPool": "Aryans",
         "status": "pending",
         "createdAt": "2025-01-01T11:00:00.000Z"
       }
     ]
   },
-  "userPool": "Pool 1"
+  "userPool": "Aryans"
 }
 ```
 
@@ -348,8 +348,8 @@ const socket = io("ws://localhost:8080", {
   "headline": "New feedback title",
   "description": "Feedback content",
   "drive": "https://drive.google.com/...",
-  "pool": "Pool 2",
-  "againstPool": "Pool 4",
+  "pool": "Nawabs",
+  "againstPool": "Kshatriyas",
   "status": "pending",
   "createdAt": "2025-01-01T12:00:00.000Z"
 }
@@ -375,8 +375,8 @@ const socket = io("ws://localhost:8080", {
     "headline": "Feedback title",
     "description": "Feedback content",
     "drive": "https://drive.google.com/...",
-    "pool": "Pool 2",
-    "againstPool": "Pool 4",
+    "pool": "Nawabs",
+    "againstPool": "Kshatriyas",
     "status": "accepted",
     "createdAt": "2025-01-01T12:00:00.000Z"
   }
@@ -416,7 +416,7 @@ const socket = io("ws://localhost:8080", {
 - Receives: All feedback updates
 
 **Regular Users:**
-- Joins: `pool_${userPool}` room (e.g., `pool_Pool 1`)
+- Joins: `pool_${userPool}` room (e.g., `pool_Aryans`)
 - Receives: Feedback relevant to their pool
 
 ### 📡 Broadcasting Logic
@@ -449,7 +449,7 @@ Broadcast to:
   passwordHash: String,   // Required (bcrypt hashed)
   role: String,          // Required ("user" or "admin")
   number: String,        // Required
-  pool: String           // Required (Pool 1-5)
+  pool: String           // Required (Aryans-5)
 }
 ```
 
@@ -461,8 +461,8 @@ Broadcast to:
   drive: String,         // Optional
   createdAt: Date,       // Auto-generated
   status: String,        // "pending" | "accepted" | "rejected"
-  pool: String,          // Submitter's pool (Pool 1-5)
-  againstPool: String    // Target pool (Pool 1-5)
+  pool: String,          // Submitter's pool (Aryans-5)
+  againstPool: String    // Target pool (Aryans-5)
 }
 ```
 
@@ -555,7 +555,7 @@ socket.emit('submit_feedback', {
   headline: 'Important suggestion',
   description: 'This is a detailed feedback...',
   drive: 'https://drive.google.com/file/d/xyz',
-  againstPool: 'Pool 3'
+  againstPool: 'Peshwas'
 });
 ```
 
@@ -578,7 +578,7 @@ curl -X POST http://localhost:8080/api/user/createUser \
     "email": "john@example.com", 
     "password": "securepass123",
     "number": "9876543210",
-    "pool": "Pool 1"
+    "pool": "Aryans"
   }'
 ```
 
@@ -608,7 +608,7 @@ curl -X POST http://localhost:8080/api/user/login \
                     ┌────────────┼────────────┐
                     │            │            │
             ┌───────▼──────┐ ┌───▼───┐ ┌─────▼─────┐
-            │ Admin Room   │ │Pool 1 │ │  Pool 2   │
+            │ Admin Room   │ │Aryans │ │  Nawabs   │
             │             │ │ Room  │ │   Room    │
             └─────────────┘ └───────┘ └───────────┘
 ```

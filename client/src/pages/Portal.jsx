@@ -1,13 +1,13 @@
-import { useNavigate } from "react-router";
-import { useEffect, useState } from "react";
-import { getUserDetails, isUserLoggedin, logoutUser } from "../utils/Login";
-import "../css/Portal.css";
-import { HiMiniBolt } from "react-icons/hi2";
-import io from "socket.io-client";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useEffect, useState } from "react";
+import { HiMiniBolt } from "react-icons/hi2";
+import { useNavigate } from "react-router";
+import io from "socket.io-client";
 import logo from "../assets/logo.png";
-import { MyContentions } from "./PoolContentions";
+import "../css/Portal.css";
+import { getUserDetails, isUserLoggedin, logoutUser } from "../utils/Login";
 import { ContentionsAgainstMe } from "./ContentionsAgainstPool";
+import { MyContentions } from "./PoolContentions";
 
 const SOCKET_URI = "http://localhost:8080";
 // const SOCKET_URI = window.location.origin;
@@ -163,6 +163,7 @@ export function Portal() {
         <div className="navbar-center">
           <h2 className="portal-subtitle">Contention Portal</h2>
           <h3 className="portal-subtitle">TAKNEEK | IIT Kanpur</h3>
+          
         </div>
         <button id="logout" onClick={() => logoutUser()}>
           Logout
@@ -257,11 +258,11 @@ export function Portal() {
                   onChange={(e) => setHall(e.target.value)}
                 >
                   <option value="">Select Your Pool</option>
-                  <option value="Pool1">Pool1</option>
-                  <option value="Pool2">Pool2</option>
-                  <option value="Pool3">Pool3</option>
-                  <option value="Pool4">Pool4</option>
-                  <option value="Pool5">Pool5</option>
+                   <option value="Pool1">Aryans</option>
+                  <option value="Pool2">Nawabs</option>
+                  <option value="Pool3">Peshwas</option>
+                  <option value="Pool4">Kshatriyas</option>
+                  <option value="Pool5">Shauryas</option>
                 </select>
               </label>
 
@@ -279,11 +280,11 @@ export function Portal() {
                   onChange={(e) => setAHall(e.target.value)}
                 >
                   <option value="">Against</option>
-                  <option value="Pool1">Pool1</option>
-                  <option value="Pool2">Pool2</option>
-                  <option value="Pool3">Pool3</option>
-                  <option value="Pool4">Pool4</option>
-                  <option value="Pool5">Pool5</option>
+                  <option value="Pool1">Aryans</option>
+                  <option value="Pool2">Nawabs</option>
+                  <option value="Pool3">Peshwas</option>
+                  <option value="Pool4">Kshatriyas</option>
+                  <option value="Pool5">Shauryas</option>
                 </select>
               </label>
 

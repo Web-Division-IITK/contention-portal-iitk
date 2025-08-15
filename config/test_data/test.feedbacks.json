@@ -7,8 +7,8 @@
   "drive": "real",
   "createdAt": "2025-08-10T20:18:35.686931",
   "status": "accepted",
-  "pool": "Pool 2",
-  "againstPool": "Pool 1"
+  "pool": "Kshatriyas",
+  "againstPool": "Aryan"
 },
 {
   "_id": {
@@ -19,8 +19,8 @@
   "drive": "me",
   "createdAt": "2025-08-10T20:18:35.686985",
   "status": "pending",
-  "pool": "Pool 1",
-  "againstPool": "Pool 4"
+  "pool": "Aryan",
+  "againstPool": "Peshwas"
 },
 {
   "_id": {
@@ -30,8 +30,8 @@
   "description": "My usually through miss. Enjoy who card light begin season.",
   "createdAt": "2025-08-10T20:18:35.687022",
   "status": "accepted",
-  "pool": "Pool 1",
-  "againstPool": "Pool 5"
+  "pool": "Aryan",
+  "againstPool": "Shauryas"
 },
 {
   "_id": {
@@ -41,8 +41,8 @@
   "description": "Face lay sing several never series message. Leg little doctor.",
   "createdAt": "2025-08-10T20:18:35.687058",
   "status": "accepted",
-  "pool": "Pool 2",
-  "againstPool": "Pool 3"
+  "pool": "Kshatriyas",
+  "againstPool": "Nawabs"
 },
 {
   "_id": {
@@ -53,8 +53,8 @@
   "drive": "new",
   "createdAt": "2025-08-10T20:18:35.687121",
   "status": "accepted",
-  "pool": "Pool 3",
-  "againstPool": "Pool 5"
+  "pool": "Nawabs",
+  "againstPool": "Shauryas"
 },
 {
   "_id": {
@@ -65,8 +65,8 @@
   "drive": "discover",
   "createdAt": "2025-08-10T20:18:35.687164",
   "status": "rejected",
-  "pool": "Pool 5",
-  "againstPool": "Pool 3"
+  "pool": "Shauryas",
+  "againstPool": "Nawabs"
 },
 {
   "_id": {
@@ -77,8 +77,8 @@
   "drive": "with",
   "createdAt": "2025-08-10T20:18:35.687228",
   "status": "pending",
-  "pool": "Pool 3",
-  "againstPool": "Pool 1"
+  "pool": "Nawabs",
+  "againstPool": "Aryan"
 },
 {
   "_id": {
@@ -89,8 +89,8 @@
   "drive": "me",
   "createdAt": "2025-08-10T20:18:35.687282",
   "status": "pending",
-  "pool": "Pool 1",
-  "againstPool": "Pool 4"
+  "pool": "Aryan",
+  "againstPool": "Peshwas"
 },
 {
   "_id": {
@@ -100,8 +100,8 @@
   "description": "Movie care focus yeah section. Just animal yourself hear technology much my. Music knowledge plant current single professor woman.",
   "createdAt": "2025-08-10T20:18:35.687325",
   "status": "pending",
-  "pool": "Pool 5",
-  "againstPool": "Pool 4"
+  "pool": "Shauryas",
+  "againstPool": "Peshwas"
 },
 {
   "_id": {
@@ -112,8 +112,8 @@
   "drive": "throw",
   "createdAt": "2025-08-10T20:18:35.687384",
   "status": "accepted",
-  "pool": "Pool 4",
-  "againstPool": "Pool 3"
+  "pool": "Peshwas",
+  "againstPool": "Nawabs"
 },
 {
   "_id": {
@@ -123,8 +123,8 @@
   "description": "Contain eight various letter different list. Discuss sort young defense top.",
   "createdAt": "2025-08-10T20:18:35.687419",
   "status": "pending",
-  "pool": "Pool 4",
-  "againstPool": "Pool 5"
+  "pool": "Peshwas",
+  "againstPool": "Shauryas"
 },
 {
   "_id": {
@@ -135,8 +135,8 @@
   "drive": "political",
   "createdAt": "2025-08-10T20:18:35.687460",
   "status": "accepted",
-  "pool": "Pool 2",
-  "againstPool": "Pool 5"
+  "pool": "Kshatriyas",
+  "againstPool": "Shauryas"
 },
 {
   "_id": {
@@ -147,8 +147,8 @@
   "drive": "cause",
   "createdAt": "2025-08-10T20:18:35.687522",
   "status": "accepted",
-  "pool": "Pool 5",
-  "againstPool": "Pool 3"
+  "pool": "Shauryas",
+  "againstPool": "Nawabs"
 },
 {
   "_id": {
@@ -159,8 +159,8 @@
   "drive": "attack",
   "createdAt": "2025-08-10T20:18:35.687555",
   "status": "rejected",
-  "pool": "Pool 5",
-  "againstPool": "Pool 4"
+  "pool": "Shauryas",
+  "againstPool": "Peshwas"
 },
 {
   "_id": {
@@ -171,8 +171,8 @@
   "drive": "report",
   "createdAt": "2025-08-10T20:18:35.687598",
   "status": "pending",
-  "pool": "Pool 3",
-  "againstPool": "Pool 4"
+  "pool": "Nawabs",
+  "againstPool": "Peshwas"
 },
 {
   "_id": {
@@ -182,8 +182,8 @@
   "description": "Difference stuff risk. Gas seven begin someone place know. Kitchen seek against huge window traditional seek.",
   "createdAt": "2025-08-10T20:18:35.687642",
   "status": "accepted",
-  "pool": "Pool 1",
-  "againstPool": "Pool 4"
+  "pool": "Aryan",
+  "againstPool": "Peshwas"
 },
 {
   "_id": {
@@ -193,8 +193,8 @@
   "description": "Let great might Democrat Mr. Have local worry too hundred set. Woman go himself head condition show sign.",
   "createdAt": "2025-08-10T20:18:35.687684",
   "status": "pending",
-  "pool": "Pool 4",
-  "againstPool": "Pool 3"
+  "pool": "Peshwas",
+  "againstPool": "Nawabs"
 },
 {
   "_id": {
@@ -204,8 +204,8 @@
   "description": "How suddenly claim a audience off. Increase prevent treatment nor camera threat people. Case public her watch glass.",
   "createdAt": "2025-08-10T20:18:35.687726",
   "status": "accepted",
-  "pool": "Pool 3",
-  "againstPool": "Pool 5"
+  "pool": "Nawabs",
+  "againstPool": "Shauryas"
 },
 {
   "_id": {
@@ -216,8 +216,8 @@
   "drive": "onto",
   "createdAt": "2025-08-10T20:18:35.687757",
   "status": "rejected",
-  "pool": "Pool 3",
-  "againstPool": "Pool 5"
+  "pool": "Nawabs",
+  "againstPool": "Shauryas"
 },
 {
   "_id": {
@@ -227,6 +227,6 @@
   "description": "Agreement food worry training discuss phone. Popular center skill section water role. Join material agent continue business.",
   "createdAt": "2025-08-10T20:18:35.687799",
   "status": "pending",
-  "pool": "Pool 1",
-  "againstPool": "Pool 3"
+  "pool": "Aryan",
+  "againstPool": "Nawabs"
 }]

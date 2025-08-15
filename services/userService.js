@@ -40,6 +40,7 @@ class UserService {
 
     // Verify password
     const isPasswordValid = bcrypt.compareSync(password, user.passwordHash);
+
     if (!isPasswordValid) {
       throw new Error("Invalid credentials");
     }

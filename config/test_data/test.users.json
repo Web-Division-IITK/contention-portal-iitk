@@ -7,7 +7,7 @@
   "passwordHash": "$2b$10$tjInjnGCx3m5wLKAOrt0ZefjBWwxnzIKcXW0IArFH2MpKSjlTATOK",
   "role": "admin",
   "number": "0000000000",
-  "pool": "Pool 1",
+  "pool": "Aryan",
   "__v": 0
 },
 {
@@ -19,7 +19,7 @@
   "passwordHash": "$2b$10$ztpefqmTXpvk6sKvQtifE.zaLCCQ1fSsCJJ6t3uwAlLwnwg0QHfBm",
   "role": "user",
   "number": "0000000000",
-  "pool": "Pool 1",
+  "pool": "Aryan",
   "__v": 0
 },
 {
@@ -31,7 +31,7 @@
   "passwordHash": "$2b$10$AnPOLZ1wTkp6gUsFYc9kNe3NfLseICHgv/Km6IGG5xZZhnd5a3DEa",
   "role": "user",
   "number": "0000000000",
-  "pool": "Pool 2",
+  "pool": "Kshatriyas",
   "__v": 0
 },
 {
@@ -43,7 +43,7 @@
   "passwordHash": "$2b$10$AcXULN5L.j2rI3A3Ms0rY.diRlD0SYzBaZKlcSNicHLeHFMpDENq.",
   "role": "user",
   "number": "0000000000",
-  "pool": "Pool 3",
+  "pool": "Nawabs",
   "__v": 0
 },
 {
@@ -55,7 +55,7 @@
   "passwordHash": "$2b$10$93NWZWlFyDZftOB7vcU/V.r5gfevuKVvhLrJE1Ktw9NEfUxR1JnXO",
   "role": "user",
   "number": "0000000000",
-  "pool": "Pool 4",
+  "pool": "Peshwas",
   "__v": 0
 },
 {
@@ -67,6 +67,6 @@
   "passwordHash": "$2b$10$JZgYlFFdtDQwYgzoEH2viu8Zro83F6zN72r27ZxWChn9K1gX7Bir2",
   "role": "user",
   "number": "0000000000",
-  "pool": "Pool 5",
+  "pool": "Shauryas",
   "__v": 0
 }]

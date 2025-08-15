@@ -358,11 +358,11 @@ export function Portal() {
                   onChange={(e) => setAHall(e.target.value)}
                   style={{fontSize:"1rem"}}
                 >
-                  <option value="Pool 1" style={{fontSize:"1rem"}}>Pool 1</option>
-                  <option value="Pool 2" style={{fontSize:"1rem"}}>Pool 2</option>
-                  <option value="Pool 3" style={{fontSize:"1rem"}}>Pool 3</option>
-                  <option value="Pool 4" style={{fontSize:"1rem"}}>Pool 4</option>
-                  <option value="Pool 5" style={{fontSize:"1rem"}}>Pool 5</option>
+                  <option value="Aryan" style={{fontSize:"1rem"}}>Aryan</option>
+                  <option value="Kshatriyas" style={{fontSize:"1rem"}}>Kshatriyas</option>
+                  <option value="Nawabs" style={{fontSize:"1rem"}}>Nawabs</option>
+                  <option value="Peshwas" style={{fontSize:"1rem"}}>Peshwas</option>
+                  <option value="Shauryas" style={{fontSize:"1rem"}}>Shauryas</option>
                 </select>
               </label>
 

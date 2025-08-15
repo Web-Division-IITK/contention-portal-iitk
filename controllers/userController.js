@@ -12,7 +12,13 @@ class UserController {
         });
       }
 
-      const result = await userService.createUser({ name, email, password, number, pool });
+      const result = await userService.createUser({
+        name,
+        email,
+        password,
+        number,
+        pool,
+      });
 
       res.status(201).json({
         status: true,

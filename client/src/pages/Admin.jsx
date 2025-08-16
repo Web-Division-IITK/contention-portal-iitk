@@ -240,24 +240,29 @@ useEffect(() => {
                           <p>
                             <strong>Problem:</strong> {contension.headline}
                           </p>
-                          {contension.para && (
+                          {contension.description && (
                             <p>
                               <strong>Description:</strong>{" "}
                               {contension.description}
                             </p>
                           )}
-                          {contension.drive && (
+                          {typeof contension.drive === 'string' && contension.drive.trim() !== '' && (
                             <p>
-                              <strong>drive:</strong>{" "}
+                              <strong>Drive Link:</strong>{" "}
                               <a
                                 href={contension.drive}
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                style={{ color: '#7f7fff', textDecoration: 'underline' }}
                               >
-                                {contension.drive.trim()}
+                                {contension.drive}
                               </a>
                             </p>
                           )}
+
+
+
+
 
                           <small className="submission-time">
                             Submitted:{" "}

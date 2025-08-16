@@ -78,7 +78,9 @@ export function Portal() {
           }
           return tempData;
         });
-      } else {
+      } 
+      
+      else {
         if (feedback.pool == userData.pool) {
           toast.info(
             `Your Pool filed a contension against ${feedback.againstPool}`,

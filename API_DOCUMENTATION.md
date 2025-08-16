@@ -79,7 +79,7 @@ All protected endpoints require JWT token in the `Authorization` heade+.
 **Validation Rules:**
 - All fields are required
 - Email must be unique
-- Pool must be one of: "Aryans", "Nawabs", "Peshwas", "Kshatriyas", "Shauryas"
+- Pool must be one of: "Aryans", "Kshatriyas", "Nawabs", "Peshwas", "Shauryas"
 
 ---
 
@@ -198,7 +198,7 @@ const socket = io("ws://localhost:8080", {
   "headline": "Improvement suggestion",
   "description": "The current system could be enhanced by...",
   "drive": "https://drive.google.com/...",
-  "againstPool": "Peshwas"
+  "againstPool": "Nawabs"
 }
 ```
 
@@ -289,14 +289,14 @@ const socket = io("ws://localhost:8080", {
         "description": "Feedback content",
         "drive": "https://drive.google.com/...",
         "pool": "Aryans",
-        "againstPool": "Nawabs",
+        "againstPool": "Kshatriyas",
         "status": "pending",
         "createdAt": "2025-01-01T10:00:00.000Z"
       }
     ],
+    "Kshatriyas": [...],
     "Nawabs": [...],
     "Peshwas": [...],
-    "Kshatriyas": [...],
     "Shauryas": [...]
   }
 }
@@ -310,11 +310,11 @@ const socket = io("ws://localhost:8080", {
     "byPool": [
       {
         "_id": "64f8a9b2c3d4e5f6a7b8c9d0",
-        "headline": "Our feedback to Peshwas",
+        "headline": "Our feedback to Nawabs",
         "description": "Feedback content",
         "drive": "https://drive.google.com/...",
         "pool": "Aryans",
-        "againstPool": "Peshwas",
+        "againstPool": "Nawabs",
         "status": "accepted",
         "createdAt": "2025-01-01T10:00:00.000Z"
       }
@@ -325,7 +325,7 @@ const socket = io("ws://localhost:8080", {
         "headline": "Feedback about us",
         "description": "Feedback about Aryans",
         "drive": null,
-        "pool": "Nawabs",
+        "pool": "Kshatriyas",
         "againstPool": "Aryans",
         "status": "pending",
         "createdAt": "2025-01-01T11:00:00.000Z"
@@ -348,8 +348,8 @@ const socket = io("ws://localhost:8080", {
   "headline": "New feedback title",
   "description": "Feedback content",
   "drive": "https://drive.google.com/...",
-  "pool": "Nawabs",
-  "againstPool": "Kshatriyas",
+  "pool": "Kshatriyas",
+  "againstPool": "Peshwas",
   "status": "pending",
   "createdAt": "2025-01-01T12:00:00.000Z"
 }
@@ -375,8 +375,8 @@ const socket = io("ws://localhost:8080", {
     "headline": "Feedback title",
     "description": "Feedback content",
     "drive": "https://drive.google.com/...",
-    "pool": "Nawabs",
-    "againstPool": "Kshatriyas",
+    "pool": "Kshatriyas",
+    "againstPool": "Peshwas",
     "status": "accepted",
     "createdAt": "2025-01-01T12:00:00.000Z"
   }
@@ -555,7 +555,7 @@ socket.emit('submit_feedback', {
   headline: 'Important suggestion',
   description: 'This is a detailed feedback...',
   drive: 'https://drive.google.com/file/d/xyz',
-  againstPool: 'Peshwas'
+  againstPool: 'Nawabs'
 });
 ```
 
@@ -608,7 +608,7 @@ curl -X POST http://localhost:8080/api/user/login \
                     ┌────────────┼────────────┐
                     │            │            │
             ┌───────▼──────┐ ┌───▼───┐ ┌─────▼─────┐
-            │ Admin Room   │ │Aryans │ │  Nawabs   │
+            │ Admin Room   │ │Aryans │ │  Kshatriyas   │
             │             │ │ Room  │ │   Room    │
             └─────────────┘ └───────┘ └───────────┘
 ```

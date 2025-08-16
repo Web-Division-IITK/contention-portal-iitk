@@ -72,9 +72,9 @@ Both scripts will prompt for the following information:
 ## 🏊‍♂️ Available Pools
 
 - Aryans
-- Nawabs  
+- Kshatriyas  
+- Nawabs
 - Peshwas
-- Kshatriyas
 - Shauryas
 
 ## ⚠️ Important Notes
@@ -148,9 +148,9 @@ Select role (1 for user, 2 for admin): 1
 
 Available pools:
 1. Aryans
-2. Nawabs
-3. Peshwas
-4. Kshatriyas
+2. Kshatriyas
+3. Nawabs
+4. Peshwas
 5. Shauryas
 Select pool (1-5): 1
 

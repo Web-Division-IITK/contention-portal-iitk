@@ -1,3 +1,3 @@
 module.exports = {
-  pools: ["Aryans", "Nawabs", "Peshwas", "Kshatriyas", "Shauryas"],
+  pools: ["Aryans", "Kshatriyas", "Nawabs", "Peshwas", "Shauryas"],
 };

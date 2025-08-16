@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getUserDetails, isUserLoggedin, logoutUser } from "../utils/Login";
 import "../css/Portal.css";
 import { HiMiniBolt } from "react-icons/hi2";
@@ -202,8 +202,6 @@ export function Portal() {
     setActiveTab("my-contentions");
   };
 
-  
-
   return (
     <div
       className="portal-box"
@@ -242,28 +240,60 @@ export function Portal() {
           backgroundColor: "#000000",
         }}
       >
-        <img src={logo} alt="IIT Kanpur Logo"   className="portal-logo" />
-           {getUserDetails().role === "admin" && activeTab === "submit" && (
-              <div  style={{color:"#f3f3f9ff",    fontSize:"1rem", backgroundColor:"redgreen", fontWeight:"bold", fontFamily:"serif"}}    id="logout">Admin</div>
-            )}
-   {getUserDetails().role === "user" && activeTab === "submit" && (
-              <div id="logout"  style={{color:"#f2f2f6ff", fontSize:"1rem", backgroundColor:"#7f7fff ", borderRadius:"10px", padding:"10x", height:"100%", width:"10%",  fontWeight:"bold", fontStyle:"initial", fontFamily:"serif", alignItems:"center", display:"flex", justifyContent:"center"}}>
-               
-                {userData.pool}
-              </div>
-            )}
-           
-        <div className="navbar-center" >
-          <h2 className="portal-subtitle" style={{fontStyle:"initial",fontFamily:"serif" }}  >Contention Portal</h2>
-          <h3 className="portal-subtitle"  style={{fontStyle:"initial",fontFamily:"serif" }}>TAKNEEK | IIT Kanpur
-        
-           
+        <img src={logo} alt="IIT Kanpur Logo" className="portal-logo" />
+        {getUserDetails().role === "admin" && (
+          <div
+            style={{
+              color: "#f3f3f9ff",
+              fontSize: "1rem",
+              backgroundColor: "redgreen",
+              fontWeight: "bold",
+              fontFamily: "serif",
+            }}
+            id="logout"
+          >
+            Admin
+          </div>
+        )}
+        {getUserDetails().role === "user" && (
+          <div
+            id="logout"
+            style={{
+              color: "#f2f2f6ff",
+              fontSize: "1rem",
+              backgroundColor: "#7f7fff ",
+              borderRadius: "10px",
+              padding: "10x",
+              height: "100%",
+              width: "10%",
+              fontWeight: "bold",
+              fontStyle: "initial",
+              fontFamily: "serif",
+              alignItems: "center",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            {userData.pool}
+          </div>
+        )}
+
+        <div className="navbar-center">
+          <h2
+            className="portal-subtitle"
+            style={{ fontStyle: "initial", fontFamily: "serif" }}
+          >
+            Contention Portal
+          </h2>
+          <h3
+            className="portal-subtitle"
+            style={{ fontStyle: "initial", fontFamily: "serif" }}
+          >
+            TAKNEEK | IIT Kanpur
           </h3>
         </div>
 
- 
-
-        <button  id="logout" onClick={() => logoutUser()}>
+        <button id="logout" onClick={() => logoutUser()}>
           Logout
         </button>
       </div>
@@ -284,8 +314,6 @@ export function Portal() {
             backgroundColor: "#000000ff",
             border: "0",
             padding: "10px 0",
-            position:"sticky",
-            
           }}
         >
           <button
@@ -326,9 +354,15 @@ export function Portal() {
           >
             Against My Pool
           </button>
-           <hr style={{width:"100%", color:"#7f7fff", opacity:"1",  border:"1px solid #7f7fff"}}  />
+          <hr
+            style={{
+              width: "100%",
+              color: "#7f7fff",
+              opacity: "1",
+              border: "1px solid #7f7fff",
+            }}
+          />
         </div>
-
       )}
 
       <div className="tab-content">
@@ -349,20 +383,29 @@ export function Portal() {
                 style={{
                   color: "white",
                   backgroundColor: "white",
-                 
                 }}
               >
                 <select
                   className="feedback-submit"
                   value={aHall}
                   onChange={(e) => setAHall(e.target.value)}
-                  style={{fontSize:"1rem"}}
+                  style={{ fontSize: "1rem" }}
                 >
-                  <option value="Aryan" style={{fontSize:"1rem"}}>Aryan</option>
-                  <option value="Kshatriyas" style={{fontSize:"1rem"}}>Kshatriyas</option>
-                  <option value="Nawabs" style={{fontSize:"1rem"}}>Nawabs</option>
-                  <option value="Peshwas" style={{fontSize:"1rem"}}>Peshwas</option>
-                  <option value="Shauryas" style={{fontSize:"1rem"}}>Shauryas</option>
+                  <option value="Aryan" style={{ fontSize: "1rem" }}>
+                    Aryan
+                  </option>
+                  <option value="Kshatriyas" style={{ fontSize: "1rem" }}>
+                    Kshatriyas
+                  </option>
+                  <option value="Nawabs" style={{ fontSize: "1rem" }}>
+                    Nawabs
+                  </option>
+                  <option value="Peshwas" style={{ fontSize: "1rem" }}>
+                    Peshwas
+                  </option>
+                  <option value="Shauryas" style={{ fontSize: "1rem" }}>
+                    Shauryas
+                  </option>
                 </select>
               </label>
 
@@ -374,9 +417,9 @@ export function Portal() {
                   value={problemStatement}
                   onChange={(e) => setProblemStatement(e.target.value)}
                   required
-                  style={{fontSize:"1rem"}}
+                  style={{ fontSize: "1rem" }}
                 />
-                <HiMiniBolt style={{fontSize:"1rem"}} />
+                <HiMiniBolt style={{ fontSize: "1rem" }} />
               </label>
 
               <label htmlFor="text">
@@ -386,9 +429,9 @@ export function Portal() {
                   placeholder="Description"
                   value={para}
                   onChange={(e) => setPara(e.target.value)}
-                  style={{fontSize:"1rem"}}
+                  style={{ fontSize: "1rem" }}
                 />
-                <HiMiniBolt style={{fontSize:"1rem"}} />
+                <HiMiniBolt style={{ fontSize: "1rem" }} />
               </label>
 
               <label htmlFor="link">
@@ -398,12 +441,16 @@ export function Portal() {
                   placeholder="Any references or links"
                   value={link}
                   onChange={(e) => setLink(e.target.value)}
-                  style={{fontSize:"1rem"}}
+                  style={{ fontSize: "1rem" }}
                 />
-                <HiMiniBolt style={{fontSize:"1rem"}} />
+                <HiMiniBolt style={{ fontSize: "1rem" }} />
               </label>
 
-              <input style={{fontSize:"1rem"}} type="submit" value={"Submit"} />
+              <input
+                style={{ fontSize: "1rem" }}
+                type="submit"
+                value={"Submit"}
+              />
             </form>
           </div>
         )}

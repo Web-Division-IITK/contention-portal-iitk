@@ -31,8 +31,8 @@ export function Portal() {
 
   let navigate = useNavigate();
   const [socket, setSocket] = useState(null);
-  const [poolContension, setPoolContension] = useState([]);
-  const [againstContension, setAgainstContension] = useState([]);
+  const [poolContention, setPoolContention] = useState([]);
+  const [againstContention, setAgainstContention] = useState([]);
   const [aHall, setAHall] = useState(userData.pool);
   const [problemStatement, setProblemStatement] = useState("");
   const [para, setPara] = useState("");
@@ -54,10 +54,10 @@ export function Portal() {
 
     newSocket.on("load_feedbacks", (a) => {
       if (userData.role === "admin") {
-        setPoolContension(a.data);
+        setPoolContention(a.data);
       } else {
-        setPoolContension(a.data["byPool"]);
-        setAgainstContension(a.data["againstPool"]);
+        setPoolContention(a.data["byPool"]);
+        setAgainstContention(a.data["againstPool"]);
       }
     });
 
@@ -65,10 +65,10 @@ export function Portal() {
       console.log(1);
       if (userData.role === "admin") {
         toast.info(
-          `${feedback.pool} filed a contension against ${feedback.againstPool}`,
+          `${feedback.pool} filed a contention against ${feedback.againstPool}`,
           toastData
         );
-        setPoolContension((data) => {
+        setPoolContention((data) => {
           let tempData = { ...data };
           const feedbackExists = tempData[feedback.pool].some(
             (item) => item._id === feedback._id
@@ -81,16 +81,16 @@ export function Portal() {
       } else {
         if (feedback.pool == userData.pool) {
           toast.info(
-            `Your Pool filed a contension against ${feedback.againstPool}`,
+            `Your Pool filed a contention against ${feedback.againstPool}`,
             toastData
           );
-          setPoolContension((prevFeedbacks) => [feedback, ...prevFeedbacks]);
+          setPoolContention((prevFeedbacks) => [feedback, ...prevFeedbacks]);
         } else {
-          toast.warn(`${feedback.pool} files a contension against You`, {
+          toast.warn(`${feedback.pool} filed a contention against You`, {
             ...toastData,
             onClick: () => setActiveTab("my-contentions"),
           });
-          setAgainstContension((prevFeedbacks) => [feedback, ...prevFeedbacks]);
+          setAgainstContention((prevFeedbacks) => [feedback, ...prevFeedbacks]);
         }
       }
     });
@@ -99,16 +99,16 @@ export function Portal() {
       if (userData.role === "admin") {
         if (statusData.status == "accepted")
           toast.info(
-            `${statusData.feedback.pool}'s contension against ${statusData.feedback.againstPool} got Accepted`,
+            `${statusData.feedback.pool} contention against ${statusData.feedback.againstPool} got Accepted`,
             toastData
           );
         else
           toast.info(
-            `${statusData.feedback.pool}'s contension against ${statusData.feedback.againstPool} got Rejected`,
+            `${statusData.feedback.pool} contention against ${statusData.feedback.againstPool} got Rejected`,
             toastData
           );
 
-        setPoolContension((data) => {
+        setPoolContention((data) => {
           let tempData = { ...data };
           tempData[statusData.feedback.pool].find(
             (e) => e._id == statusData.feedback._id
@@ -119,16 +119,16 @@ export function Portal() {
         if (userData.pool == statusData.feedback.pool) {
           if (statusData.status == "accepted")
             toast.success(
-              `Your contension against ${statusData.feedback.againstPool} got Accepted`,
+              `Your contention against ${statusData.feedback.againstPool} got Accepted`,
               toastData
             );
           else
             toast.warn(
-              `Your contension against ${statusData.feedback.againstPool} got Rejected`,
+              `Your contention against ${statusData.feedback.againstPool} got Rejected`,
               toastData
             );
 
-          setPoolContension((data) => {
+          setPoolContention((data) => {
             let tempData = [...data];
             tempData.find((e) => e._id == statusData.feedback._id)["status"] =
               statusData.status;
@@ -137,16 +137,16 @@ export function Portal() {
         } else {
           if (statusData.status == "accepted")
             toast.error(
-              `${statusData.feedback.pool}s contension against You got Accepted`,
+              `${statusData.feedback.pool} contention against You got Accepted`,
               toastData
             );
           else
             toast.success(
-              `${statusData.feedback.pool}s contension against You got Rejected`,
+              `${statusData.feedback.pool} contention against You got Rejected`,
               toastData
             );
 
-          setAgainstContension((data) => {
+          setAgainstContention((data) => {
             let tempData = [...data];
             tempData.find((e) => e._id == statusData.feedback._id)["status"] =
               statusData.status;
@@ -381,18 +381,18 @@ export function Portal() {
               <label
                 htmlFor="against-hall"
                 style={{
-                  color: "white",
                   backgroundColor: "white",
                 }}
               >
+                <b>Select Pool: &nbsp;</b>
                 <select
                   className="feedback-submit"
                   value={aHall}
                   onChange={(e) => setAHall(e.target.value)}
                   style={{ fontSize: "1rem" }}
                 >
-                  <option value="Aryan" style={{ fontSize: "1rem" }}>
-                    Aryan
+                  <option value="Aryans" style={{ fontSize: "1rem" }}>
+                    Aryans
                   </option>
                   <option value="Kshatriyas" style={{ fontSize: "1rem" }}>
                     Kshatriyas
@@ -456,15 +456,15 @@ export function Portal() {
         )}
 
         {getUserDetails().role === "user" && activeTab === "my-contentions" && (
-          <MyContentions feedbacks={poolContension} />
+          <MyContentions feedbacks={poolContention} />
         )}
 
         {getUserDetails().role === "user" && activeTab === "against-me" && (
-          <ContentionsAgainstMe feedbacks={againstContension} socket={socket} />
+          <ContentionsAgainstMe feedbacks={againstContention} socket={socket} />
         )}
 
         {getUserDetails().role === "admin" && (
-          <Admin poolContension={poolContension} socket={socket} />
+          <Admin poolContention={poolContention} socket={socket} />
         )}
       </div>
     </div>

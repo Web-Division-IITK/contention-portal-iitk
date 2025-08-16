@@ -3,25 +3,25 @@ import { VscCheck, VscChromeClose } from "react-icons/vsc";
 import { useState, useEffect } from "react";
 
 
-export function Admin({ poolContension, socket }) {
+export function Admin({ poolContention, socket }) {
   const userData = getUserDetails();
   const [selectedPool, setSelectedPool] = useState("all");
   const [statusFilter, setStatusFilter] = useState("pending"); // Add status filter state
 
-  const poolNames = Object.keys(poolContension).sort();
+  const poolNames = Object.keys(poolContention).sort();
 
 useEffect(() => {
     if (selectedPool !== "all" && !poolNames.includes(selectedPool)) {
       setSelectedPool("all");
     }
-  }, [poolContension, selectedPool, poolNames]);
+  }, [poolContention, selectedPool, poolNames]);
 
   const getFilteredPools = () => {
     let pools;
     if (selectedPool === "all") {
-      pools = poolContension;
+      pools = poolContention;
     } else {
-      pools = { [selectedPool]: poolContension[selectedPool] || [] };
+      pools = { [selectedPool]: poolContention[selectedPool] || [] };
     }
     
    
@@ -47,7 +47,7 @@ useEffect(() => {
     let reviewed = 0;
     let total = 0;
 
-    const currentPools = selectedPool === "all" ? poolContension : { [selectedPool]: poolContension[selectedPool] || [] };
+    const currentPools = selectedPool === "all" ? poolContention : { [selectedPool]: poolContention[selectedPool] || [] };
     
     Object.values(currentPools).forEach(contentions => {
       contentions.forEach(contention => {
@@ -109,7 +109,7 @@ useEffect(() => {
           transition: "background-color 0.3s"
         }}
       >
-        All Pools ({Object.values(poolContension).reduce((total, pool) => total + pool.length, 0)})
+        All Pools ({Object.values(poolContention).reduce((total, pool) => total + pool.length, 0)})
       </button>
       {poolNames.map((pool) => (
         <button
@@ -126,7 +126,7 @@ useEffect(() => {
             transition: "background-color 0.3s"
           }}
         >
-          {pool} ({poolContension[pool]?.length || 0})
+          {pool} ({poolContention[pool]?.length || 0})
         </button>
       ))}
     </div>
@@ -207,8 +207,8 @@ useEffect(() => {
         {Object.keys(filteredPools)
           .sort()
           .map((pool) => {
-            let contensions = filteredPools[pool];
-            const sortedContentions = [...contensions].sort((a, b) => {
+            let contentions = filteredPools[pool];
+            const sortedContentions = [...contentions].sort((a, b) => {
               const dateA = new Date(a.createdAt || 0);
               const dateB = new Date(b.createdAt || 0);
               return dateB - dateA; 
@@ -224,38 +224,38 @@ useEffect(() => {
                 <h1 className="pool-name" style={{ alignItems:"center", justifyContent:"center"}}   >{pool}</h1>
                 <hr style={{ border: "1px solid #7f7fff", opacity:"1", width:"100%"}}/>
                 <div className="pool-section">
-                  {sortedContentions.map((contension) => {
+                  {sortedContentions.map((contention) => {
                     return (
-                      <div className="feedback-card"  style={{borderBottom:"1px solid #7f7fff",borderLeft:"5px solid #7f7fff", borderTop:"1px solid #7f7fff", borderRight:"1px solid #7f7fff"}}  id="feedback-card1" key={`${contension._id}-${pool}`}>
+                      <div className="feedback-card"  style={{borderBottom:"1px solid #7f7fff",borderLeft:"5px solid #7f7fff", borderTop:"1px solid #7f7fff", borderRight:"1px solid #7f7fff"}}  id="feedback-card1" key={`${contention._id}-${pool}`}>
                         <div className="feedback-header">
-                          <span className={`status ${contension.status}`}>
-                            {contension.status}
+                          <span className={`status ${contention.status}`}>
+                            {contention.status}
                           </span>
                           <p>
-                            <strong>From:</strong> {contension.pool}
+                            <strong>From:</strong> {contention.pool}
                           </p>
                           <p>
-                            <strong>Against:</strong> {contension.againstPool}
+                            <strong>Against:</strong> {contention.againstPool}
                           </p>
                           <p>
-                            <strong>Problem:</strong> {contension.headline}
+                            <strong>Problem:</strong> {contention.headline}
                           </p>
-                          {contension.description && (
+                          {contention.description && (
                             <p>
                               <strong>Description:</strong>{" "}
-                              {contension.description}
+                              {contention.description}
                             </p>
                           )}
-                          {typeof contension.drive === 'string' && contension.drive.trim() !== '' && (
+                          {typeof contention.drive === 'string' && contention.drive.trim() !== '' && (
                             <p>
                               <strong>Drive Link:</strong>{" "}
                               <a
-                                href={contension.drive}
+                                href={contention.drive}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 style={{ color: '#7f7fff', textDecoration: 'underline' }}
                               >
-                                {contension.drive}
+                                {contention.drive}
                               </a>
                             </p>
                           )}
@@ -267,7 +267,7 @@ useEffect(() => {
                           <small className="submission-time">
                             Submitted:{" "}
                             {new Date(
-                              contension.createdAt || Date.now()
+                              contention.createdAt || Date.now()
                             ).toLocaleDateString("en-us",{
                               year: 'numeric',
                               month: 'short',
@@ -279,8 +279,8 @@ useEffect(() => {
 
 
 
- {contension.createdAt && 
-                               (Date.now() - new Date(contension.createdAt).getTime()) < 1 * 60 * 1000 && (
+ {contention.createdAt && 
+                               (Date.now() - new Date(contention.createdAt).getTime()) < 1 * 60 * 1000 && (
                                 <span 
                                   style={{
                                     marginLeft: "10px",
@@ -304,14 +304,14 @@ useEffect(() => {
 
                           </small>
 
-                          {contension.status === "pending" && (
+                          {contention.status === "pending" && (
                             <div className="toggle-buttons-box">
                               <button
                                 className="toggle-btn"
                                 style={{ backgroundColor: "green" }}
                                 onClick={() => {
                                   socket.emit("mark_accepted", {
-                                    id: contension._id,
+                                    id: contention._id,
                                   });
                                 }}
                               >
@@ -322,7 +322,7 @@ useEffect(() => {
                                 style={{ backgroundColor: "red" }}
                                 onClick={() => {
                                   socket.emit("mark_rejected", {
-                                    id: contension._id,
+                                    id: contention._id,
                                   });
                                 }}
                               >

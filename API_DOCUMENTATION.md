@@ -39,7 +39,7 @@ All protected endpoints require JWT token in the `Authorization` heade+.
   "email": "string",        // Valid email address
   "password": "string",     // Password (will be hashed)
   "number": "string",       // Contact number
-  "pool": "string"          // Pool assignment (Aryan-5)
+  "pool": "string"          // Pool assignment (Aryans-5)
 }
 ```
 
@@ -50,7 +50,7 @@ All protected endpoints require JWT token in the `Authorization` heade+.
   "email": "john@example.com",
   "password": "securepass123",
   "number": "9876543210",
-  "pool": "Aryan"
+  "pool": "Aryans"
 }
 ```
 
@@ -79,7 +79,7 @@ All protected endpoints require JWT token in the `Authorization` heade+.
 **Validation Rules:**
 - All fields are required
 - Email must be unique
-- Pool must be one of: "Aryan", "Kshatriyas", "Nawabs", "Peshwas", "Shauryas"
+- Pool must be one of: "Aryans", "Kshatriyas", "Nawabs", "Peshwas", "Shauryas"
 
 ---
 
@@ -135,7 +135,7 @@ All protected endpoints require JWT token in the `Authorization` heade+.
   "email": "john@example.com",
   "number": "9876543210",
   "role": "user",
-  "pool": "Aryan"
+  "pool": "Aryans"
 }
 ```
 
@@ -188,7 +188,7 @@ const socket = io("ws://localhost:8080", {
   "headline": "string",        // Brief title
   "description": "string",     // Detailed feedback
   "drive": "string",          // Optional drive link
-  "againstPool": "string"     // Target pool (Aryan-5)
+  "againstPool": "string"     // Target pool (Aryans-5)
 }
 ```
 
@@ -282,13 +282,13 @@ const socket = io("ws://localhost:8080", {
 {
   "type": "grouped",
   "data": {
-    "Aryan": [
+    "Aryans": [
       {
         "_id": "64f8a9b2c3d4e5f6a7b8c9d0",
         "headline": "Feedback title",
         "description": "Feedback content",
         "drive": "https://drive.google.com/...",
-        "pool": "Aryan",
+        "pool": "Aryans",
         "againstPool": "Kshatriyas",
         "status": "pending",
         "createdAt": "2025-01-01T10:00:00.000Z"
@@ -313,7 +313,7 @@ const socket = io("ws://localhost:8080", {
         "headline": "Our feedback to Nawabs",
         "description": "Feedback content",
         "drive": "https://drive.google.com/...",
-        "pool": "Aryan",
+        "pool": "Aryans",
         "againstPool": "Nawabs",
         "status": "accepted",
         "createdAt": "2025-01-01T10:00:00.000Z"
@@ -323,16 +323,16 @@ const socket = io("ws://localhost:8080", {
       {
         "_id": "64f8a9b2c3d4e5f6a7b8c9d1",
         "headline": "Feedback about us",
-        "description": "Feedback about Aryan",
+        "description": "Feedback about Aryans",
         "drive": null,
         "pool": "Kshatriyas",
-        "againstPool": "Aryan",
+        "againstPool": "Aryans",
         "status": "pending",
         "createdAt": "2025-01-01T11:00:00.000Z"
       }
     ]
   },
-  "userPool": "Aryan"
+  "userPool": "Aryans"
 }
 ```
 
@@ -416,7 +416,7 @@ const socket = io("ws://localhost:8080", {
 - Receives: All feedback updates
 
 **Regular Users:**
-- Joins: `pool_${userPool}` room (e.g., `pool_Aryan`)
+- Joins: `pool_${userPool}` room (e.g., `pool_Aryans`)
 - Receives: Feedback relevant to their pool
 
 ### 📡 Broadcasting Logic
@@ -449,7 +449,7 @@ Broadcast to:
   passwordHash: String,   // Required (bcrypt hashed)
   role: String,          // Required ("user" or "admin")
   number: String,        // Required
-  pool: String           // Required (Aryan-5)
+  pool: String           // Required (Aryans-5)
 }
 ```
 
@@ -461,8 +461,8 @@ Broadcast to:
   drive: String,         // Optional
   createdAt: Date,       // Auto-generated
   status: String,        // "pending" | "accepted" | "rejected"
-  pool: String,          // Submitter's pool (Aryan-5)
-  againstPool: String    // Target pool (Aryan-5)
+  pool: String,          // Submitter's pool (Aryans-5)
+  againstPool: String    // Target pool (Aryans-5)
 }
 ```
 
@@ -578,7 +578,7 @@ curl -X POST http://localhost:8080/api/user/createUser \
     "email": "john@example.com", 
     "password": "securepass123",
     "number": "9876543210",
-    "pool": "Aryan"
+    "pool": "Aryans"
   }'
 ```
 
@@ -608,7 +608,7 @@ curl -X POST http://localhost:8080/api/user/login \
                     ┌────────────┼────────────┐
                     │            │            │
             ┌───────▼──────┐ ┌───▼───┐ ┌─────▼─────┐
-            │ Admin Room   │ │Aryan │ │  Kshatriyas   │
+            │ Admin Room   │ │Aryans │ │  Kshatriyas   │
             │             │ │ Room  │ │   Room    │
             └─────────────┘ └───────┘ └───────────┘
 ```

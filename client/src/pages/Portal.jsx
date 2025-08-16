@@ -381,11 +381,10 @@ export function Portal() {
               <label
                 htmlFor="against-hall"
                 style={{
-                  color: "white",
                   backgroundColor: "white",
                 }}
               >
-                Select Pool: 
+                <b>Select Pool: &nbsp;</b>
                 <select
                   className="feedback-submit"
                   value={aHall}

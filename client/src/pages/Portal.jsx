@@ -383,7 +383,7 @@ export function Portal() {
                   backgroundColor: "white",
                 }}
               >
-                <b>Select Pool: &nbsp;</b>
+                <b>Select Pool to submit  contention against: &nbsp;</b>
                 <select
                   className="feedback-submit"
                   value={aHall}
@@ -437,7 +437,7 @@ export function Portal() {
                 <input
                   className="feedback-submit"
                   type="text"
-                  placeholder="Any references or links"
+                  placeholder="Any drive link"
                   value={link}
                   onChange={(e) => setLink(e.target.value)}
                   style={{ fontSize: "1rem" }}

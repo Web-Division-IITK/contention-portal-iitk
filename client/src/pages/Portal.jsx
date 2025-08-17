@@ -10,9 +10,8 @@ import { MyContentions } from "./PoolContentions";
 import { ContentionsAgainstMe } from "./ContentionsAgainstPool";
 import { Admin } from "./Admin";
 import { Bounce, ToastContainer, toast } from "react-toastify";
-
-const SOCKET_URI = "http://localhost:8080";
-// const SOCKET_URI = window.location.origin;
+const SOCKET_URI = import.meta.env.VITE_SOCKET_URL;
+//export const socket = io(SOCKET_URI);
 
 const toastData = {
   position: "top-right",

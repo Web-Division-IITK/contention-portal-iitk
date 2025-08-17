@@ -1,10 +1,14 @@
 # Contention-portal
 
 ## Environment Variables
-Create a .env file in the root directory
-Refer to .envsample for the structure
-
-use following commands to run
+### Backend
+Create a `.env` file in the **root directory**. Refer to `.env.example` for the required structure.
+### Frontend
+Go into the client directory:
+```bash
+cd client
+```
+Create a .env file there. Refer to `.env.example.frontend` for the required structure.
 
 ```bash
 cd client

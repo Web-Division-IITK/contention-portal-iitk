@@ -296,12 +296,6 @@ useEffect(() => {
                                 </span>
                               )}
 
-
-
-
-
-
-
                           </small>
 
                           {contention.status === "pending" && (

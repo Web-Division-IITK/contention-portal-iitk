@@ -66,7 +66,7 @@ export function Login({ switchToSignup }) {
         }}
       >
         <label htmlFor="email" style={{color:"white"   }}  >
-          <input type="email" placeholder="Email" style={{border:"2px solid #f7f7f9ff", color:"white", fontSize:"1rem"}} required />
+          <input type="email" placeholder="username" style={{border:"2px solid #f7f7f9ff", color:"white", fontSize:"1rem"}} required />
           <HiMail style={{fontSize:"1rem"}} />
         </label>
         <label htmlFor="password" style={{color:"white"  }}  >

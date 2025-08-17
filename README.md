@@ -10,6 +10,7 @@ cd client
 ```
 Create a .env file there. Refer to `.env.example.frontend` for the required structure.
 
+Then run the code using the following commands-
 ```bash
 cd client
 npm i

@@ -304,6 +304,8 @@ useEffect(() => {
                                 className="toggle-btn"
                                 style={{ backgroundColor: "green" }}
                                 onClick={() => {
+                                  
+                                    if(window.confirm(`✅ Are you sure you want to accept this contention?\n\nPool: ${contention.pool}\nAgainst: ${contention.againstPool}\nProblem: ${contention.headline}`))
                                   socket.emit("mark_accepted", {
                                     id: contention._id,
                                   });
@@ -311,10 +313,11 @@ useEffect(() => {
                               >
                                 <VscCheck />
                               </button>
-                              <button
+                              <button 
                                 className="toggle-btn"
                                 style={{ backgroundColor: "red" }}
                                 onClick={() => {
+                                    if(window.confirm(`❌ Are you sure you want to reject this contention?\n\nPool: ${contention.pool}\nAgainst: ${contention.againstPool}\nProblem: ${contention.headline}`))
                                   socket.emit("mark_rejected", {
                                     id: contention._id,
                                   });

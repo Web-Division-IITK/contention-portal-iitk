@@ -1,11 +1,16 @@
 # Contention-portal
 
 ## Environment Variables
-Create a .env file in the root directory
-Refer to .envsample for the structure
+### Backend
+Create a `.env` file in the **root directory**. Refer to `.env.example` for the required structure.
+### Frontend
+Go into the client directory:
+```bash
+cd client
+```
+Create a .env file there. Refer to `.env.example.frontend` for the required structure.
 
-use following commands to run
-
+Then run the code using the following commands-
 ```bash
 cd client
 npm i

@@ -10,9 +10,8 @@ import { MyContentions } from "./PoolContentions";
 import { ContentionsAgainstMe } from "./ContentionsAgainstPool";
 import { Admin } from "./Admin";
 import { Bounce, ToastContainer, toast } from "react-toastify";
-
-const SOCKET_URI = "http://localhost:8080";
-// const SOCKET_URI = window.location.origin;
+const SOCKET_URI = import.meta.env.VITE_SOCKET_URL;
+//export const socket = io(SOCKET_URI);
 
 const toastData = {
   position: "top-right",
@@ -384,7 +383,7 @@ export function Portal() {
                   backgroundColor: "white",
                 }}
               >
-                <b>Select Pool: &nbsp;</b>
+                <b>Select Pool to submit  contention against: &nbsp;</b>
                 <select
                   className="feedback-submit"
                   value={aHall}
@@ -438,7 +437,7 @@ export function Portal() {
                 <input
                   className="feedback-submit"
                   type="text"
-                  placeholder="Any references or links"
+                  placeholder="Any drive link"
                   value={link}
                   onChange={(e) => setLink(e.target.value)}
                   style={{ fontSize: "1rem" }}

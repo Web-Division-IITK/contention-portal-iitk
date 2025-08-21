@@ -9,9 +9,15 @@ class FeedbackController {
     }
   }
 
-  async getFeedbacksGroupedByPools() {
+  async getFeedbacksGroupedByPools(req) {
     try {
-      return await feedbackService.getFeedbacksGroupedByPools();
+      if (req.user.role === "superadmin") {
+        return await feedbackService.getFeedbacksGroupedByPoolsForSuperAdmin();
+      } else if (req.user.role === "admin") {
+        return await feedbackService.getFeedbacksGroupedByPoolsForAdmin(req.user.club);
+      } else {
+        throw new Error("Not authorized");
+      }
     } catch (error) {
       throw error;
     }
@@ -33,8 +39,15 @@ class FeedbackController {
     }
   }
 
-  async updateFeedbackStatus(feedbackId, status) {
+  async updateFeedbackStatus(req, feedbackId, status) {
     try {
+      // Only allow admin to change status of feedbacks of their club
+      const feedback = await feedbackService.getFeedbackById(feedbackId);
+      if (!feedback) throw new Error("Feedback not found");
+      if (req.user.role === "admin" && feedback.club !== req.user.club) {
+        throw new Error("Admins can only change status of feedbacks of their club");
+      }
+      // superadmin can change any
       return await feedbackService.updateFeedbackStatus(feedbackId, status);
     } catch (error) {
       throw error;

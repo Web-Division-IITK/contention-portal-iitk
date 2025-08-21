@@ -1,21 +1,36 @@
 const { Feedback } = require("../model/Feedback.js");
 
 class FeedbackService {
+  async getFeedbackById(feedbackId) {
+    return await Feedback.findById(feedbackId);
+  }
   async getAllFeedbacks() {
     return await Feedback.find({}).sort({ createdAt: -1 });
   }
 
-  async getFeedbacksGroupedByPools() {
-    const feedbacks = await Feedback.find({}).sort({ createdAt: -1 });
+  async getFeedbacksGroupedByPoolsForAdmin(club) {
+    // Only feedbacks of this club
+    const feedbacks = await Feedback.find({ club }).sort({ createdAt: -1 });
     const groupedFeedbacks = {};
-
     feedbacks.forEach((feedback) => {
       if (!groupedFeedbacks[feedback.pool]) {
         groupedFeedbacks[feedback.pool] = [];
       }
       groupedFeedbacks[feedback.pool].push(feedback);
     });
+    return groupedFeedbacks;
+  }
 
+  async getFeedbacksGroupedByPoolsForSuperAdmin() {
+    // All feedbacks
+    const feedbacks = await Feedback.find({}).sort({ createdAt: -1 });
+    const groupedFeedbacks = {};
+    feedbacks.forEach((feedback) => {
+      if (!groupedFeedbacks[feedback.pool]) {
+        groupedFeedbacks[feedback.pool] = [];
+      }
+      groupedFeedbacks[feedback.pool].push(feedback);
+    });
     return groupedFeedbacks;
   }
 

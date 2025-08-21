@@ -5,11 +5,10 @@ const handleFeedbackSocket = (io, socket) => {
   const userPool = socket.user.pool;
 
   // Join appropriate rooms based on user role and pool
-  if (userRole === "admin") {
+  if (userRole === "admin" || userRole === "superadmin") {
     socket.join("admin");
-    console.log(`Admin ${socket.user.name} joined admin room`);
+    console.log(`${userRole} ${socket.user.name} joined admin room`);
   } else {
-    // Regular users join their pool room and pools they can see feedback against
     socket.join(`pool_${userPool}`);
     console.log(`User ${socket.user.name} joined pool_${userPool} room`);
   }
@@ -19,12 +18,11 @@ const handleFeedbackSocket = (io, socket) => {
     try {
       let feedbacks;
 
-      if (userRole === "admin") {
-        // Admin gets all feedbacks grouped by pools
-        feedbacks = await feedbackController.getFeedbacksGroupedByPools();
+      if (userRole === "admin" || userRole === "superadmin") {
+        // Admin gets only feedbacks of his club, superadmin gets all
+        feedbacks = await feedbackController.getFeedbacksGroupedByPools({ user: socket.user });
         socket.emit("load_feedbacks", { type: "grouped", data: feedbacks });
       } else {
-        // Regular user gets feedbacks grouped by byPool and againstPool
         feedbacks = await feedbackController.getFeedbacksForUserPool(userPool);
         socket.emit("load_feedbacks", {
           type: "user_grouped",
@@ -75,30 +73,22 @@ const handleFeedbackSocket = (io, socket) => {
 
   // Handle status change (admin only)
   const changeStatus = async (data, status) => {
-    if (userRole !== "admin") return;
+    if (userRole !== "admin" && userRole !== "superadmin") return;
 
     try {
-      const updatedFeedback = await feedbackController.updateFeedbackStatus(
-        data.id,
-        status
-      );
+      const updatedFeedback = await feedbackController.updateFeedbackStatus({ user: socket.user }, data.id, status);
 
       // Emit status change to relevant rooms
-      // 1. Emit to admin room
       io.to("admin").emit("status_changed", {
         id: data.id,
         status: status,
         feedback: updatedFeedback,
       });
-
-      // 2. Emit to users in the pool that submitted the feedback
       io.to(`pool_${updatedFeedback.pool}`).emit("status_changed", {
         id: data.id,
         status: status,
         feedback: updatedFeedback,
       });
-
-      // 3. Emit to users in the pool that the feedback is against
       if (updatedFeedback.againstPool !== updatedFeedback.pool) {
         io.to(`pool_${updatedFeedback.againstPool}`).emit("status_changed", {
           id: data.id,
@@ -106,9 +96,8 @@ const handleFeedbackSocket = (io, socket) => {
           feedback: updatedFeedback,
         });
       }
-
       console.log(
-        `Feedback ${data.id} status changed to ${status} by admin ${socket.user.name}`
+        `Feedback ${data.id} status changed to ${status} by ${userRole} ${socket.user.name}`
       );
     } catch (error) {
       console.error("Error changing status:", error);

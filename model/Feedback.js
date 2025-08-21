@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { pools } = require("../config/general");
+const { pools, clubs } = require("../config/general");
 
 const feedbackSchema = new mongoose.Schema({
   headline: { type: String, required: true },
@@ -11,8 +11,10 @@ const feedbackSchema = new mongoose.Schema({
     enum: ["pending", "accepted", "rejected"],
     default: "pending",
   },
-  pool: { type: String, enum: pools, require: true },
-  againstPool: { type: String, enum: pools, require: true },
+  pool: { type: String, enum: pools, required: true },
+  againstPool: { type: String, enum: pools, required: true },
+  club: { type: String, enum: clubs, required: true },
+  problemStatement: { type: String, required: true },
 });
 
 module.exports = { Feedback: mongoose.model("feedbacks", feedbackSchema) };

@@ -36,8 +36,6 @@ export function Portal() {
   const [poolContention, setPoolContention] = useState("");
   const [PS, setPS] = useState(new Array());
   const [club, setClub] = useState("");
-  const [againstContention, setAgainstContention] = useState("");
-  const [aHall, setAHall] = useState(userData.pool);
   const [problemStatement, setProblemStatement] = useState("");
   const [para, setPara] = useState("");
   const [link, setLink] = useState("");
@@ -57,21 +55,12 @@ export function Portal() {
     newSocket.on("connect", () => {});
 
     newSocket.on("load_feedbacks", (a) => {
-      if (userData.role === "admin") {
-        setPoolContention(a.data);
-      } else {
-        setPoolContention(a.data["byPool"]);
-        setAgainstContention(a.data["againstPool"]);
-      }
+      setPoolContention(a.data);
     });
 
     newSocket.on("new_feedback", (feedback) => {
-      console.log(1);
       if (userData.role === "admin") {
-        toast.info(
-          `${feedback.pool} filed a contention against ${feedback.againstPool}`,
-          toastData
-        );
+        toast.info(`${feedback.pool} filed for ${feedback.club}`, toastData);
         setPoolContention((data) => {
           let tempData = { ...data };
           const feedbackExists = tempData[feedback.pool].some(
@@ -84,17 +73,8 @@ export function Portal() {
         });
       } else {
         if (feedback.pool == userData.pool) {
-          toast.info(
-            `Your Pool filed a contention against ${feedback.againstPool}`,
-            toastData
-          );
+          toast.info(`Your Pool filed a for ${feedback.club}`, toastData);
           setPoolContention((prevFeedbacks) => [feedback, ...prevFeedbacks]);
-        } else {
-          toast.warn(`${feedback.pool} filed a contention against You`, {
-            ...toastData,
-            onClick: () => setActiveTab("my-contentions"),
-          });
-          setAgainstContention((prevFeedbacks) => [feedback, ...prevFeedbacks]);
         }
       }
     });
@@ -103,12 +83,12 @@ export function Portal() {
       if (userData.role === "admin") {
         if (statusData.status == "accepted")
           toast.info(
-            `${statusData.feedback.pool} contention against ${statusData.feedback.againstPool} got Accepted`,
+            `${statusData.feedback.pool} contention for ${statusData.feedback.club} got Accepted`,
             toastData
           );
         else
           toast.info(
-            `${statusData.feedback.pool} contention against ${statusData.feedback.againstPool} got Rejected`,
+            `${statusData.feedback.pool} contention for ${statusData.feedback.club} got Rejected`,
             toastData
           );
 
@@ -123,34 +103,16 @@ export function Portal() {
         if (userData.pool == statusData.feedback.pool) {
           if (statusData.status == "accepted")
             toast.success(
-              `Your contention against ${statusData.feedback.againstPool} got Accepted`,
+              `Your contention for ${statusData.feedback.againstPool} got Accepted`,
               toastData
             );
           else
             toast.warn(
-              `Your contention against ${statusData.feedback.againstPool} got Rejected`,
+              `Your contention for ${statusData.feedback.againstPool} got Rejected`,
               toastData
             );
 
           setPoolContention((data) => {
-            let tempData = [...data];
-            tempData.find((e) => e._id == statusData.feedback._id)["status"] =
-              statusData.status;
-            return tempData;
-          });
-        } else {
-          if (statusData.status == "accepted")
-            toast.error(
-              `${statusData.feedback.pool} contention against You got Accepted`,
-              toastData
-            );
-          else
-            toast.success(
-              `${statusData.feedback.pool} contention against You got Rejected`,
-              toastData
-            );
-
-          setAgainstContention((data) => {
             let tempData = [...data];
             tempData.find((e) => e._id == statusData.feedback._id)["status"] =
               statusData.status;
@@ -173,33 +135,20 @@ export function Portal() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (
-      aHall.length < 1 ||
-      problemStatement.length < 1 ||
-      para.length < 1 ||
-      link.length < 1
-    ) {
+    console.log(problemStatement, para, club);
+    if (!problemStatement || para.length < 1 || !club) {
       console.error("Form submission error: Please fill all fields correctly.");
       alert("Please enter all required fields");
       return;
     }
-    if (userData.pool == aHall) {
-      console.error(
-        "Form submission error: Pool cannot be the same as Against Pool."
-      );
-      alert("Pool cannot be the same as Against Pool.");
-      return;
-    }
 
     socket.emit("submit_feedback", {
-      againstPool: aHall,
-      headline: problemStatement,
+      problemStatement: problemStatement,
       club,
       description: para,
       drive: link,
     });
 
-    setAHall(userData.pool);
     setProblemStatement("");
     setPara("");
     setLink("");
@@ -346,7 +295,7 @@ export function Portal() {
           >
             My Contentions
           </button>
-          <button
+          {/* <button
             className={`tab-button ${
               activeTab === "against-me" ? "active" : ""
             }`}
@@ -358,7 +307,7 @@ export function Portal() {
             }}
           >
             Against My Pool
-          </button>
+          </button> */}
           <hr
             style={{
               width: "100%",
@@ -383,7 +332,7 @@ export function Portal() {
             }}
           >
             <form className="feedback-input" onSubmit={handleFormSubmit}>
-              <label
+              {/* <label
                 htmlFor="against-hall"
                 style={{
                   backgroundColor: "white",
@@ -408,7 +357,7 @@ export function Portal() {
                     </option>
                   ))}
                 </select>
-              </label>
+              </label> */}
 
               <label
                 htmlFor="club"
@@ -421,17 +370,16 @@ export function Portal() {
                   className="feedback-submit"
                   value={club}
                   onChange={async (e) => {
-                    setPS((e) => []);
+                    setPS([]);
                     setClub(e.target.value);
 
                     let res = await fetch(
-                              BASEURL + "/problemstatement/" + e.target.value
-                            );
+                      BASEURL + "/problemstatement/" + e.target.value
+                    );
                     let data = await res.json();
 
-                    setPS(data.data.map(e => e.title));
-
-                    console.log(PS);
+                    setPS(data.data.map((e) => e.title));
+                    setProblemStatement(data.data[0].title);
                   }}
                   style={{ fontSize: "1rem" }}
                 >
@@ -446,7 +394,7 @@ export function Portal() {
                     "Robotics Club",
                     "SciMathsSoc",
                   ].map((e) => (
-                    <option value={e} style={{ fontSize: "1rem" }}>
+                    <option key={e} value={e} style={{ fontSize: "1rem" }}>
                       {e}
                     </option>
                   ))}
@@ -525,9 +473,9 @@ export function Portal() {
           <MyContentions feedbacks={poolContention} />
         )}
 
-        {getUserDetails().role === "user" && activeTab === "against-me" && (
+        {/* {getUserDetails().role === "user" && activeTab === "against-me" && (
           <ContentionsAgainstMe feedbacks={againstContention} socket={socket} />
-        )}
+        )} */}
 
         {getUserDetails().role === "admin" && (
           <Admin poolContention={poolContention} socket={socket} />

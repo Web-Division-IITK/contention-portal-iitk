@@ -18,9 +18,11 @@ const handleFeedbackSocket = (io, socket) => {
     try {
       let feedbacks;
 
-      if (userRole === "admin" || userRole === "superadmin") {
-        // Admin gets only feedbacks of his club, superadmin gets all
-        feedbacks = await feedbackController.getFeedbacksGroupedByPools({ user: socket.user });
+      if (userRole === "admin") {
+        feedbacks = await feedbackController.getFeedbacksGroupedByPools({
+          role: socket.user.role,
+          club: socket.user.club,
+        });
         socket.emit("load_feedbacks", { type: "grouped", data: feedbacks });
       } else {
         feedbacks = await feedbackController.getFeedbacksForUserPool(userPool);
@@ -39,18 +41,15 @@ const handleFeedbackSocket = (io, socket) => {
   // Handle feedback submission
   const submitFeedback = async (data) => {
     if (userRole === "admin") return;
-    console.log(data)
 
     try {
       const feedback = await feedbackController.createFeedback({
-        headline: data.headline,
+        problemStatement: data.problemStatement,
         description: data.description,
         drive: data.drive,
         status: data.status || "pending",
         pool: userPool,
-        againstPool: data.againstPool,
-        club: data.club
-        // problemStatement: data.problemStatement
+        club: data.club,
       });
 
       // Emit to relevant rooms only
@@ -79,7 +78,11 @@ const handleFeedbackSocket = (io, socket) => {
     if (userRole !== "admin" && userRole !== "superadmin") return;
 
     try {
-      const updatedFeedback = await feedbackController.updateFeedbackStatus({ user: socket.user }, data.id, status);
+      const updatedFeedback = await feedbackController.updateFeedbackStatus(
+        { user: socket.user },
+        data.id,
+        status
+      );
 
       // Emit status change to relevant rooms
       io.to("admin").emit("status_changed", {

@@ -40,15 +40,7 @@ class FeedbackService {
       createdAt: -1,
     });
 
-    // Get feedbacks submitted against user's pool
-    const feedbacksAgainstPool = await Feedback.find({
-      againstPool: userPool,
-    }).sort({ createdAt: -1 });
-
-    return {
-      byPool: feedbacksByPool,
-      againstPool: feedbacksAgainstPool,
-    };
+    return feedbacksByPool;
   }
 
   async createFeedback(feedbackData) {

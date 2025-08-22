@@ -88,3 +88,24 @@ export function getUserDetails() {
     return null;
   }
 }
+
+export async function getClubPS(club) {
+  try {
+    let res = await fetch(`${BASEURL}/problemstatement/${club}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    let data = await res.json();
+
+    if (data.status == true) {
+      return { message: data.message, status: true, data: data.data };
+    } else {
+      return { message: data.message, status: false };
+    }
+  } catch (e) {
+    return { message: "Internal Server Error", status: false };
+  }
+}

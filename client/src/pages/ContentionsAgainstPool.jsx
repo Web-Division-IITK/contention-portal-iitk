@@ -31,7 +31,7 @@ export function ContentionsAgainstMe({ feedbacks, socket }) {
                     Pool)
                   </p>
                   <p>
-                    <strong>Problem:</strong> {contention.headline}
+                    <strong>Problem:</strong> {contention.problemStatement}
                   </p>
                   {contention.description && (
                     <p>

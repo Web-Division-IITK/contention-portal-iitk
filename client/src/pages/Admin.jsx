@@ -1,4 +1,4 @@
-import { getUserDetails } from "../utils/Login";
+import { getClubPS, getUserDetails } from "../utils/Login";
 import { VscCheck, VscChromeClose } from "react-icons/vsc";
 import { useState, useEffect } from "react";
 import * as config from "../../config/config";
@@ -7,10 +7,11 @@ export function Admin({ poolContention, socket }) {
   const [selectedPool, setSelectedPool] = useState("all");
   const [statusFilter, setStatusFilter] = useState("pending");
   const [selectedPS, setSelectedPS] = useState("all");
+  const [PS, setPS] = useState([]);
 
   // let userClub = getUserDetails().club;
 
-  const poolNames = Object.keys(poolContention).sort();
+  // const poolNames = Object.keys(poolContention).sort();
 
   // useEffect(() => {
   //   if (selectedPool !== "all" && !poolNames.includes(selectedPool)) {
@@ -22,8 +23,17 @@ export function Admin({ poolContention, socket }) {
   //   setSelectedPS("all");
   // }, [poolContention]);
 
+  // let PS
+
+  useEffect(() => {
+    async function fetchData() {
+      let res = await getClubPS(getUserDetails().club);
+      setPS([{ title: "all" }, ...res.data]);
+    }
+    fetchData();
+  }, []);
+
   const getFilteredPools = () => {
-    let pools;
     let pools;
     if (selectedPool === "all") {
       pools = poolContention;
@@ -33,23 +43,15 @@ export function Admin({ poolContention, socket }) {
     const filtered = {};
 
     Object.keys(pools).forEach((poolName) => {
-
-    Object.keys(pools).forEach((poolName) => {
       let contentions = pools[poolName] || [];
 
       if (selectedPS !== "all") {
         contentions = contentions.filter(
           (contention) => contention.problemStatement === selectedPS
-        contentions = contentions.filter(
-          (contention) => contention.problemStatement === selectedPS
         );
       }
 
-
       if (statusFilter === "pending") {
-        contentions = contentions.filter(
-          (contention) => contention.status === "pending"
-        );
         contentions = contentions.filter(
           (contention) => contention.status === "pending"
         );
@@ -57,12 +59,8 @@ export function Admin({ poolContention, socket }) {
         contentions = contentions.filter(
           (contention) =>
             contention.status === "accepted" || contention.status === "rejected"
-        contentions = contentions.filter(
-          (contention) =>
-            contention.status === "accepted" || contention.status === "rejected"
         );
       }
-
 
       filtered[poolName] = contentions;
     });
@@ -80,26 +78,16 @@ export function Admin({ poolContention, socket }) {
         : { [selectedPool]: poolContention[selectedPool] || [] };
 
     Object.values(currentPools).forEach((contentions) => {
-    const currentPools =
-      selectedPool === "all"
-        ? poolContention
-        : { [selectedPool]: poolContention[selectedPool] || [] };
-
-    Object.values(currentPools).forEach((contentions) => {
       // Filter contentions based on admin type and club's problem statements
-      const relevantContentions = contentions.filter((contention) =>
-        clubPS[userClub]?.includes(contention.problemStatement)
+      const relevantContentions = contentions.filter(
+        (contention) =>
+          selectedPS === "all" || contention.problemStatement === selectedPS
       );
 
-      relevantContentions.forEach((contention) => {
       relevantContentions.forEach((contention) => {
         total++;
         if (contention.status === "pending") {
           pending++;
-        } else if (
-          contention.status === "accepted" ||
-          contention.status === "rejected"
-        ) {
         } else if (
           contention.status === "accepted" ||
           contention.status === "rejected"
@@ -112,33 +100,10 @@ export function Admin({ poolContention, socket }) {
     return { pending, reviewed, total };
   };
 
-  const statusCounts = getStatusCounts();
   const filteredPools = getFilteredPools();
+  const statusCounts = getStatusCounts();
 
   const FiltersContent = () => (
-    <div
-      className="filters-container"
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        flexWrap: "wrap",
-        gap: "20px",
-        fontSize: "1rem",
-      }}
-    >
-      <div
-        className="pool-filter-nav"
-        style={{
-          flex: "1",
-          minWidth: "300px",
-          alignItems: "flex-start",
-          justifyContent: "flex-start",
-        }}
-      >
-        <h3
-          className="pool-name-new"
-          style={{ marginBottom: "10px", textAlign: "center" }}
-        >
     <div
       className="filters-container"
       style={{
@@ -175,21 +140,7 @@ export function Admin({ poolContention, socket }) {
             justifyContent: "flex-start",
           }}
         >
-
-        <div
-          className="pool-filter-buttons"
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "10px",
-            alignItems: "flex-start",
-            justifyContent: "flex-start",
-          }}
-        >
           <button
-            className={`pool-filter-btn ${
-              selectedPool === "all" ? "active" : ""
-            }`}
             className={`pool-filter-btn ${
               selectedPool === "all" ? "active" : ""
             }`}
@@ -206,38 +157,13 @@ export function Admin({ poolContention, socket }) {
           >
             All Pools (
             {Object.values(poolContention).reduce((total, pool) => {
-              if (userClub === SUPER_ADMIN) {
-                return total + pool.length;
-              } else {
-                return (
-                  total +
-                  pool.filter((contention) =>
-            All Pools (
-            {Object.values(poolContention).reduce((total, pool) => {
-              if (userClub === SUPER_ADMIN) {
-                return total + pool.length;
-              } else {
-                return (
-                  total +
-                  pool.filter((contention) =>
-                    clubPS[userClub]?.includes(contention.problemStatement)
-                  ).length
-                );
-              }
-            }, 0)}
-            )
-                  ).length
-                );
-              }
+              return total + pool.length;
             }, 0)}
             )
           </button>
           {config.pools.map((pool) => (
             <button
               key={pool}
-              className={`pool-filter-btn ${
-                selectedPool === pool ? "active" : ""
-              }`}
               className={`pool-filter-btn ${
                 selectedPool === pool ? "active" : ""
               }`}
@@ -250,32 +176,14 @@ export function Admin({ poolContention, socket }) {
                 borderRadius: "4px",
                 cursor: "pointer",
                 transition: "background-color 0.3s",
-                transition: "background-color 0.3s",
               }}
             >
-              {pool} (
-              {poolContention[pool]?.filter((contention) =>
-                clubPS[userClub]?.includes(contention.headline)
-              ).length || 0}
-              )
+              {pool} ({poolContention[pool]?.length || 0})
             </button>
           ))}
         </div>
       </div>
 
-      <div
-        className="status-filter-nav"
-        style={{
-          flex: "0 0 auto",
-          minWidth: "300px",
-          alignItems: "flex-end",
-          justifyContent: "flex-end",
-        }}
-      >
-        <h3
-          className="pool-name-new"
-          style={{ marginBottom: "10px", textAlign: "center" }}
-        >
       <div
         className="status-filter-nav"
         style={{
@@ -302,21 +210,7 @@ export function Admin({ poolContention, socket }) {
             justifyContent: "flex-end",
           }}
         >
-
-        <div
-          className="status-filter-buttons"
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "10px",
-            alignItems: "flex-end",
-            justifyContent: "flex-end",
-          }}
-        >
           <button
-            className={`status-filter-btn ${
-              statusFilter === "pending" ? "active" : ""
-            }`}
             className={`status-filter-btn ${
               statusFilter === "pending" ? "active" : ""
             }`}
@@ -325,13 +219,10 @@ export function Admin({ poolContention, socket }) {
               padding: "8px 16px",
               backgroundColor:
                 statusFilter === "pending" ? "#ffc107" : "#6c757d",
-              backgroundColor:
-                statusFilter === "pending" ? "#ffc107" : "#6c757d",
               color: statusFilter === "pending" ? "#000" : "white",
               border: "none",
               borderRadius: "4px",
               cursor: "pointer",
-              transition: "background-color 0.3s",
               transition: "background-color 0.3s",
             }}
           >
@@ -341,14 +232,9 @@ export function Admin({ poolContention, socket }) {
             className={`status-filter-btn ${
               statusFilter === "reviewed" ? "active" : ""
             }`}
-            className={`status-filter-btn ${
-              statusFilter === "reviewed" ? "active" : ""
-            }`}
             onClick={() => setStatusFilter("reviewed")}
             style={{
               padding: "8px 16px",
-              backgroundColor:
-                statusFilter === "reviewed" ? "#28a745" : "#6c757d",
               backgroundColor:
                 statusFilter === "reviewed" ? "#28a745" : "#6c757d",
               color: "white",
@@ -356,15 +242,11 @@ export function Admin({ poolContention, socket }) {
               borderRadius: "4px",
               cursor: "pointer",
               transition: "background-color 0.3s",
-              transition: "background-color 0.3s",
             }}
           >
             Reviewed ({statusCounts.reviewed})
           </button>
           <button
-            className={`status-filter-btn ${
-              statusFilter === "all" ? "active" : ""
-            }`}
             className={`status-filter-btn ${
               statusFilter === "all" ? "active" : ""
             }`}
@@ -377,7 +259,6 @@ export function Admin({ poolContention, socket }) {
               borderRadius: "4px",
               cursor: "pointer",
               transition: "background-color 0.3s",
-              transition: "background-color 0.3s",
             }}
           >
             All Status ({statusCounts.total})
@@ -386,10 +267,6 @@ export function Admin({ poolContention, socket }) {
       </div>
 
       <div className="filter-section">
-        <h3
-          className="pool-name-new"
-          style={{ marginBottom: "10px", textAlign: "center" }}
-        >
         <h3
           className="pool-name-new"
           style={{ marginBottom: "10px", textAlign: "center" }}
@@ -409,18 +286,18 @@ export function Admin({ poolContention, socket }) {
             maxWidth: "300px",
             marginBottom: "20px",
             color: "black",
-            color: "black",
           }}
           className="btn btn-secondary dropdown-toggle"
         >
-          {[1, 2, 3, 4].map((ps) => (
-            <option
-              key={ps}
-              value={ps === "All Problem Statements" ? "all" : ps}
-            >
-              {ps}
-            </option>
-          ))}
+          {PS &&
+            PS.map((ps, i) => (
+              <option
+                key={i}
+                value={ps.title === "All Problem Statements" ? "all" : ps.title}
+              >
+                {ps.title}
+              </option>
+            ))}
         </select>
       </div>
     </div>
@@ -444,14 +321,6 @@ export function Admin({ poolContention, socket }) {
               marginBottom: "20px",
             }}
           />
-          <hr
-            style={{
-              border: "1px solid #7f7fff",
-              opacity: "1",
-              width: "100%",
-              marginBottom: "20px",
-            }}
-          />
 
           {Object.keys(filteredPools)
             .sort()
@@ -511,96 +380,8 @@ export function Admin({ poolContention, socket }) {
                               <strong>From:</strong> {contention.pool}
                             </p>
                             <p>
-                              <strong>Against:</strong> {contention.againstPool}
-                            </p>
-                            <p>
-                              <strong>Problem:</strong> {contention.headline}
-                            </p>
-                            {contention.description && (
-                              <p>
-                                <strong>Description:</strong>{" "}
-                                {contention.description}
-                              </p>
-                            )}
-                            {typeof contention.drive === "string" &&
-                              contention.drive.trim() !== "" && (
-                                <p>
-                                  <strong>Drive Link:</strong>{" "}
-                                  <a
-                                    href={contention.drive}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    style={{
-                                      color: "#7f7fff",
-                                      textDecoration: "underline",
-                                    }}
-                                  >
-                                    {contention.drive}
-                                  </a>
-                                </p>
-                              )}
-          {Object.keys(filteredPools)
-            .sort()
-            .map((pool) => {
-              let contentions = filteredPools[pool];
-              const sortedContentions = [...contentions].sort((a, b) => {
-                const dateA = new Date(a.createdAt || 0);
-                const dateB = new Date(b.createdAt || 0);
-                return dateB - dateA;
-              });
-
-              if (sortedContentions.length === 0) {
-                return null;
-              }
-
-              return (
-                <div
-                  key={pool}
-                  style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    justifyItems: "center",
-                  }}
-                >
-                  <h1
-                    className="pool-name"
-                    style={{ alignItems: "center", justifyContent: "center" }}
-                  >
-                    {pool}
-                  </h1>
-                  <hr
-                    style={{
-                      border: "1px solid #7f7fff",
-                      opacity: "1",
-                      width: "100%",
-                    }}
-                  />
-                  <div className="pool-section">
-                    {sortedContentions.map((contention) => {
-                      return (
-                        <div
-                          className="feedback-card"
-                          style={{
-                            borderBottom: "1px solid #7f7fff",
-                            borderLeft: "5px solid #7f7fff",
-                            borderTop: "1px solid #7f7fff",
-                            borderRight: "1px solid #7f7fff",
-                          }}
-                          id="feedback-card1"
-                          key={`${contention._id}-${pool}`}
-                        >
-                          <div className="feedback-header">
-                            <span className={`status ${contention.status}`}>
-                              {contention.status}
-                            </span>
-                            <p>
-                              <strong>From:</strong> {contention.pool}
-                            </p>
-                            <p>
-                              <strong>Against:</strong> {contention.againstPool}
-                            </p>
-                            <p>
-                              <strong>Problem:</strong> {contention.headline}
+                              <strong>Problem:</strong>{" "}
+                              {contention.problemStatement}
                             </p>
                             {contention.description && (
                               <p>
@@ -656,36 +437,6 @@ export function Admin({ poolContention, socket }) {
                                   </span>
                                 )}
                             </small>
-                            <small className="submission-time">
-                              Submitted:{" "}
-                              {new Date(
-                                contention.createdAt || Date.now()
-                              ).toLocaleDateString("en-us", {
-                                year: "numeric",
-                                month: "short",
-                                day: "numeric",
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              })}
-                              {contention.createdAt &&
-                                Date.now() -
-                                  new Date(contention.createdAt).getTime() <
-                                  1 * 60 * 1000 && (
-                                  <span
-                                    style={{
-                                      marginLeft: "10px",
-                                      backgroundColor: "#ff4757",
-                                      color: "white",
-                                      padding: "2px 6px",
-                                      borderRadius: "3px",
-                                      fontSize: "10px",
-                                      fontWeight: "bold",
-                                    }}
-                                  >
-                                    NEW
-                                  </span>
-                                )}
-                            </small>
 
                             {contention.status === "pending" && (
                               <div className="toggle-buttons-box">
@@ -695,7 +446,7 @@ export function Admin({ poolContention, socket }) {
                                   onClick={() => {
                                     if (
                                       window.confirm(
-                                        `✅ Are you sure you want to accept this contention?\n\nPool: ${contention.pool}\nAgainst: ${contention.againstPool}\nProblem: ${contention.problemStatement}`
+                                        `✅ Are you sure you want to accept this contention?\n\nPool: ${contention.pool}\nProblem: ${contention.problemStatement}`
                                       )
                                     )
                                       socket.emit("mark_accepted", {
@@ -711,51 +462,7 @@ export function Admin({ poolContention, socket }) {
                                   onClick={() => {
                                     if (
                                       window.confirm(
-                                        `❌ Are you sure you want to reject this contention?\n\nPool: ${contention.pool}\nAgainst: ${contention.againstPool}\nProblem: ${contention.problemStatement}`
-                                      )
-                                    )
-                                      socket.emit("mark_rejected", {
-                                        id: contention._id,
-                                      });
-                                  }}
-                                >
-                                  <VscChromeClose />
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-                            {contention.status === "pending" && (
-                              <div className="toggle-buttons-box">
-                                <button
-                                  className="toggle-btn"
-                                  style={{ backgroundColor: "green" }}
-                                  onClick={() => {
-                                    if (
-                                      window.confirm(
-                                        `✅ Are you sure you want to accept this contention?\n\nPool: ${contention.pool}\nAgainst: ${contention.againstPool}\nProblem: ${contention.problemStatement}`
-                                      )
-                                    )
-                                      socket.emit("mark_accepted", {
-                                        id: contention._id,
-                                      });
-                                  }}
-                                >
-                                  <VscCheck />
-                                </button>
-                                <button
-                                  className="toggle-btn"
-                                  style={{ backgroundColor: "red" }}
-                                  onClick={() => {
-                                    if (
-                                      window.confirm(
-                                        `❌ Are you sure you want to reject this contention?\n\nPool: ${contention.pool}\nAgainst: ${contention.againstPool}\nProblem: ${contention.problemStatement}`
+                                        `❌ Are you sure you want to reject this contention?\n\nPool: ${contention.pool}\nProblem: ${contention.problemStatement}`
                                       )
                                     )
                                       socket.emit("mark_rejected", {
@@ -776,14 +483,6 @@ export function Admin({ poolContention, socket }) {
               );
             })}
 
-          {Object.keys(filteredPools).every(
-            (pool) => filteredPools[pool].length === 0
-          ) && (
-            <div style={{ textAlign: "center", padding: "20px" }}>
-              <h2>No contentions found for the selected filters</h2>
-              <p>Try changing the pool or status filter to see more results.</p>
-            </div>
-          )}
           {Object.keys(filteredPools).every(
             (pool) => filteredPools[pool].length === 0
           ) && (

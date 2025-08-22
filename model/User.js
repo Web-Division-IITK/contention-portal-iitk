@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   role: { type: String, required: true },
   number: { type: String, required: true },
   pool: { type: String, enum: ["None", ...pools], required: true },
-  club: { type: String, enum: ["None", ...clubs], required: function() { return this.role === "admin" || this.role === "superadmin"; }, default: "None" },
+  club: { type: String, enum: ["None", ...clubs]},
 });
 
 module.exports = { User: mongoose.model("users", userSchema) };

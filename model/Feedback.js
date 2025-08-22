@@ -14,7 +14,7 @@ const feedbackSchema = new mongoose.Schema({
   pool: { type: String, enum: pools, required: true },
   againstPool: { type: String, enum: pools, required: true },
   club: { type: String, enum: clubs, required: true },
-  problemStatement: { type: String, required: true },
+  // problemStatement: { type: String, required: true },
 });
 
 module.exports = { Feedback: mongoose.model("feedbacks", feedbackSchema) };

@@ -52,17 +52,7 @@ class FeedbackService {
   }
 
   async createFeedback(feedbackData) {
-    const { headline, description, drive, status, pool, againstPool } =
-      feedbackData;
-
-    const feedback = new Feedback({
-      headline,
-      description,
-      drive,
-      status,
-      pool,
-      againstPool,
-    });
+    const feedback = new Feedback(feedbackData);
 
     await feedback.save();
     return feedback;

@@ -10,7 +10,10 @@ import { MyContentions } from "./PoolContentions";
 import { ContentionsAgainstMe } from "./ContentionsAgainstPool";
 import { Admin } from "./Admin";
 import { Bounce, ToastContainer, toast } from "react-toastify";
-const SOCKET_URI = import.meta.env.VITE_SOCKET_URL;
+import { BASEURL } from "../utils/Login";
+
+// const SOCKET_URI = import.meta.env.VITE_SOCKET_URL;
+const SOCKET_URI = "http://localhost:8080";
 //export const socket = io(SOCKET_URI);
 
 const toastData = {
@@ -30,8 +33,10 @@ export function Portal() {
 
   let navigate = useNavigate();
   const [socket, setSocket] = useState(null);
-  const [poolContention, setPoolContention] = useState([]);
-  const [againstContention, setAgainstContention] = useState([]);
+  const [poolContention, setPoolContention] = useState("");
+  const [PS, setPS] = useState(new Array());
+  const [club, setClub] = useState("");
+  const [againstContention, setAgainstContention] = useState("");
   const [aHall, setAHall] = useState(userData.pool);
   const [problemStatement, setProblemStatement] = useState("");
   const [para, setPara] = useState("");
@@ -189,6 +194,7 @@ export function Portal() {
     socket.emit("submit_feedback", {
       againstPool: aHall,
       headline: problemStatement,
+      club,
       description: para,
       drive: link,
     });
@@ -383,32 +389,93 @@ export function Portal() {
                   backgroundColor: "white",
                 }}
               >
-                <b>Select Pool to submit  contention against: &nbsp;</b>
+                <b>Pool: &nbsp;</b>
                 <select
                   className="feedback-submit"
                   value={aHall}
                   onChange={(e) => setAHall(e.target.value)}
                   style={{ fontSize: "1rem" }}
                 >
-                  <option value="Aryans" style={{ fontSize: "1rem" }}>
-                    Aryans
-                  </option>
-                  <option value="Kshatriyas" style={{ fontSize: "1rem" }}>
-                    Kshatriyas
-                  </option>
-                  <option value="Nawabs" style={{ fontSize: "1rem" }}>
-                    Nawabs
-                  </option>
-                  <option value="Peshwas" style={{ fontSize: "1rem" }}>
-                    Peshwas
-                  </option>
-                  <option value="Shauryas" style={{ fontSize: "1rem" }}>
-                    Shauryas
-                  </option>
+                  {[
+                    "Aryans",
+                    "Kshatriyas",
+                    "Nawabs",
+                    "Peshwas",
+                    "Shauryas",
+                  ].map((e) => (
+                    <option value={e} style={{ fontSize: "1rem" }}>
+                      {e}
+                    </option>
+                  ))}
                 </select>
               </label>
 
-              <label htmlFor="problem-statement">
+              <label
+                htmlFor="club"
+                style={{
+                  backgroundColor: "white",
+                }}
+              >
+                <b>Club: &nbsp;</b>
+                <select
+                  className="feedback-submit"
+                  value={club}
+                  onChange={async (e) => {
+                    setPS((e) => []);
+                    setClub(e.target.value);
+
+                    let res = await fetch(
+                              BASEURL + "/problemstatement/" + e.target.value
+                            );
+                    let data = await res.json();
+
+                    setPS(data.data.map(e => e.title));
+
+                    console.log(PS);
+                  }}
+                  style={{ fontSize: "1rem" }}
+                >
+                  {[
+                    "Aeromodelling Club",
+                    "Astronomy Club",
+                    "Brain and Cognitive Science Club",
+                    "Electronics Club",
+                    "Finance and Analytics Club",
+                    "Game Development Club",
+                    "Programming Club",
+                    "Robotics Club",
+                    "SciMathsSoc",
+                  ].map((e) => (
+                    <option value={e} style={{ fontSize: "1rem" }}>
+                      {e}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label
+                htmlFor="club"
+                style={{
+                  backgroundColor: "white",
+                }}
+              >
+                <b>PS: &nbsp;</b>
+                <select
+                  className="problem-statement feedback-submit"
+                  value={problemStatement}
+                  onChange={(e) => setProblemStatement(e.target.value)}
+                  style={{ fontSize: "1rem" }}
+                  required
+                >
+                  {PS.map((e) => (
+                    <option value={e} style={{ fontSize: "1rem" }}>
+                      {e}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              {/* <label htmlFor="problem-statement">
                 <input
                   className="feedback-submit"
                   type="text"
@@ -419,7 +486,7 @@ export function Portal() {
                   style={{ fontSize: "1rem" }}
                 />
                 <HiMiniBolt style={{ fontSize: "1rem" }} />
-              </label>
+              </label> */}
 
               <label htmlFor="text">
                 <input

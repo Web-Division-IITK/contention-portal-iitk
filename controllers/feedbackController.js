@@ -33,6 +33,7 @@ class FeedbackController {
 
   async createFeedback(feedbackData) {
     try {
+      console.log(feedbackData)
       return await feedbackService.createFeedback(feedbackData);
     } catch (error) {
       throw error;

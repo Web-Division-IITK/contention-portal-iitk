@@ -39,6 +39,7 @@ const handleFeedbackSocket = (io, socket) => {
   // Handle feedback submission
   const submitFeedback = async (data) => {
     if (userRole === "admin") return;
+    console.log(data)
 
     try {
       const feedback = await feedbackController.createFeedback({
@@ -48,6 +49,8 @@ const handleFeedbackSocket = (io, socket) => {
         status: data.status || "pending",
         pool: userPool,
         againstPool: data.againstPool,
+        club: data.club
+        // problemStatement: data.problemStatement
       });
 
       // Emit to relevant rooms only

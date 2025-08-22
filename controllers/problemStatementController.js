@@ -16,16 +16,26 @@ class ProblemStatementController {
     try {
       const { club, title } = req.body;
       if (!club || !title) {
-        return res.status(400).json({ status: false, message: "club and title required" });
+        return res
+          .status(400)
+          .json({ status: false, message: "club and title required" });
       }
       // Only superadmin can add to any club, admin only to their club
       if (req.user.role === "admin" && req.user.club !== club) {
-        return res.status(403).json({ status: false, message: "Admins can only add to their own club" });
+        return res
+          .status(403)
+          .json({
+            status: false,
+            message: "Admins can only add to their own club",
+          });
       }
       if (req.user.role === "admin" && !clubs.includes(club)) {
         return res.status(400).json({ status: false, message: "Invalid club" });
       }
-      const result = await problemStatementService.addProblemStatement({ club, title });
+      const result = await problemStatementService.addProblemStatement({
+        club,
+        title,
+      });
       res.status(201).json({ status: true, data: result });
     } catch (error) {
       res.status(500).json({ status: false, message: error.message });
@@ -37,16 +47,13 @@ class ProblemStatementController {
     try {
       const club = req.params.club;
       if (!club) {
-        return res.status(400).json({ status: false, message: "Club not specified" });
+        return res
+          .status(400)
+          .json({ status: false, message: "Club not specified" });
       }
-      // Only superadmin can fetch any club, admin only their own club
-      if (req.user.role === "admin" && req.user.club !== club) {
-        return res.status(403).json({ status: false, message: "Admins can only access their own club" });
-      }
-      if (!clubs.includes(club)) {
-        return res.status(400).json({ status: false, message: "Invalid club" });
-      }
-      const result = await problemStatementService.getProblemStatementsByClub(club);
+      const result = await problemStatementService.getProblemStatementsByClub(
+        club
+      );
       res.status(200).json({ status: true, data: result });
     } catch (error) {
       res.status(500).json({ status: false, message: error.message });

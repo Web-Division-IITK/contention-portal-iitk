@@ -224,21 +224,19 @@ export function Portal() {
       </div>
     
   {getUserDetails().role === "admin" && (
-  <div className="admin-info" style={{backgroundColor:"black"}}>
-    <span role="img" aria-label="crown" style={{fontSize: "1.5em"}}>👑</span>
-    Welcome, Admin!
-    <span className="club-name">
-      {userData.club}
+  <div className="admin-info" style={{backgroundColor:"black", width:"600px", padding:"10px", }}>
+    <span className="club-name" style={{fontSize:"1.3rem"}}>
+      {userData.club} Admin!
     </span>
   </div>
 
   
 )}
 {getUserDetails().role === "user" && (
-  <div className="admin-info">
-    <span role="img" aria-label="crown" style={{fontSize: "1.5em"}}></span>
-    Welcome,  <span className="club-name">
-      {userData.pool}
+  <div className="admin-info" style={{backgroundColor:"black", width:"100%", padding:"10px", }}>
+
+      <span className="club-name" style={{color:"white", fontSize:"2rem"}}>
+     Pool {userData.pool}
     </span>
    
   </div>

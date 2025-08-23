@@ -1086,13 +1086,13 @@ min-height:50vh;
   font-family: serif;
   padding: 2vw 4vw;
   width: 90vw;
-  max-width: 400px;
+  max-width: 1000px;
   align-items: center;
   display: flex;
   justify-content: center;
   border-radius: 14px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  margin: 20px auto;
+  
   animation: bounceIn 1s;
   flex-wrap: wrap;
   gap: 1vw;
@@ -1166,4 +1166,10 @@ min-height:50vh;
   right: 0;
   bottom: 5rem;
   width:fit-content;
+}
+.admin-info{
+  margin:0 0;
+  margin-bottom:0px;
+  width:100%;
+  width:600px;
 }

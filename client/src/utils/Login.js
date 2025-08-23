@@ -1,5 +1,6 @@
 import { jwtDecode } from "jwt-decode";
-const BASEURL = `${import.meta.env.VITE_BASE_URL}/api`;
+// const BASEURL = `${import.meta.env.VITE_BASE_URL}/api`;
+export const BASEURL = `http://localhost:8080/api`;
 
 export async function loginUser(email, password) {
   try {
@@ -85,5 +86,26 @@ export function getUserDetails() {
   } catch (error) {
     logoutUser();
     return null;
+  }
+}
+
+export async function getClubPS(club) {
+  try {
+    let res = await fetch(`${BASEURL}/problemstatement/${club}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    let data = await res.json();
+
+    if (data.status == true) {
+      return { message: data.message, status: true, data: data.data };
+    } else {
+      return { message: data.message, status: false };
+    }
+  } catch (e) {
+    return { message: "Internal Server Error", status: false };
   }
 }

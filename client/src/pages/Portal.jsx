@@ -10,7 +10,11 @@ import { MyContentions } from "./PoolContentions";
 import { ContentionsAgainstMe } from "./ContentionsAgainstPool";
 import { Admin } from "./Admin";
 import { Bounce, ToastContainer, toast } from "react-toastify";
-const SOCKET_URI = import.meta.env.VITE_SOCKET_URL;
+import { BASEURL } from "../utils/Login";
+ import { FiLogOut } from "react-icons/fi";
+
+// const SOCKET_URI = import.meta.env.VITE_SOCKET_URL;
+const SOCKET_URI = "http://localhost:8080";
 //export const socket = io(SOCKET_URI);
 
 const toastData = {
@@ -30,9 +34,9 @@ export function Portal() {
 
   let navigate = useNavigate();
   const [socket, setSocket] = useState(null);
-  const [poolContention, setPoolContention] = useState([]);
-  const [againstContention, setAgainstContention] = useState([]);
-  const [aHall, setAHall] = useState(userData.pool);
+  const [poolContention, setPoolContention] = useState("");
+  const [PS, setPS] = useState(new Array());
+  const [club, setClub] = useState("");
   const [problemStatement, setProblemStatement] = useState("");
   const [para, setPara] = useState("");
   const [link, setLink] = useState("");
@@ -52,21 +56,12 @@ export function Portal() {
     newSocket.on("connect", () => {});
 
     newSocket.on("load_feedbacks", (a) => {
-      if (userData.role === "admin") {
-        setPoolContention(a.data);
-      } else {
-        setPoolContention(a.data["byPool"]);
-        setAgainstContention(a.data["againstPool"]);
-      }
+      setPoolContention(a.data);
     });
 
     newSocket.on("new_feedback", (feedback) => {
-      console.log(1);
       if (userData.role === "admin") {
-        toast.info(
-          `${feedback.pool} filed a contention against ${feedback.againstPool}`,
-          toastData
-        );
+        toast.info(`${feedback.pool} filed a contention for ${feedback.club} PS`, toastData);
         setPoolContention((data) => {
           let tempData = { ...data };
           const feedbackExists = tempData[feedback.pool].some(
@@ -79,17 +74,8 @@ export function Portal() {
         });
       } else {
         if (feedback.pool == userData.pool) {
-          toast.info(
-            `Your Pool filed a contention against ${feedback.againstPool}`,
-            toastData
-          );
+          toast.info(`Your Pool filed a contention for ${feedback.club} PS`, toastData);
           setPoolContention((prevFeedbacks) => [feedback, ...prevFeedbacks]);
-        } else {
-          toast.warn(`${feedback.pool} filed a contention against You`, {
-            ...toastData,
-            onClick: () => setActiveTab("my-contentions"),
-          });
-          setAgainstContention((prevFeedbacks) => [feedback, ...prevFeedbacks]);
         }
       }
     });
@@ -98,12 +84,12 @@ export function Portal() {
       if (userData.role === "admin") {
         if (statusData.status == "accepted")
           toast.info(
-            `${statusData.feedback.pool} contention against ${statusData.feedback.againstPool} got Accepted`,
+            `${statusData.feedback.pool} contention for ${statusData.feedback.club} PS got Accepted`,
             toastData
           );
         else
           toast.info(
-            `${statusData.feedback.pool} contention against ${statusData.feedback.againstPool} got Rejected`,
+            `${statusData.feedback.pool} contention for ${statusData.feedback.club} PS got Rejected`,
             toastData
           );
 
@@ -118,34 +104,16 @@ export function Portal() {
         if (userData.pool == statusData.feedback.pool) {
           if (statusData.status == "accepted")
             toast.success(
-              `Your contention against ${statusData.feedback.againstPool} got Accepted`,
+              `Your contention for ${statusData.feedback.againstPool} PS got Accepted`,
               toastData
             );
           else
             toast.warn(
-              `Your contention against ${statusData.feedback.againstPool} got Rejected`,
+              `Your contention for ${statusData.feedback.againstPool} PS got Rejected`,
               toastData
             );
 
           setPoolContention((data) => {
-            let tempData = [...data];
-            tempData.find((e) => e._id == statusData.feedback._id)["status"] =
-              statusData.status;
-            return tempData;
-          });
-        } else {
-          if (statusData.status == "accepted")
-            toast.error(
-              `${statusData.feedback.pool} contention against You got Accepted`,
-              toastData
-            );
-          else
-            toast.success(
-              `${statusData.feedback.pool} contention against You got Rejected`,
-              toastData
-            );
-
-          setAgainstContention((data) => {
             let tempData = [...data];
             tempData.find((e) => e._id == statusData.feedback._id)["status"] =
               statusData.status;
@@ -168,32 +136,20 @@ export function Portal() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (
-      aHall.length < 1 ||
-      problemStatement.length < 1 ||
-      para.length < 1 ||
-      link.length < 1
-    ) {
+    console.log(problemStatement, para, club);
+    if (!problemStatement || para.length < 1 || !club) {
       console.error("Form submission error: Please fill all fields correctly.");
       alert("Please enter all required fields");
       return;
     }
-    if (userData.pool == aHall) {
-      console.error(
-        "Form submission error: Pool cannot be the same as Against Pool."
-      );
-      alert("Pool cannot be the same as Against Pool.");
-      return;
-    }
 
     socket.emit("submit_feedback", {
-      againstPool: aHall,
-      headline: problemStatement,
+      problemStatement: problemStatement,
+      club,
       description: para,
       drive: link,
     });
 
-    setAHall(userData.pool);
     setProblemStatement("");
     setPara("");
     setLink("");
@@ -240,44 +196,10 @@ export function Portal() {
         }}
       >
         <img src={logo} alt="IIT Kanpur Logo" className="portal-logo" />
-        {getUserDetails().role === "admin" && (
-          <div
-            style={{
-              color: "#f3f3f9ff",
-              fontSize: "1rem",
-              backgroundColor: "redgreen",
-              fontWeight: "bold",
-              fontFamily: "serif",
-            }}
-            id="logout"
-          >
-            Admin
-          </div>
-        )}
-        {getUserDetails().role === "user" && (
-          <div
-            id="logout"
-            style={{
-              color: "#f2f2f6ff",
-              fontSize: "1rem",
-              backgroundColor: "#7f7fff ",
-              borderRadius: "10px",
-              padding: "10x",
-              height: "100%",
-              width: "10%",
-              fontWeight: "bold",
-              fontStyle: "initial",
-              fontFamily: "serif",
-              alignItems: "center",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            {userData.pool}
-          </div>
-        )}
+       
+       
 
-        <div className="navbar-center">
+        <div className="navbar-center" style={{ flex: 1, textAlign: "center" }}>
           <h2
             className="portal-subtitle"
             style={{ fontStyle: "initial", fontFamily: "serif" }}
@@ -288,15 +210,39 @@ export function Portal() {
             className="portal-subtitle"
             style={{ fontStyle: "initial", fontFamily: "serif" }}
           >
-            TAKNEEK | IIT Kanpur
+            TAKNEEK'25 | IIT Kanpur
           </h3>
         </div>
 
-        <button id="logout" onClick={() => logoutUser()}>
-          Logout
+        <button id="logout" onClick={() => logoutUser()} style={{display: "flex",
+    alignItems: "center",
+    gap: "8px"}} >
+           <FiLogOut className="logout-icon" />
+  <span className="logout-text">Logout</span>
         </button>
+        
       </div>
+    
+  {getUserDetails().role === "admin" && (
+  <div className="admin-info" style={{backgroundColor:"black", width:"100%", padding:"8px", }}>
+    <span className="club-name" style={{fontSize:"1.1rem"}}>
+    Welcome {userData.club} Admin
+    </span>
+  </div>
 
+  
+)}
+{getUserDetails().role === "user" && (
+  <div className="admin-info" style={{backgroundColor:"black", width:"100%", padding:"8px", }}>
+
+      <span className="club-name" style={{color:"white", fontSize:"1.1rem"}}>
+    Welcome Pool {userData.pool}
+    </span>
+   
+  </div>
+
+  
+)}
       {getUserDetails().role == "user" && (
         <div
           className="tab-navigation"
@@ -340,7 +286,7 @@ export function Portal() {
           >
             My Contentions
           </button>
-          <button
+          {/* <button
             className={`tab-button ${
               activeTab === "against-me" ? "active" : ""
             }`}
@@ -352,7 +298,7 @@ export function Portal() {
             }}
           >
             Against My Pool
-          </button>
+          </button> */}
           <hr
             style={{
               width: "100%",
@@ -376,81 +322,128 @@ export function Portal() {
               borderLeft: "8px solid #7f7fff",
             }}
           >
-            <form className="feedback-input" onSubmit={handleFormSubmit}>
-              <label
-                htmlFor="against-hall"
-                style={{
-                  backgroundColor: "white",
-                }}
-              >
-                <b>Select Pool to submit  contention against: &nbsp;</b>
-                <select
-                  className="feedback-submit"
-                  value={aHall}
-                  onChange={(e) => setAHall(e.target.value)}
-                  style={{ fontSize: "1rem" }}
-                >
-                  <option value="Aryans" style={{ fontSize: "1rem" }}>
-                    Aryans
-                  </option>
-                  <option value="Kshatriyas" style={{ fontSize: "1rem" }}>
-                    Kshatriyas
-                  </option>
-                  <option value="Nawabs" style={{ fontSize: "1rem" }}>
-                    Nawabs
-                  </option>
-                  <option value="Peshwas" style={{ fontSize: "1rem" }}>
-                    Peshwas
-                  </option>
-                  <option value="Shauryas" style={{ fontSize: "1rem" }}>
-                    Shauryas
-                  </option>
-                </select>
-              </label>
+           <form className="feedback-input" onSubmit={handleFormSubmit}>
+  <label htmlFor="club" style={{ color: "white" }}>
+     <b>Entity:</b>
+    <select
+      className="feedback-submit"
+      value={club}
+      onChange={async (e) => {
+        setPS([]);
+        setClub(e.target.value);
 
-              <label htmlFor="problem-statement">
-                <input
-                  className="feedback-submit"
-                  type="text"
-                  placeholder="Enter problem statement"
-                  value={problemStatement}
-                  onChange={(e) => setProblemStatement(e.target.value)}
-                  required
-                  style={{ fontSize: "1rem" }}
-                />
-                <HiMiniBolt style={{ fontSize: "1rem" }} />
-              </label>
+        let res = await fetch(BASEURL + "/problemstatement/" + e.target.value);
+        let data = await res.json();
 
-              <label htmlFor="text">
-                <input
-                  className="feedback-submit"
-                  type="text"
-                  placeholder="Description"
-                  value={para}
-                  onChange={(e) => setPara(e.target.value)}
-                  style={{ fontSize: "1rem" }}
-                />
-                <HiMiniBolt style={{ fontSize: "1rem" }} />
-              </label>
+        setPS(data.data.map((e) => e.title));
+        setProblemStatement(data.data[0].title);
+      }}
+      style={{
+        border: "2px solid #f7f7f9ff",
+        color: "white",
+        fontSize: "1rem",
+        background: "transparent",
+          maxWidth: "90%",       
+      whiteSpace: "normal",    
+      wordBreak: "break-word", 
+       display: "block",       // dropdown on new line
+        marginTop: "0.3rem", 
+      }}
+    >
+      {[
+        "Select entity",
+        "Aeromodelling Club",
+        "Astronomy Club",
+        "Brain and Cognitive Science Club",
+        "Electronics Club",
+        "Finance and Analytics Club",
+        "Game Development Club",
+        "Programming Club",
+        "Robotics Club",
+        "DesCon Society",
+        "IITK Consulting Group",
+        "SciMathSoc",
+        "Speedcubing"
+      ].map((e) => (
+        <option key={e} value={e} style={{ fontSize: "1rem", color: "black" }}>
+          {e}
+        </option>
+      ))}
+    </select>
+  </label>
 
-              <label htmlFor="link">
-                <input
-                  className="feedback-submit"
-                  type="text"
-                  placeholder="Any drive link"
-                  value={link}
-                  onChange={(e) => setLink(e.target.value)}
-                  style={{ fontSize: "1rem" }}
-                />
-                <HiMiniBolt style={{ fontSize: "1rem" }} />
-              </label>
+  <label htmlFor="ps" style={{ color: "white" }}>
+    <b>PS:</b>
+    <select
+      className="problem-statement feedback-submit"
+      value={problemStatement}
+      onChange={(e) => setProblemStatement(e.target.value)}
+      style={{
+        border: "2px solid #f7f7f9ff",
+        color: "white",
+        fontSize: "1rem",
+        background: "transparent",
+        maxWidth: "90%",       
+      whiteSpace: "normal",    
+      wordBreak: "break-word", 
+       display: "block",       // dropdown on new line
+        marginTop: "0.3rem", 
+      }}
 
-              <input
-                style={{ fontSize: "1rem" }}
-                type="submit"
-                value={"Submit"}
-              />
-            </form>
+      required
+    >
+      {PS.map((e) => (
+        <option key={e} value={e} style={{ fontSize: "1rem", color: "black" }}>
+          {e}
+        </option>
+      ))}
+    </select>
+  </label>
+
+  <label htmlFor="text" style={{ color: "white" }}>
+    <input
+      className="feedback-submit"
+      type="text"
+      placeholder="Description"
+      value={para}
+      onChange={(e) => setPara(e.target.value)}
+      style={{
+        border: "2px solid #f7f7f9ff",
+        color: "white",
+        fontSize: "1rem",
+        background: "transparent",
+      }}
+    />
+    <HiMiniBolt style={{ fontSize: "1rem" }} />
+  </label>
+
+  <label htmlFor="link" style={{ color: "white" }}>
+    <input
+      className="feedback-submit"
+      type="text"
+      placeholder="Any drive link"
+      value={link}
+      onChange={(e) => setLink(e.target.value)}
+      style={{
+        border: "2px solid #f7f7f9ff",
+        color: "white",
+        fontSize: "1rem",
+        background: "transparent",
+      }}
+    />
+    <HiMiniBolt style={{ fontSize: "1rem" }} />
+  </label>
+
+  <input
+    type="submit"
+    value="Submit"
+    style={{
+      fontSize: "1rem",
+      cursor: "pointer",
+    }}
+  />
+</form>
+
           </div>
         )}
 
@@ -458,9 +451,9 @@ export function Portal() {
           <MyContentions feedbacks={poolContention} />
         )}
 
-        {getUserDetails().role === "user" && activeTab === "against-me" && (
+        {/* {getUserDetails().role === "user" && activeTab === "against-me" && (
           <ContentionsAgainstMe feedbacks={againstContention} socket={socket} />
-        )}
+        )} */}
 
         {getUserDetails().role === "admin" && (
           <Admin poolContention={poolContention} socket={socket} />

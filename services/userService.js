@@ -54,6 +54,7 @@ class UserService {
         number: user.number,
         role: user.role,
         pool: user.pool,
+        club: user.club,
       },
       process.env.JWT_SECRET
     );

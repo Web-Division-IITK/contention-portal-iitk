@@ -1,3 +1,9 @@
+
+
+
+
+
+
 .login-signup-box {
   /* display: flex;
   justify-content: center;
@@ -318,10 +324,33 @@
     font-size: 14px;
   }
 
-  #logout {
-    padding: 8px 16px;
-    font-size: 13px;
+#logout {
+  padding: 8px 16px;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/* Big screen — hide icon */
+.logout-icon {
+  display: none;
+}
+
+/* Small screen — hide text, show icon */
+@media (max-width: 500px) {
+  .logout-text {
+    display: none;
   }
+  .logout-icon {
+    display: inline;
+    font-size: 18px;
+  }
+}
+
 }
 
 .login-signup-box {
@@ -428,6 +457,15 @@ label[for="against-hall"] {
   .login-box{
     width:80%;
   }
+  .eventlogo {
+    font-size: 1rem;
+  }
+  #logo1{
+  color: whitesmoke;
+  font-style: inherit;
+  font-family: serif;
+  font-size: 0.5rem;
+}
 
 }
 
@@ -438,3 +476,12 @@ label[for="against-hall"] {
 }
 
 
+@media (min-width: 500px) and (max-width: 768px) {
+.login-text{
+  display: inline;
+}
+  .login-icon {
+    display: inline;
+    font-size: 18px;
+  }
+}

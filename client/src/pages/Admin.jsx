@@ -382,9 +382,6 @@ export function Admin({ poolContention, socket }) {
                           key={`${contention._id}-${pool}`}
                         >
                           <div className="feedback-header">
-                            <span className={`status ${contention.status}`}>
-                              {contention.status}
-                            </span>
                             <p>
                               <strong>From:</strong> {contention.pool}
                             </p>
@@ -409,6 +406,8 @@ export function Admin({ poolContention, socket }) {
                                     style={{
                                       color: "#7f7fff",
                                       textDecoration: "underline",
+                                      wordBreak: "break-all", 
+                                       overflowWrap: "break-word",
                                     }}
                                   >
                                     {contention.drive}
@@ -446,91 +445,54 @@ export function Admin({ poolContention, socket }) {
                                   </span>
                                 )}
                             </small>
- {/* If pending → allow accepting or rejecting */}
-                            {contention.status === "pending" && (
-                <div className="toggle-buttons-box" >
-                                <button
-                                  className="toggle-btn"
-                                  style={{ backgroundColor: "green" }}
-                                  title="Accept contention"
-                                  onClick={() => {
-                                    if (
-                                      window.confirm(
-                                        `✅ Are you sure you want to accept this contention?\n\nPool: ${contention.pool}\nProblem: ${contention.problemStatement}`
-                                      )
-                                    )
-                                      socket.emit("mark_accepted", {
-                                        id: contention._id,
-                                      });
-                                  }}
-                                >
-                                  <VscCheck style={{}} />
-                                </button>
-                                <button
-                                  className="toggle-btn"
-                                  style={{ backgroundColor: "red" , position:"relative", zIndex: 1,  }}
-                                  title="reject contention"
-                                  onClick={() => {
-                                    if (
-                                      window.confirm(
-                                        `❌ Are you sure you want to reject this contention?\n\nPool: ${contention.pool}\nProblem: ${contention.problemStatement}`
-                                      )
-                                    )
-                                      socket.emit("mark_rejected", {
-                                        id: contention._id,
-                                      });
-                                  }}
-                                >
-                                  <VscChromeClose />
-                                </button>
-                              </div>
+                            <div className="status-actions">
+                              <span className={`status ${contention.status}`}>
+                              {contention.status}
+                            </span>
+                 <div className="toggle-buttons-box">
+  {/* Accept button — show only if not accepted */}
+  {contention.status !== "accepted" && (
+    <button
+      className="toggle-btn"
+      style={{ backgroundColor: "green" }}
+      title="Accept contention"
+      onClick={() => {
+        if (
+          window.confirm(
+            `✅ Are you sure you want to accept this contention?\n\nPool: ${contention.pool}\nProblem: ${contention.problemStatement}`
+          )
+        ) {
+          socket.emit("mark_accepted", { id: contention._id });
+        }
+      }}
+    >
+      <VscCheck />
+    </button>
+  )}
 
-                            )}
-{/* If accepted → allow rejecting */}
-                          {contention.status === "accepted" && (
-                            <>
-                              <button
-                                className="toggle-btn"
-                                id="reject-btn"
-                                style={{ backgroundColor: "red" }}
-                                title="reject contention"
-                                onClick={() => {
-                                  if (
-                                    window.confirm(
-                                      `❌ Are you sure you want to reject this accepted contention?\n\nPool: ${contention.pool}\nProblem: ${contention.problemStatement}`
-                                    )
-                                  ) {
-                                    socket.emit("mark_rejected", { id: contention._id });
-                                  }
-                                }}
-                              >
-                                <VscChromeClose />
-                              </button>
-                            </>
-                          )}
-{/* If rejected → allow accepting */}
-                          {contention.status === "rejected" && (
-                              <>
-                                <button
-                                  className="toggle-btn"
-                                  id="accept-btn"
-                                  style={{ backgroundColor: "green" }}
-                                  title="Accept contention"
-                                  onClick={() => {
-                                    if (
-                                      window.confirm(
-                                        `✅ Are you sure you want to accept this rejected contention?\n\nPool: ${contention.pool}\nProblem: ${contention.problemStatement}`
-                                      )
-                                    ) {
-                                      socket.emit("mark_accepted", { id: contention._id });
-                                    }
-                                  }}
-                                >
-                                  <VscCheck />
-                                </button>
-                              </>
-                            )}
+  {/* Reject button — show only if not rejected */}
+  {contention.status !== "rejected" && (
+    <button
+      className="toggle-btn"
+      style={{ backgroundColor: "red" }}
+      title="Reject contention"
+      onClick={() => {
+        if (
+          window.confirm(
+            `❌ Are you sure you want to reject this contention?\n\nPool: ${contention.pool}\nProblem: ${contention.problemStatement}`
+          )
+        ) {
+          socket.emit("mark_rejected", { id: contention._id });
+        }
+      }}
+    >
+      <VscChromeClose />
+    </button>
+  )}
+</div>
+
                           </div>
+                        </div>
                         </div>
                       );
                     })}

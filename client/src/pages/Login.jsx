@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { createUser, isUserLoggedin, loginUser } from "../utils/Login";
 import logo from "../assets/logo.png";
 import { HiNumberedList } from "react-icons/hi2";
+import { FaUser } from "react-icons/fa";
 export function Signinup() {
   let [isLogin, setIsLogin] = useState(true);
   let navigate = useNavigate();
@@ -74,8 +75,8 @@ export function Login({ switchToSignup }) {
         }}
       >
         <label htmlFor="email" style={{color:"white"   }}  >
-          <input type="email" placeholder="username" style={{border:"2px solid #f7f7f9ff", color:"white", fontSize:"1rem"}} required />
-          <HiMail style={{fontSize:"1rem"}} />
+          <input type="text" placeholder="username" style={{border:"2px solid #f7f7f9ff", color:"white", fontSize:"1rem"}} required />
+        <FaUser style={{ fontSize: "1rem" }} />
         </label>
         <label htmlFor="password" style={{color:"white"  }}  >
           <input

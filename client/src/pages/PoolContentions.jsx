@@ -27,11 +27,16 @@ export function MyContentions({ feedbacks }) {
                   )}
                   {contention.drive && (
                     <p>
-                      <strong>drive:</strong>{" "}
+                      <strong>drive link:</strong>{" "}
                       <a
                         href={contention.drive}
                         target="_blank"
                         rel="noopener noreferrer"
+                          style={{
+                           
+                            wordBreak: "break-all",
+                            overflowWrap: "break-word", 
+                       }}
                       >
                         {contention.drive}
                       </a>

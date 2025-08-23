@@ -13,9 +13,9 @@ import { Bounce, ToastContainer, toast } from "react-toastify";
 import { BASEURL } from "../utils/Login";
  import { FiLogOut } from "react-icons/fi";
 
-// const SOCKET_URI = import.meta.env.VITE_SOCKET_URL;
-const SOCKET_URI = "http://localhost:8080";
-//export const socket = io(SOCKET_URI);
+const SOCKET_URI = import.meta.env.VITE_SOCKET_URL;
+//const SOCKET_URI = "http://localhost:8080";
+
 
 const toastData = {
   position: "top-right",

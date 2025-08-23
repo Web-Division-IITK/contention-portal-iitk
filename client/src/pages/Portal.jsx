@@ -196,44 +196,10 @@ export function Portal() {
         }}
       >
         <img src={logo} alt="IIT Kanpur Logo" className="portal-logo" />
-        {getUserDetails().role === "admin" && (
-          <div
-            style={{
-              color: "#f3f3f9ff",
-              fontSize: "1rem",
-              backgroundColor: "redgreen",
-              fontWeight: "bold",
-              fontFamily: "serif",
-            }}
-            id="logout"
-          >
-            Admin
-          </div>
-        )}
-        {getUserDetails().role === "user" && (
-          <div
-            id="logout"
-            style={{
-              color: "#f2f2f6ff",
-              fontSize: "1rem",
-              backgroundColor: "#7f7fff ",
-              borderRadius: "10px",
-              padding: "10x",
-              height: "100%",
-              width: "10%",
-              fontWeight: "bold",
-              fontStyle: "initial",
-              fontFamily: "serif",
-              alignItems: "center",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            {userData.pool}
-          </div>
-        )}
+       
+       
 
-        <div className="navbar-center">
+        <div className="navbar-center" style={{ flex: 1, textAlign: "center" }}>
           <h2
             className="portal-subtitle"
             style={{ fontStyle: "initial", fontFamily: "serif" }}
@@ -248,12 +214,37 @@ export function Portal() {
           </h3>
         </div>
 
-        <button id="logout" onClick={() => logoutUser()}>
+        <button id="logout" onClick={() => logoutUser()} style={{display: "flex",
+    alignItems: "center",
+    gap: "8px"}} >
            <FiLogOut className="logout-icon" />
   <span className="logout-text">Logout</span>
         </button>
+        
       </div>
+    
+  {getUserDetails().role === "admin" && (
+  <div className="admin-info">
+    <span role="img" aria-label="crown" style={{fontSize: "1.5em"}}>👑</span>
+    Welcome, Admin!
+    <span className="club-name">
+      {userData.club}
+    </span>
+  </div>
 
+  
+)}
+{getUserDetails().role === "user" && (
+  <div className="admin-info">
+    <span role="img" aria-label="crown" style={{fontSize: "1.5em"}}></span>
+    Welcome,  <span className="club-name">
+      {userData.pool}
+    </span>
+   
+  </div>
+
+  
+)}
       {getUserDetails().role == "user" && (
         <div
           className="tab-navigation"
@@ -362,6 +353,7 @@ export function Portal() {
       }}
     >
       {[
+        "Select Club",
         "Aeromodelling Club",
         "Astronomy Club",
         "Brain and Cognitive Science Club",

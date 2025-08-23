@@ -16,10 +16,10 @@ export function Signinup() {
 
   return (
     <div className="login-signup-box">
-       <div className="navbar" style={{ display: "flex", border:"2px solid #7f7fff",   borderTop:"none", borderLeft:"none", borderRight:"none", color:"white", flexDirection: "row", alignItems: "center" }}>
+       <div className="navbar" style={{ display: "flex", border:"2px solid #7f7fff",   borderTop:"none", borderLeft:"none", borderRight:"none", color:"white", flexDirection: "row", alignItems: "center",  }}>
         <img src={logo} alt="IIT Kanpur Logo" className="portal-logo" />
-        
-        <div className="navbar-center">
+
+        <div className="navbar-center" style={{ textAlign: "center" }}>
           <h2 className="portal-subtitle">Contention Portal</h2>
           <h3 className="portal-subtitle">TAKNEEK'25 | IIT Kanpur</h3>
         </div>
@@ -45,10 +45,7 @@ export function Login({ switchToSignup }) {
   return (
   
  <div className="login-box">
-       
-             
-      <div className="logo">
-       
+       <div className="logo" id="logo1" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
         <span style={{color:"whitesmoke", fontStyle:"inherit", fontFamily:"serif"}}  className="eventlogo" >TAKNEEK'25</span>
       </div>
 
@@ -63,6 +60,17 @@ export function Login({ switchToSignup }) {
           else {
             alert(data.message);
           }
+        }}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          width: "100%",
+          gap: "15px",
+          justifyItems:"center",
+          justifyContent:"center",
+
+
         }}
       >
         <label htmlFor="email" style={{color:"white"   }}  >
@@ -98,7 +106,7 @@ export function Signup({ switchToLogin }) {
     <div className="login-box">
       <div className="logo">
         {/* <img src="/Logo-Transperent.png" alt="logo" /> */}
-        <span>TAKNEEK'25</span>
+        <span style={{ color: "whitesmoke", fontStyle: "inherit", fontFamily: "serif" ,}} className="eventlogo">TAKNEEK'25</span>
       </div>
 
       <form

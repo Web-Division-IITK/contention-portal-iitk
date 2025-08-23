@@ -112,6 +112,7 @@ export function Admin({ poolContention, socket }) {
         flexWrap: "wrap",
         gap: "20px",
         fontSize: "1rem",
+       
       }}
     >
       <div
@@ -121,6 +122,7 @@ export function Admin({ poolContention, socket }) {
           minWidth: "300px",
           alignItems: "flex-start",
           justifyContent: "flex-start",
+
         }}
       >
         <h3
@@ -266,7 +268,7 @@ export function Admin({ poolContention, socket }) {
         </div>
       </div>
 
-      <div className="filter-section">
+      <div className="filter-section" style={{}}>
         <h3
           className="pool-name-new"
           style={{ marginBottom: "10px", textAlign: "center" }}
@@ -285,7 +287,9 @@ export function Admin({ poolContention, socket }) {
             width: "100%",
             maxWidth: "300px",
             marginBottom: "20px",
-            color: "black",
+          
+            backgroundColor: "black",
+            color: "white"
           }}
           className="btn btn-secondary dropdown-toggle"
         >
@@ -294,6 +298,7 @@ export function Admin({ poolContention, socket }) {
               <option
                 key={i}
                 value={ps.title === "All Problem Statements" ? "all" : ps.title}
+                style={{backgroundColor: "black", color:"white"}}
               >
                 {ps.title}
               </option>
@@ -309,7 +314,10 @@ export function Admin({ poolContention, socket }) {
         <div
           className="container"
           id="welcome"
-          style={{ borderRadius: "6px", marginTop: "10px" }}
+          style={{ padding: "20px",
+    margin: "24px auto",
+    
+    boxSizing: "border-box"  }}
         >
           <FiltersContent />
 
@@ -368,6 +376,8 @@ export function Admin({ poolContention, socket }) {
                             borderLeft: "5px solid #7f7fff",
                             borderTop: "1px solid #7f7fff",
                             borderRight: "1px solid #7f7fff",
+                            margin: "10px 0",
+                           
                           }}
                           id="feedback-card1"
                           key={`${contention._id}-${pool}`}
@@ -439,7 +449,7 @@ export function Admin({ poolContention, socket }) {
                             </small>
  {/* If pending → allow accepting or rejecting */}
                             {contention.status === "pending" && (
-                              <div className="toggle-buttons-box">
+                <div className="toggle-buttons-box" >
                                 <button
                                   className="toggle-btn"
                                   style={{ backgroundColor: "green" }}
@@ -455,11 +465,11 @@ export function Admin({ poolContention, socket }) {
                                       });
                                   }}
                                 >
-                                  <VscCheck />
+                                  <VscCheck style={{}} />
                                 </button>
                                 <button
                                   className="toggle-btn"
-                                  style={{ backgroundColor: "red" }}
+                                  style={{ backgroundColor: "red" , position:"relative", zIndex: 1,  }}
                                   title="reject contention"
                                   onClick={() => {
                                     if (
@@ -482,6 +492,7 @@ export function Admin({ poolContention, socket }) {
                             <>
                               <button
                                 className="toggle-btn"
+                                id="reject-btn"
                                 style={{ backgroundColor: "red" }}
                                 title="reject contention"
                                 onClick={() => {
@@ -503,6 +514,7 @@ export function Admin({ poolContention, socket }) {
                               <>
                                 <button
                                   className="toggle-btn"
+                                  id="accept-btn"
                                   style={{ backgroundColor: "green" }}
                                   title="Accept contention"
                                   onClick={() => {

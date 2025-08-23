@@ -185,7 +185,7 @@ const socket = io("ws://localhost:8080", {
 **Payload:**
 ```json
 {
-  "headline": "string",        // Brief title
+  "problemStatement": "string",        // Brief title
   "description": "string",     // Detailed feedback
   "drive": "string",          // Optional drive link
   "againstPool": "string"     // Target pool (Aryans-5)
@@ -195,7 +195,7 @@ const socket = io("ws://localhost:8080", {
 **Example:**
 ```json
 {
-  "headline": "Improvement suggestion",
+  "problemStatement": "Improvement suggestion",
   "description": "The current system could be enhanced by...",
   "drive": "https://drive.google.com/...",
   "againstPool": "Nawabs"
@@ -285,7 +285,7 @@ const socket = io("ws://localhost:8080", {
     "Aryans": [
       {
         "_id": "64f8a9b2c3d4e5f6a7b8c9d0",
-        "headline": "Feedback title",
+        "problemStatement": "Feedback title",
         "description": "Feedback content",
         "drive": "https://drive.google.com/...",
         "pool": "Aryans",
@@ -310,7 +310,7 @@ const socket = io("ws://localhost:8080", {
     "byPool": [
       {
         "_id": "64f8a9b2c3d4e5f6a7b8c9d0",
-        "headline": "Our feedback to Nawabs",
+        "problemStatement": "Our feedback to Nawabs",
         "description": "Feedback content",
         "drive": "https://drive.google.com/...",
         "pool": "Aryans",
@@ -322,7 +322,7 @@ const socket = io("ws://localhost:8080", {
     "againstPool": [
       {
         "_id": "64f8a9b2c3d4e5f6a7b8c9d1",
-        "headline": "Feedback about us",
+        "problemStatement": "Feedback about us",
         "description": "Feedback about Aryans",
         "drive": null,
         "pool": "Kshatriyas",
@@ -345,7 +345,7 @@ const socket = io("ws://localhost:8080", {
 ```json
 {
   "_id": "64f8a9b2c3d4e5f6a7b8c9d0",
-  "headline": "New feedback title",
+  "problemStatement": "New feedback title",
   "description": "Feedback content",
   "drive": "https://drive.google.com/...",
   "pool": "Kshatriyas",
@@ -372,7 +372,7 @@ const socket = io("ws://localhost:8080", {
   "status": "accepted",
   "feedback": {
     "_id": "64f8a9b2c3d4e5f6a7b8c9d0",
-    "headline": "Feedback title",
+    "problemStatement": "Feedback title",
     "description": "Feedback content",
     "drive": "https://drive.google.com/...",
     "pool": "Kshatriyas",
@@ -456,7 +456,7 @@ Broadcast to:
 ### 📝 Feedback Model
 ```javascript
 {
-  headline: String,       // Required
+  problemStatement: String,       // Required
   description: String,    // Required
   drive: String,         // Optional
   createdAt: Date,       // Auto-generated
@@ -552,7 +552,7 @@ socket.on('load_feedbacks', (data) => {
 **Submitting Feedback:**
 ```javascript
 socket.emit('submit_feedback', {
-  headline: 'Important suggestion',
+  problemStatement: 'Important suggestion',
   description: 'This is a detailed feedback...',
   drive: 'https://drive.google.com/file/d/xyz',
   againstPool: 'Nawabs'

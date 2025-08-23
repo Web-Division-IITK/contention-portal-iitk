@@ -112,7 +112,7 @@
 
   .status {
     position: absolute;
-    top: 1.5rem;
+    top: 20rem;
     right: 1.5rem;
     font-size: 0.75rem;
     padding: 0.4rem 0.9rem;
@@ -152,7 +152,7 @@
 
   .toggle-buttons-box {
     position: absolute;
-    bottom: 1.5rem;
+    bottom: 1rem;
     right: 1.5rem;
     margin-top: 1.5rem;
     display: flex;
@@ -429,7 +429,7 @@
     .portal-box .toggle-btn {
       position: static;
       width: 100%;
-      margin-top: 1rem;
+      margin-top: 2rem;
       padding: 0.7rem;
       font-size: 0.85rem;
       border-radius: 0.5rem;
@@ -980,7 +980,7 @@ border-bottom: 2px solid #7f7fff;
     border-right: 1px solid #7f7fff;
     border-left: 3px solid #7f7fff;
     border-bottom: 3px solid #7f7fff;
-    min-height: 200px;
+    min-height: 300px;
   }
 
   
@@ -1004,7 +1004,7 @@ border-bottom: 2px solid #7f7fff;
 .feedback-card{
   
   width: 100%;
-min-height:40vh;
+min-height:50vh;
   padding: 20px;
   
 }
@@ -1057,4 +1057,119 @@ min-height:40vh;
     font-size: 12px !important;
     padding: 6px 12px !important;
   }
+}
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translateY(40px);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-10px);
+  }
+  70% {
+    transform: scale(0.95) translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
+}
+
+.admin-info {
+  color: #fff;
+  font-size: 1.2rem;
+ 
+  background-color: black;
+  font-weight: bold;
+  font-family: serif;
+  padding: 2vw 4vw;
+  width: 90vw;
+  max-width: 1000px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  
+  animation: bounceIn 1s;
+  flex-wrap: wrap;
+  gap: 1vw;
+}
+
+.admin-info .club-name {
+  margin-left: 2vw;
+  background: #fff2;
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.5vw 2vw;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+  .admin-info {
+    font-size: 1rem;
+    padding: 4vw 2vw;
+    max-width: 98vw;
+  }
+  .admin-info .club-name {
+    font-size: 0.9rem;
+    padding: 1vw 3vw;
+    margin-left: 1vw;
+  }
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  gap: 20px;
+  margin:20px;
+  
+
+ 
+}
+
+.container{
+  margin:10px;
+  padding:10px;
+}
+.feedback-card{
+  position:relative;
+}
+.toggle-buttons-box {
+  position: absolute;
+  left: 1rem;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-bottom: 1rem;
+  gap: 0.8rem;
+}
+
+#reject-btn {
+  position: absolute;
+  left: 1rem;
+  right: 0;
+  bottom: 5rem;
+  width:fit-content;
+}
+#accept-btn {
+  position: absolute;
+  left: 1rem;
+  right: 0;
+  bottom: 5rem;
+  width:fit-content;
+}
+.admin-info{
+  margin:0 0;
+  margin-bottom:0px;
+  width:100%;
+  width:600px;
 }

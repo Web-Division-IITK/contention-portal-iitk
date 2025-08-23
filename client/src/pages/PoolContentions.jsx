@@ -3,18 +3,16 @@ export function MyContentions({ feedbacks }) {
 
   return (
     <div className="contentions-section">
-      <h3 style={{ color: "white", marginBottom: "20px" }}>
+      <h3 style={{ color: "white", marginBottom: "20px", textAlign: "center", fontSize: "1.5rem", fontWeight: "bold"  }}>
         My Submitted Contentions ({myContentions.length || 0})
       </h3>
 
       {myContentions.length > 0 ? (
-        <div className="contentions-grid">
+        <div className="contentions-grid" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", maxWidth: "800px", margin: "0 auto" }}>
           {myContentions.map((contention) => (
-            <div className="feedback-card my-contention" key={contention._id}>
+            <div className="feedback-card my-contention" style={{margin:"10px", border:"1px solid #7f7fff", width:"200px" }} key={contention._id}>
               <div className="feedback-header">
-                <span className={`status ${contention.status}`}>
-                  {contention.status}
-                </span>
+               
                 <div className="contention-details">
                   <p>
                     <strong>From:</strong> {contention.pool}
@@ -76,6 +74,9 @@ export function MyContentions({ feedbacks }) {
                       )}
                   </small>
                 </div>
+                 <span className={`status ${contention.status}`}>
+                  {contention.status}
+                </span>
               </div>
             </div>
           ))}

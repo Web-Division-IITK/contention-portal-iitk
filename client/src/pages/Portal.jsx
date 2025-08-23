@@ -243,7 +243,7 @@ export function Portal() {
             className="portal-subtitle"
             style={{ fontStyle: "initial", fontFamily: "serif" }}
           >
-            TAKNEEK | IIT Kanpur
+            TAKNEEK'25 | IIT Kanpur
           </h3>
         </div>
 
@@ -331,129 +331,120 @@ export function Portal() {
               borderLeft: "8px solid #7f7fff",
             }}
           >
-            <form className="feedback-input" onSubmit={handleFormSubmit}>
-              {/* <label
-                htmlFor="against-hall"
-                style={{
-                  backgroundColor: "white",
-                }}
-              >
-                <b>Pool: &nbsp;</b>
-                <select
-                  className="feedback-submit"
-                  value={aHall}
-                  onChange={(e) => setAHall(e.target.value)}
-                  style={{ fontSize: "1rem" }}
-                >
-                  {[
-                    "Aryans",
-                    "Kshatriyas",
-                    "Nawabs",
-                    "Peshwas",
-                    "Shauryas",
-                  ].map((e) => (
-                    <option value={e} style={{ fontSize: "1rem" }}>
-                      {e}
-                    </option>
-                  ))}
-                </select>
-              </label> */}
+           <form className="feedback-input" onSubmit={handleFormSubmit}>
+  <label htmlFor="club" style={{ color: "white" }}>
+    <b>Club: &nbsp;</b>
+    <select
+      className="feedback-submit"
+      value={club}
+      onChange={async (e) => {
+        setPS([]);
+        setClub(e.target.value);
 
-              <label
-                htmlFor="club"
-                style={{
-                  backgroundColor: "white",
-                }}
-              >
-                <b>Club: &nbsp;</b>
-                <select
-                  className="feedback-submit"
-                  value={club}
-                  onChange={async (e) => {
-                    setPS([]);
-                    setClub(e.target.value);
+        let res = await fetch(BASEURL + "/problemstatement/" + e.target.value);
+        let data = await res.json();
 
-                    let res = await fetch(
-                      BASEURL + "/problemstatement/" + e.target.value
-                    );
-                    let data = await res.json();
+        setPS(data.data.map((e) => e.title));
+        setProblemStatement(data.data[0].title);
+      }}
+      style={{
+        border: "2px solid #f7f7f9ff",
+        color: "white",
+        fontSize: "1rem",
+        background: "transparent",
+      }}
+    >
+      {[
+        "Aeromodelling Club",
+        "Astronomy Club",
+        "Brain and Cognitive Science Club",
+        "Electronics Club",
+        "Finance and Analytics Club",
+        "Game Development Club",
+        "Programming Club",
+        "Robotics Club",
+        "DesCon Society",
+        "IITK Consulting Group",
+        "SciMathSoc",
+        "Speedcubing"
+      ].map((e) => (
+        <option key={e} value={e} style={{ fontSize: "1rem", color: "black" }}>
+          {e}
+        </option>
+      ))}
+    </select>
+  </label>
 
-                    setPS(data.data.map((e) => e.title));
-                    setProblemStatement(data.data[0].title);
-                  }}
-                  style={{ fontSize: "1rem" }}
-                >
-                  {[
-                    "Aeromodelling Club",
-                    "Astronomy Club",
-                    "Brain and Cognitive Science Club",
-                    "Electronics Club",
-                    "Finance and Analytics Club",
-                    "Game Development Club",
-                    "Programming Club",
-                    "Robotics Club",
-                    "SciMathsSoc",
-                  ].map((e) => (
-                    <option key={e} value={e} style={{ fontSize: "1rem" }}>
-                      {e}
-                    </option>
-                  ))}
-                </select>
-              </label>
+  <label htmlFor="ps" style={{ color: "white" }}>
+    <b>PS: &nbsp;</b>
+    <select
+      className="problem-statement feedback-submit"
+      value={problemStatement}
+      onChange={(e) => setProblemStatement(e.target.value)}
+      style={{
+        border: "2px solid #f7f7f9ff",
+        color: "white",
+        fontSize: "1rem",
+        background: "transparent",
+      }}
+      required
+    >
+      {PS.map((e) => (
+        <option key={e} value={e} style={{ fontSize: "1rem", color: "black" }}>
+          {e}
+        </option>
+      ))}
+    </select>
+  </label>
 
-              <label
-                htmlFor="club"
-                style={{
-                  backgroundColor: "white",
-                }}
-              >
-                <b>PS: &nbsp;</b>
-                <select
-                  className="problem-statement feedback-submit"
-                  value={problemStatement}
-                  onChange={(e) => setProblemStatement(e.target.value)}
-                  style={{ fontSize: "1rem" }}
-                  required
-                >
-                  {PS.map((e) => (
-                    <option value={e} style={{ fontSize: "1rem" }}>
-                      {e}
-                    </option>
-                  ))}
-                </select>
-              </label>
+  <label htmlFor="text" style={{ color: "white" }}>
+    <input
+      className="feedback-submit"
+      type="text"
+      placeholder="Description"
+      value={para}
+      onChange={(e) => setPara(e.target.value)}
+      style={{
+        border: "2px solid #f7f7f9ff",
+        color: "white",
+        fontSize: "1rem",
+        background: "transparent",
+      }}
+    />
+    <HiMiniBolt style={{ fontSize: "1rem" }} />
+  </label>
 
+  <label htmlFor="link" style={{ color: "white" }}>
+    <input
+      className="feedback-submit"
+      type="text"
+      placeholder="Any drive link"
+      value={link}
+      onChange={(e) => setLink(e.target.value)}
+      style={{
+        border: "2px solid #f7f7f9ff",
+        color: "white",
+        fontSize: "1rem",
+        background: "transparent",
+      }}
+    />
+    <HiMiniBolt style={{ fontSize: "1rem" }} />
+  </label>
 
-              <label htmlFor="text">
-                <input
-                  className="feedback-submit"
-                  type="text"
-                  placeholder="Description"
-                  value={para}
-                  onChange={(e) => setPara(e.target.value)}
-                  style={{ fontSize: "1rem" }}
-                />
-                <HiMiniBolt style={{ fontSize: "1rem" }} />
-              </label>
+  <input
+    type="submit"
+    value="Submit"
+    style={{
+      fontSize: "1rem",
+      border: "2px solid #f7f7f9ff",
+      color: "white",
+      background: "transparent",
+      padding: "5px 10px",
+      cursor: "pointer",
+    }}
+  />
+</form>
 
-              <label htmlFor="link">
-                <input
-                  className="feedback-submit"
-                  type="text"
-                  placeholder="Any drive link"
-                  value={link}
-                  onChange={(e) => setLink(e.target.value)}
-                  style={{ fontSize: "1rem" }}
-                />
-                <HiMiniBolt style={{ fontSize: "1rem" }} />
-              </label>
-
-              <input
-                style={{ fontSize: "1rem" }}
-                type="submit"
-                value={"Submit"}
-              />
-            </form>
           </div>
         )}
 

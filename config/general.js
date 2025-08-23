@@ -9,6 +9,9 @@ module.exports = {
     "Game Development Club",
     "Programming Club",
     "Robotics Club",
-    "SciMathsSoc",
+    "DesCon Society",
+    "IITK Consulting Group",
+    "SciMathSoc",
+    "Speedcubing"
   ],
 };

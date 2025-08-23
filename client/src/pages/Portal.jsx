@@ -9,9 +9,8 @@ import logo from "../assets/logo.png";
 import { MyContentions } from "./PoolContentions";
 import { Admin } from "./Admin";
 import { Bounce, ToastContainer, toast } from "react-toastify";
-import { BASEURL } from "../utils/Login";
 import { FiLogOut } from "react-icons/fi";
-import { SOCKET_URI } from "../../config/config";
+import { BASEURL, SOCKET_URI } from "../../config/config";
 
 const toastData = {
   position: "top-right",

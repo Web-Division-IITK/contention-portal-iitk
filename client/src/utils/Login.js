@@ -1,6 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-export const BASEURL = `${import.meta.env.VITE_BASE_URL}/api`;
-//export const BASEURL = `http://localhost:8080/api`;
+import { BASEURL } from "../../config/config";
 
 export async function loginUser(email, password) {
   try {

@@ -1080,7 +1080,8 @@ min-height:50vh;
 .admin-info {
   color: #fff;
   font-size: 1.2rem;
-  background: linear-gradient(90deg, #7f7fff 0%, #00c6ff 100%);
+ 
+  background-color: black;
   font-weight: bold;
   font-family: serif;
   padding: 2vw 4vw;

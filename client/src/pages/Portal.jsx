@@ -224,7 +224,7 @@ export function Portal() {
       </div>
     
   {getUserDetails().role === "admin" && (
-  <div className="admin-info">
+  <div className="admin-info" style={{backgroundColor:"black"}}>
     <span role="img" aria-label="crown" style={{fontSize: "1.5em"}}>👑</span>
     Welcome, Admin!
     <span className="club-name">

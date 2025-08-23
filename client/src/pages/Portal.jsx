@@ -224,19 +224,19 @@ export function Portal() {
       </div>
     
   {getUserDetails().role === "admin" && (
-  <div className="admin-info" style={{backgroundColor:"black", width:"600px", padding:"10px", }}>
-    <span className="club-name" style={{fontSize:"1.3rem"}}>
-      {userData.club} Admin!
+  <div className="admin-info" style={{backgroundColor:"black", width:"100%", padding:"8px", }}>
+    <span className="club-name" style={{fontSize:"1.1rem"}}>
+    Welcome {userData.club} Admin
     </span>
   </div>
 
   
 )}
 {getUserDetails().role === "user" && (
-  <div className="admin-info" style={{backgroundColor:"black", width:"100%", padding:"10px", }}>
+  <div className="admin-info" style={{backgroundColor:"black", width:"100%", padding:"8px", }}>
 
-      <span className="club-name" style={{color:"white", fontSize:"2rem"}}>
-     Pool {userData.pool}
+      <span className="club-name" style={{color:"white", fontSize:"1.1rem"}}>
+    Welcome Pool {userData.pool}
     </span>
    
   </div>
@@ -351,7 +351,7 @@ export function Portal() {
       }}
     >
       {[
-        "Select Club",
+        "Select entity",
         "Aeromodelling Club",
         "Astronomy Club",
         "Brain and Cognitive Science Club",

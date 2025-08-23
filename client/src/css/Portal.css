@@ -1034,14 +1034,13 @@ min-height:50vh;
     align-items: center !important;
   }
   .welcome-message{
- margin-top:10px;
+ margin-top:12px;
   }
   #welcome{
   
   padding: 20px;
   border: 1px solid #7f7fff;
   border-radius: 6px;
-
 
 }
 }
@@ -1091,9 +1090,6 @@ min-height:50vh;
   display: flex;
   justify-content: center;
   border-radius: 14px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  
-  animation: bounceIn 1s;
   flex-wrap: wrap;
   gap: 1vw;
 }

@@ -283,11 +283,10 @@ export function Admin({ poolContention, socket }) {
             fontSize: "1rem",
             borderRadius: "4px",
             border: "1px solid #6c757d",
-            backgroundColor: "#f8f9fa",
+            //backgroundColor: "#f8f9fa",
             width: "100%",
             maxWidth: "300px",
             marginBottom: "20px",
-          
             backgroundColor: "black",
             color: "white"
           }}

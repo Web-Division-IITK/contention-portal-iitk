@@ -11,6 +11,7 @@ import { ContentionsAgainstMe } from "./ContentionsAgainstPool";
 import { Admin } from "./Admin";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import { BASEURL } from "../utils/Login";
+ import { FiLogOut } from "react-icons/fi";
 
 // const SOCKET_URI = import.meta.env.VITE_SOCKET_URL;
 const SOCKET_URI = "http://localhost:8080";
@@ -248,7 +249,8 @@ export function Portal() {
         </div>
 
         <button id="logout" onClick={() => logoutUser()}>
-          Logout
+           <FiLogOut className="logout-icon" />
+  <span className="logout-text">Logout</span>
         </button>
       </div>
 
@@ -333,7 +335,7 @@ export function Portal() {
           >
            <form className="feedback-input" onSubmit={handleFormSubmit}>
   <label htmlFor="club" style={{ color: "white" }}>
-    <b>Club: &nbsp;</b>
+     <b>Entity:</b>
     <select
       className="feedback-submit"
       value={club}
@@ -352,6 +354,11 @@ export function Portal() {
         color: "white",
         fontSize: "1rem",
         background: "transparent",
+          maxWidth: "90%",       
+      whiteSpace: "normal",    
+      wordBreak: "break-word", 
+       display: "block",       // dropdown on new line
+        marginTop: "0.3rem", 
       }}
     >
       {[
@@ -376,7 +383,7 @@ export function Portal() {
   </label>
 
   <label htmlFor="ps" style={{ color: "white" }}>
-    <b>PS: &nbsp;</b>
+    <b>PS:</b>
     <select
       className="problem-statement feedback-submit"
       value={problemStatement}
@@ -386,7 +393,13 @@ export function Portal() {
         color: "white",
         fontSize: "1rem",
         background: "transparent",
+        maxWidth: "90%",       
+      whiteSpace: "normal",    
+      wordBreak: "break-word", 
+       display: "block",       // dropdown on new line
+        marginTop: "0.3rem", 
       }}
+
       required
     >
       {PS.map((e) => (
@@ -436,10 +449,6 @@ export function Portal() {
     value="Submit"
     style={{
       fontSize: "1rem",
-      border: "2px solid #f7f7f9ff",
-      color: "white",
-      background: "transparent",
-      padding: "5px 10px",
       cursor: "pointer",
     }}
   />

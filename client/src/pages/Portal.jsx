@@ -7,15 +7,11 @@ import io from "socket.io-client";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../assets/logo.png";
 import { MyContentions } from "./PoolContentions";
-import { ContentionsAgainstMe } from "./ContentionsAgainstPool";
 import { Admin } from "./Admin";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import { BASEURL } from "../utils/Login";
- import { FiLogOut } from "react-icons/fi";
-
-const SOCKET_URI = import.meta.env.VITE_SOCKET_URL;
-//const SOCKET_URI = "http://localhost:8080";
-
+import { FiLogOut } from "react-icons/fi";
+import { SOCKET_URI } from "../../config/config";
 
 const toastData = {
   position: "top-right",
@@ -61,7 +57,10 @@ export function Portal() {
 
     newSocket.on("new_feedback", (feedback) => {
       if (userData.role === "admin") {
-        toast.info(`${feedback.pool} filed a contention for ${feedback.club} PS`, toastData);
+        toast.info(
+          `${feedback.pool} filed a contention for ${feedback.club} PS`,
+          toastData
+        );
         setPoolContention((data) => {
           let tempData = { ...data };
           const feedbackExists = tempData[feedback.pool].some(
@@ -74,7 +73,10 @@ export function Portal() {
         });
       } else {
         if (feedback.pool == userData.pool) {
-          toast.info(`Your Pool filed a contention for ${feedback.club} PS`, toastData);
+          toast.info(
+            `Your Pool filed a contention for ${feedback.club} PS`,
+            toastData
+          );
           setPoolContention((prevFeedbacks) => [feedback, ...prevFeedbacks]);
         }
       }
@@ -196,8 +198,6 @@ export function Portal() {
         }}
       >
         <img src={logo} alt="IIT Kanpur Logo" className="portal-logo" />
-       
-       
 
         <div className="navbar-center" style={{ flex: 1, textAlign: "center" }}>
           <h2
@@ -214,35 +214,39 @@ export function Portal() {
           </h3>
         </div>
 
-        <button id="logout" onClick={() => logoutUser()} style={{display: "flex",
-    alignItems: "center",
-    gap: "8px"}} >
-           <FiLogOut className="logout-icon" />
-  <span className="logout-text">Logout</span>
+        <button
+          id="logout"
+          onClick={() => logoutUser()}
+          style={{ display: "flex", alignItems: "center", gap: "8px" }}
+        >
+          <FiLogOut className="logout-icon" />
+          <span className="logout-text">Logout</span>
         </button>
-        
       </div>
-    
-  {getUserDetails().role === "admin" && (
-  <div className="admin-info" style={{backgroundColor:"black", width:"100%", padding:"8px", }}>
-    <span className="club-name" style={{fontSize:"1.1rem"}}>
-    Welcome {userData.club} Admin
-    </span>
-  </div>
 
-  
-)}
-{getUserDetails().role === "user" && (
-  <div className="admin-info" style={{backgroundColor:"black", width:"100%", padding:"8px", }}>
-
-      <span className="club-name" style={{color:"white", fontSize:"1.1rem"}}>
-    Welcome Pool {userData.pool}
-    </span>
-   
-  </div>
-
-  
-)}
+      {getUserDetails().role === "admin" && (
+        <div
+          className="admin-info"
+          style={{ backgroundColor: "black", width: "100%", padding: "8px" }}
+        >
+          <span className="club-name" style={{ fontSize: "1.1rem" }}>
+            Welcome {userData.club} Admin
+          </span>
+        </div>
+      )}
+      {getUserDetails().role === "user" && (
+        <div
+          className="admin-info"
+          style={{ backgroundColor: "black", width: "100%", padding: "8px" }}
+        >
+          <span
+            className="club-name"
+            style={{ color: "white", fontSize: "1.1rem" }}
+          >
+            Welcome Pool {userData.pool}
+          </span>
+        </div>
+      )}
       {getUserDetails().role == "user" && (
         <div
           className="tab-navigation"
@@ -322,128 +326,136 @@ export function Portal() {
               borderLeft: "8px solid #7f7fff",
             }}
           >
-           <form className="feedback-input" onSubmit={handleFormSubmit}>
-  <label htmlFor="club" style={{ color: "white" }}>
-     <b>Entity:</b>
-    <select
-      className="feedback-submit"
-      value={club}
-      onChange={async (e) => {
-        setPS([]);
-        setClub(e.target.value);
+            <form className="feedback-input" onSubmit={handleFormSubmit}>
+              <label htmlFor="club" style={{ color: "white" }}>
+                <b>Entity:</b>
+                <select
+                  className="feedback-submit"
+                  value={club}
+                  onChange={async (e) => {
+                    setPS([]);
+                    setClub(e.target.value);
 
-        let res = await fetch(BASEURL + "/problemstatement/" + e.target.value);
-        let data = await res.json();
+                    let res = await fetch(
+                      BASEURL + "/problemstatement/" + e.target.value
+                    );
+                    let data = await res.json();
 
-        setPS(data.data.map((e) => e.title));
-        setProblemStatement(data.data[0].title);
-      }}
-      style={{
-        border: "2px solid #f7f7f9ff",
-        color: "white",
-        fontSize: "1rem",
-        background: "transparent",
-          maxWidth: "90%",       
-      whiteSpace: "normal",    
-      wordBreak: "break-word", 
-       display: "block",       // dropdown on new line
-        marginTop: "0.3rem", 
-      }}
-    >
-      {[
-        "Select entity",
-        "Aeromodelling Club",
-        "Astronomy Club",
-        "Brain and Cognitive Science Club",
-        "Electronics Club",
-        "Finance and Analytics Club",
-        "Game Development Club",
-        "Programming Club",
-        "Robotics Club",
-        "DesCon Society",
-        "IITK Consulting Group",
-        "SciMathSoc",
-        "Speedcubing"
-      ].map((e) => (
-        <option key={e} value={e} style={{ fontSize: "1rem", color: "black" }}>
-          {e}
-        </option>
-      ))}
-    </select>
-  </label>
+                    setPS(data.data.map((e) => e.title));
+                    setProblemStatement(data.data[0].title);
+                  }}
+                  style={{
+                    border: "2px solid #f7f7f9ff",
+                    color: "white",
+                    fontSize: "1rem",
+                    background: "transparent",
+                    maxWidth: "90%",
+                    whiteSpace: "normal",
+                    wordBreak: "break-word",
+                    display: "block", // dropdown on new line
+                    marginTop: "0.3rem",
+                  }}
+                >
+                  {[
+                    "Select entity",
+                    "Aeromodelling Club",
+                    "Astronomy Club",
+                    "Brain and Cognitive Science Club",
+                    "Electronics Club",
+                    "Finance and Analytics Club",
+                    "Game Development Club",
+                    "Programming Club",
+                    "Robotics Club",
+                    "DesCon Society",
+                    "IITK Consulting Group",
+                    "SciMathSoc",
+                    "Speedcubing",
+                  ].map((e) => (
+                    <option
+                      key={e}
+                      value={e}
+                      style={{ fontSize: "1rem", color: "black" }}
+                    >
+                      {e}
+                    </option>
+                  ))}
+                </select>
+              </label>
 
-  <label htmlFor="ps" style={{ color: "white" }}>
-    <b>PS:</b>
-    <select
-      className="problem-statement feedback-submit"
-      value={problemStatement}
-      onChange={(e) => setProblemStatement(e.target.value)}
-      style={{
-        border: "2px solid #f7f7f9ff",
-        color: "white",
-        fontSize: "1rem",
-        background: "transparent",
-        maxWidth: "90%",       
-      whiteSpace: "normal",    
-      wordBreak: "break-word", 
-       display: "block",       // dropdown on new line
-        marginTop: "0.3rem", 
-      }}
+              <label htmlFor="ps" style={{ color: "white" }}>
+                <b>PS:</b>
+                <select
+                  className="problem-statement feedback-submit"
+                  value={problemStatement}
+                  onChange={(e) => setProblemStatement(e.target.value)}
+                  style={{
+                    border: "2px solid #f7f7f9ff",
+                    color: "white",
+                    fontSize: "1rem",
+                    background: "transparent",
+                    maxWidth: "90%",
+                    whiteSpace: "normal",
+                    wordBreak: "break-word",
+                    display: "block", // dropdown on new line
+                    marginTop: "0.3rem",
+                  }}
+                  required
+                >
+                  {PS.map((e) => (
+                    <option
+                      key={e}
+                      value={e}
+                      style={{ fontSize: "1rem", color: "black" }}
+                    >
+                      {e}
+                    </option>
+                  ))}
+                </select>
+              </label>
 
-      required
-    >
-      {PS.map((e) => (
-        <option key={e} value={e} style={{ fontSize: "1rem", color: "black" }}>
-          {e}
-        </option>
-      ))}
-    </select>
-  </label>
+              <label htmlFor="text" style={{ color: "white" }}>
+                <input
+                  className="feedback-submit"
+                  type="text"
+                  placeholder="Description"
+                  value={para}
+                  onChange={(e) => setPara(e.target.value)}
+                  style={{
+                    border: "2px solid #f7f7f9ff",
+                    color: "white",
+                    fontSize: "1rem",
+                    background: "transparent",
+                  }}
+                />
+                <HiMiniBolt style={{ fontSize: "1rem" }} />
+              </label>
 
-  <label htmlFor="text" style={{ color: "white" }}>
-    <input
-      className="feedback-submit"
-      type="text"
-      placeholder="Description"
-      value={para}
-      onChange={(e) => setPara(e.target.value)}
-      style={{
-        border: "2px solid #f7f7f9ff",
-        color: "white",
-        fontSize: "1rem",
-        background: "transparent",
-      }}
-    />
-    <HiMiniBolt style={{ fontSize: "1rem" }} />
-  </label>
+              <label htmlFor="link" style={{ color: "white" }}>
+                <input
+                  className="feedback-submit"
+                  type="text"
+                  placeholder="Any drive link"
+                  value={link}
+                  onChange={(e) => setLink(e.target.value)}
+                  style={{
+                    border: "2px solid #f7f7f9ff",
+                    color: "white",
+                    fontSize: "1rem",
+                    background: "transparent",
+                  }}
+                />
+                <HiMiniBolt style={{ fontSize: "1rem" }} />
+              </label>
 
-  <label htmlFor="link" style={{ color: "white" }}>
-    <input
-      className="feedback-submit"
-      type="text"
-      placeholder="Any drive link"
-      value={link}
-      onChange={(e) => setLink(e.target.value)}
-      style={{
-        border: "2px solid #f7f7f9ff",
-        color: "white",
-        fontSize: "1rem",
-        background: "transparent",
-      }}
-    />
-    <HiMiniBolt style={{ fontSize: "1rem" }} />
-  </label>
-
-  <input
-    type="submit"
-    value="Submit"
-    style={{
-      fontSize: "1rem",
-      cursor: "pointer",
-    }}
-  />
-</form>
-
+              <input
+                type="submit"
+                value="Submit"
+                style={{
+                  fontSize: "1rem",
+                  cursor: "pointer",
+                }}
+              />
+            </form>
           </div>
         )}
 

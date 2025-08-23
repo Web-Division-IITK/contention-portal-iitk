@@ -21,3 +21,6 @@ export const clubs = [
   "Sports Club",
   "Drama Club",
 ];
+
+export const BASEURL = window.location.origin + "/api";
+export const SOCKET_URI = window.location.origin;

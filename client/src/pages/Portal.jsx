@@ -60,7 +60,7 @@ export function Portal() {
 
     newSocket.on("new_feedback", (feedback) => {
       if (userData.role === "admin") {
-        toast.info(`${feedback.pool} filed for ${feedback.club}`, toastData);
+        toast.info(`${feedback.pool} filed a contention for ${feedback.club} PS`, toastData);
         setPoolContention((data) => {
           let tempData = { ...data };
           const feedbackExists = tempData[feedback.pool].some(
@@ -73,7 +73,7 @@ export function Portal() {
         });
       } else {
         if (feedback.pool == userData.pool) {
-          toast.info(`Your Pool filed a for ${feedback.club}`, toastData);
+          toast.info(`Your Pool filed a contention for ${feedback.club} PS`, toastData);
           setPoolContention((prevFeedbacks) => [feedback, ...prevFeedbacks]);
         }
       }
@@ -83,12 +83,12 @@ export function Portal() {
       if (userData.role === "admin") {
         if (statusData.status == "accepted")
           toast.info(
-            `${statusData.feedback.pool} contention for ${statusData.feedback.club} got Accepted`,
+            `${statusData.feedback.pool} contention for ${statusData.feedback.club} PS got Accepted`,
             toastData
           );
         else
           toast.info(
-            `${statusData.feedback.pool} contention for ${statusData.feedback.club} got Rejected`,
+            `${statusData.feedback.pool} contention for ${statusData.feedback.club} PS got Rejected`,
             toastData
           );
 
@@ -103,12 +103,12 @@ export function Portal() {
         if (userData.pool == statusData.feedback.pool) {
           if (statusData.status == "accepted")
             toast.success(
-              `Your contention for ${statusData.feedback.againstPool} got Accepted`,
+              `Your contention for ${statusData.feedback.againstPool} PS got Accepted`,
               toastData
             );
           else
             toast.warn(
-              `Your contention for ${statusData.feedback.againstPool} got Rejected`,
+              `Your contention for ${statusData.feedback.againstPool} PS got Rejected`,
               toastData
             );
 
@@ -423,18 +423,6 @@ export function Portal() {
                 </select>
               </label>
 
-              {/* <label htmlFor="problem-statement">
-                <input
-                  className="feedback-submit"
-                  type="text"
-                  placeholder="Enter problem statement"
-                  value={problemStatement}
-                  onChange={(e) => setProblemStatement(e.target.value)}
-                  required
-                  style={{ fontSize: "1rem" }}
-                />
-                <HiMiniBolt style={{ fontSize: "1rem" }} />
-              </label> */}
 
               <label htmlFor="text">
                 <input

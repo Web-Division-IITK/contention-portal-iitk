@@ -437,12 +437,13 @@ export function Admin({ poolContention, socket }) {
                                   </span>
                                 )}
                             </small>
-
+ {/* If pending → allow accepting or rejecting */}
                             {contention.status === "pending" && (
                               <div className="toggle-buttons-box">
                                 <button
                                   className="toggle-btn"
                                   style={{ backgroundColor: "green" }}
+                                  title="Accept contention"
                                   onClick={() => {
                                     if (
                                       window.confirm(
@@ -459,6 +460,7 @@ export function Admin({ poolContention, socket }) {
                                 <button
                                   className="toggle-btn"
                                   style={{ backgroundColor: "red" }}
+                                  title="reject contention"
                                   onClick={() => {
                                     if (
                                       window.confirm(
@@ -473,6 +475,49 @@ export function Admin({ poolContention, socket }) {
                                   <VscChromeClose />
                                 </button>
                               </div>
+
+                            )}
+{/* If accepted → allow rejecting */}
+                          {contention.status === "accepted" && (
+                            <>
+                              <button
+                                className="toggle-btn"
+                                style={{ backgroundColor: "red" }}
+                                title="reject contention"
+                                onClick={() => {
+                                  if (
+                                    window.confirm(
+                                      `❌ Are you sure you want to reject this accepted contention?\n\nPool: ${contention.pool}\nProblem: ${contention.problemStatement}`
+                                    )
+                                  ) {
+                                    socket.emit("mark_rejected", { id: contention._id });
+                                  }
+                                }}
+                              >
+                                <VscChromeClose />
+                              </button>
+                            </>
+                          )}
+{/* If rejected → allow accepting */}
+                          {contention.status === "rejected" && (
+                              <>
+                                <button
+                                  className="toggle-btn"
+                                  style={{ backgroundColor: "green" }}
+                                  title="Accept contention"
+                                  onClick={() => {
+                                    if (
+                                      window.confirm(
+                                        `✅ Are you sure you want to accept this rejected contention?\n\nPool: ${contention.pool}\nProblem: ${contention.problemStatement}`
+                                      )
+                                    ) {
+                                      socket.emit("mark_accepted", { id: contention._id });
+                                    }
+                                  }}
+                                >
+                                  <VscCheck />
+                                </button>
+                              </>
                             )}
                           </div>
                         </div>
@@ -488,7 +533,7 @@ export function Admin({ poolContention, socket }) {
           ) && (
             <div style={{ textAlign: "center", padding: "20px" }}>
               <h2>No contentions found for the selected filters</h2>
-              <p>Try changing the pool or status filter to see more results.</p>
+              <p>Try changing the filters to see more results.</p>
             </div>
           )}
         </div>

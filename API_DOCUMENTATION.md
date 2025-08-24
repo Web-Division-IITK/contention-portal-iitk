@@ -2,10 +2,10 @@
 
 ## 🏗️ System Overview
 
-The Contention Portal is a feedback management system with pool-based organization, real-time communication via WebSocket, and role-based access control.
+The Contention Portal is a contention management system with pool-based organization, real-time communication via WebSocket, and role-based access control.
 
 ### 🎯 Key Features
-- **Pool-based feedback system** with 5 pools
+- **Pool-based contention system** with 5 pools
 - **Role-based access** (admin vs user)
 - **Real-time updates** via Socket.IO
 - **JWT authentication** for secure access
@@ -177,8 +177,8 @@ const socket = io("ws://localhost:8080", {
 
 ### 📥 **Incoming Events** (Client → Server)
 
-#### 1. `submit_feedback`
-**Description:** Submit new feedback (Users only)
+#### 1. `submit_contention`
+**Description:** Submit new contention (Users only)
 
 **Authentication:** User role required
 
@@ -186,7 +186,7 @@ const socket = io("ws://localhost:8080", {
 ```json
 {
   "problemStatement": "string",        // Brief title
-  "description": "string",     // Detailed feedback
+  "description": "string",     // Detailed contention
   "drive": "string",          // Optional drive link
   "againstPool": "string"     // Target pool (Aryans-5)
 }
@@ -203,21 +203,21 @@ const socket = io("ws://localhost:8080", {
 ```
 
 **Behavior:**
-- Creates feedback with status "pending"
+- Creates contention with status "pending"
 - Assigns submitter's pool automatically
 - Broadcasts to relevant rooms only
 
 ---
 
 #### 2. `mark_accepted`
-**Description:** Mark feedback as accepted (Admin only)
+**Description:** Mark contention as accepted (Admin only)
 
 **Authentication:** Admin role required
 
 **Payload:**
 ```json
 {
-  "id": "feedback_mongodb_id"
+  "id": "contention_mongodb_id"
 }
 ```
 
@@ -231,14 +231,14 @@ const socket = io("ws://localhost:8080", {
 ---
 
 #### 3. `mark_rejected`
-**Description:** Mark feedback as rejected (Admin only)
+**Description:** Mark contention as rejected (Admin only)
 
 **Authentication:** Admin role required
 
 **Payload:**
 ```json
 {
-  "id": "feedback_mongodb_id"
+  "id": "contention_mongodb_id"
 }
 ```
 
@@ -252,14 +252,14 @@ const socket = io("ws://localhost:8080", {
 ---
 
 #### 4. `mark_pending`
-**Description:** Mark feedback as pending (Admin only)
+**Description:** Mark contention as pending (Admin only)
 
 **Authentication:** Admin role required
 
 **Payload:**
 ```json
 {
-  "id": "feedback_mongodb_id"
+  "id": "contention_mongodb_id"
 }
 ```
 
@@ -274,8 +274,8 @@ const socket = io("ws://localhost:8080", {
 
 ### 📤 **Outgoing Events** (Server → Client)
 
-#### 1. `load_feedbacks`
-**Description:** Initial feedback data sent upon connection
+#### 1. `load_contentions`
+**Description:** Initial contention data sent upon connection
 
 **For Admin Users:**
 ```json
@@ -285,8 +285,8 @@ const socket = io("ws://localhost:8080", {
     "Aryans": [
       {
         "_id": "64f8a9b2c3d4e5f6a7b8c9d0",
-        "problemStatement": "Feedback title",
-        "description": "Feedback content",
+        "problemStatement": "contention title",
+        "description": "contention content",
         "drive": "https://drive.google.com/...",
         "pool": "Aryans",
         "againstPool": "Kshatriyas",
@@ -310,8 +310,8 @@ const socket = io("ws://localhost:8080", {
     "byPool": [
       {
         "_id": "64f8a9b2c3d4e5f6a7b8c9d0",
-        "problemStatement": "Our feedback to Nawabs",
-        "description": "Feedback content",
+        "problemStatement": "Our contention to Nawabs",
+        "description": "contention content",
         "drive": "https://drive.google.com/...",
         "pool": "Aryans",
         "againstPool": "Nawabs",
@@ -322,8 +322,8 @@ const socket = io("ws://localhost:8080", {
     "againstPool": [
       {
         "_id": "64f8a9b2c3d4e5f6a7b8c9d1",
-        "problemStatement": "Feedback about us",
-        "description": "Feedback about Aryans",
+        "problemStatement": "contention about us",
+        "description": "contention about Aryans",
         "drive": null,
         "pool": "Kshatriyas",
         "againstPool": "Aryans",
@@ -338,15 +338,15 @@ const socket = io("ws://localhost:8080", {
 
 ---
 
-#### 2. `new_feedback`
-**Description:** Real-time notification of new feedback submission
+#### 2. `new_contention`
+**Description:** Real-time notification of new contention submission
 
 **Payload:**
 ```json
 {
   "_id": "64f8a9b2c3d4e5f6a7b8c9d0",
-  "problemStatement": "New feedback title",
-  "description": "Feedback content",
+  "problemStatement": "New contention title",
+  "description": "contention content",
   "drive": "https://drive.google.com/...",
   "pool": "Kshatriyas",
   "againstPool": "Peshwas",
@@ -363,17 +363,17 @@ const socket = io("ws://localhost:8080", {
 ---
 
 #### 3. `status_changed`
-**Description:** Real-time notification of feedback status update
+**Description:** Real-time notification of contention status update
 
 **Payload:**
 ```json
 {
   "id": "64f8a9b2c3d4e5f6a7b8c9d0",
   "status": "accepted",
-  "feedback": {
+  "contention": {
     "_id": "64f8a9b2c3d4e5f6a7b8c9d0",
-    "problemStatement": "Feedback title",
-    "description": "Feedback content",
+    "problemStatement": "contention title",
+    "description": "contention content",
     "drive": "https://drive.google.com/...",
     "pool": "Kshatriyas",
     "againstPool": "Peshwas",
@@ -396,13 +396,13 @@ const socket = io("ws://localhost:8080", {
 **Payload:**
 ```json
 {
-  "message": "Failed to submit feedback"
+  "message": "Failed to submit contention"
 }
 ```
 
 **Common Error Messages:**
-- "Failed to load feedbacks"
-- "Failed to submit feedback"
+- "Failed to load contentions"
+- "Failed to submit contention"
 - "Failed to change status"
 
 ---
@@ -413,28 +413,28 @@ const socket = io("ws://localhost:8080", {
 
 **Admin Users:**
 - Joins: `admin` room
-- Receives: All feedback updates
+- Receives: All contention updates
 
 **Regular Users:**
 - Joins: `pool_${userPool}` room (e.g., `pool_Aryans`)
-- Receives: Feedback relevant to their pool
+- Receives: contention relevant to their pool
 
 ### 📡 Broadcasting Logic
 
-**New Feedback Submission:**
+**New contention Submission:**
 ```
 Broadcast to:
 ├── admin (all admins)
-├── pool_${feedback.pool} (submitting pool users)
-└── pool_${feedback.againstPool} (target pool users)
+├── pool_${contention.pool} (submitting pool users)
+└── pool_${contention.againstPool} (target pool users)
 ```
 
 **Status Change:**
 ```
 Broadcast to:
 ├── admin (all admins)
-├── pool_${feedback.pool} (original submitters)
-└── pool_${feedback.againstPool} (target pool users)
+├── pool_${contention.pool} (original submitters)
+└── pool_${contention.againstPool} (target pool users)
 ```
 
 ---
@@ -453,7 +453,7 @@ Broadcast to:
 }
 ```
 
-### 📝 Feedback Model
+### 📝 contention Model
 ```javascript
 {
   problemStatement: String,       // Required
@@ -479,15 +479,15 @@ Broadcast to:
 
 **Admin Privileges:**
 - ✅ Create new users
-- ✅ View all feedbacks grouped by pools
-- ✅ Change feedback status
-- ❌ Submit feedback
+- ✅ View all contentions grouped by pools
+- ✅ Change contention status
+- ❌ Submit contention
 
 **User Privileges:**
-- ✅ Submit feedback
-- ✅ View pool-specific feedbacks
+- ✅ Submit contention
+- ✅ View pool-specific contentions
 - ❌ Create users
-- ❌ Change feedback status
+- ❌ Change contention status
 
 ### 🔒 Middleware Protection
 
@@ -522,7 +522,7 @@ Broadcast to:
 
 **Required:**
 ```env
-MONGO_URI=mongodb://localhost:27017/feedback-portal
+MONGO_URI=mongodb://localhost:27017/contention-portal
 JWT_SECRET=your-super-secret-jwt-key-here
 PORT=8080
 ```
@@ -544,16 +544,16 @@ socket.on('connect', () => {
   console.log('Connected to server');
 });
 
-socket.on('load_feedbacks', (data) => {
-  console.log('Received feedbacks:', data);
+socket.on('load_contentions', (data) => {
+  console.log('Received contentions:', data);
 });
 ```
 
-**Submitting Feedback:**
+**Submitting contention:**
 ```javascript
-socket.emit('submit_feedback', {
+socket.emit('submit_contention', {
   problemStatement: 'Important suggestion',
-  description: 'This is a detailed feedback...',
+  description: 'This is a detailed contention...',
   drive: 'https://drive.google.com/file/d/xyz',
   againstPool: 'Nawabs'
 });

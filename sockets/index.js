@@ -1,5 +1,5 @@
 const { socketAuth } = require("./socketAuth");
-const { handleFeedbackSocket } = require("./feedbackSocket");
+const { handlecontentionSocket } = require("./contentionSocket");
 
 const setupSocketIO = (io) => {
   // Apply authentication middleware
@@ -9,8 +9,8 @@ const setupSocketIO = (io) => {
   io.on("connection", (socket) => {
     console.log("A user connected:", socket.id);
 
-    // Setup feedback socket handlers
-    handleFeedbackSocket(io, socket);
+    // Setup contention socket handlers
+    handlecontentionSocket(io, socket);
 
     // Handle disconnection
     socket.on("disconnect", () => {

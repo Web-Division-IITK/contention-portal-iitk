@@ -1,9 +1,9 @@
 import { getUserDetails } from "../utils/Login";
 
-export function ContentionsAgainstMe({ feedbacks, socket }) {
+export function ContentionsAgainstMe({ contentions, socket }) {
   const userData = getUserDetails();
 
-  const contentionsAgainstMe = feedbacks;
+  const contentionsAgainstMe = contentions;
 
   return (
     <div className="contentions-section">
@@ -15,10 +15,10 @@ export function ContentionsAgainstMe({ feedbacks, socket }) {
         <div className="contentions-grid">
           {contentionsAgainstMe.map((contention) => (
             <div
-              className="feedback-card against-me-contention"
+              className="contention-card against-me-contention"
               key={contention._id}
             >
-              <div className="feedback-header">
+              <div className="contention-header">
                 <span className={`status ${contention.status}`}>
                   {contention.status}
                 </span>

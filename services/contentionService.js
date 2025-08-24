@@ -44,10 +44,10 @@ class contentionService {
   }
 
   async createcontention(contentionData) {
-    const contention = new contention(contentionData);
+    const newContention = new contention(contentionData);
 
-    await contention.save();
-    return contention;
+    await newContention.save();
+    return newContention;
   }
 
   async updatecontentionStatus(contentionId, status) {

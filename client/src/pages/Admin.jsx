@@ -8,41 +8,42 @@ export function Admin({ poolContention, socket }) {
   const [statusFilter, setStatusFilter] = useState("pending");
   const [selectedPS, setSelectedPS] = useState("all");
   const [PS, setPS] = useState([]);
-const [userRole, setUserRole] = useState(null); 
-  useEffect(() => {
-  async function fetchUserData() {
-    const user = await getUserDetails();
- 
-    if (!user) return;
-    let role = "user";
-    if (user.club === "sntsecy") role = "sntsecy";
-    else if (user.role === "admin") role = "admin";
-    setUserRole(role);
-   let allPS = [];
-    if (role === "sntsecy") {
-      // get problem statements for all clubs
-      for (const club of config.clubs) {
-        try {
-          const res = await getClubPS(club); 
-          allPS = [...allPS, ...res.data];
-        } catch (err) {
-          console.error(`Failed to fetch PS for club ${club}:`, err);
-        }
-      }
-      setPS([{ title: "all" }, ...allPS]);
-    } else {
-      // Normal club admin
-      const res = await getClubPS(user.club);
-      setPS([{ title: "all" }, ...res.data]);
-    }
-  }
+  const [userRole, setUserRole] = useState(null);
 
-  fetchUserData();
-}, []);
+  useEffect(() => {
+    async function fetchUserData() {
+      const user = getUserDetails();
+
+      if (!user) return;
+      let role = "user";
+      if (user.club === "sntsecy") role = "sntsecy";
+      else if (user.role === "admin") role = "admin";
+      setUserRole(role);
+      let allPS = [];
+      if (role === "sntsecy") {
+        // get problem statements for all clubs
+        for (const club of config.clubs) {
+          try {
+            const res = await getClubPS(club);
+            allPS = [...allPS, ...res.data];
+          } catch (err) {
+            console.error(`Failed to fetch PS for club ${club}:`, err);
+          }
+        }
+        setPS([{ title: "all" }, ...allPS]);
+      } else {
+        // Normal club admin
+        const res = await getClubPS(user.club);
+        setPS([{ title: "all" }, ...res.data]);
+      }
+    }
+
+    fetchUserData();
+  }, []);
 
   const getFilteredPools = () => {
     let pools;
-    if (userRole === "sntsecy" || selectedPool === "all") {
+    if (selectedPool === "all") {
       pools = poolContention;
     } else {
       pools = { [selectedPool]: poolContention[selectedPool] || [] };
@@ -119,7 +120,6 @@ const [userRole, setUserRole] = useState(null);
         flexWrap: "wrap",
         gap: "20px",
         fontSize: "1rem",
-       
       }}
     >
       <div
@@ -129,7 +129,6 @@ const [userRole, setUserRole] = useState(null);
           minWidth: "300px",
           alignItems: "flex-start",
           justifyContent: "flex-start",
-
         }}
       >
         <h3
@@ -295,7 +294,7 @@ const [userRole, setUserRole] = useState(null);
             maxWidth: "300px",
             marginBottom: "20px",
             backgroundColor: "black",
-            color: "white"
+            color: "white",
           }}
           className="btn btn-secondary dropdown-toggle"
         >
@@ -304,7 +303,7 @@ const [userRole, setUserRole] = useState(null);
               <option
                 key={i}
                 value={ps.title === "All Problem Statements" ? "all" : ps.title}
-                style={{backgroundColor: "black", color:"white"}}
+                style={{ backgroundColor: "black", color: "white" }}
               >
                 {ps.title}
               </option>
@@ -320,10 +319,12 @@ const [userRole, setUserRole] = useState(null);
         <div
           className="container"
           id="welcome"
-          style={{ padding: "20px",
-    margin: "24px auto",
-    
-    boxSizing: "border-box"  }}
+          style={{
+            padding: "20px",
+            margin: "24px auto",
+
+            boxSizing: "border-box",
+          }}
         >
           <FiltersContent />
 
@@ -339,6 +340,7 @@ const [userRole, setUserRole] = useState(null);
           {Object.keys(filteredPools)
             .sort()
             .map((pool) => {
+              console.log(filteredPools)
               let contentions = filteredPools[pool];
               const sortedContentions = [...contentions].sort((a, b) => {
                 const dateA = new Date(a.createdAt || 0);
@@ -376,19 +378,18 @@ const [userRole, setUserRole] = useState(null);
                     {sortedContentions.map((contention) => {
                       return (
                         <div
-                          className="feedback-card"
+                          className="contention-card"
                           style={{
                             borderBottom: "1px solid #7f7fff",
                             borderLeft: "5px solid #7f7fff",
                             borderTop: "1px solid #7f7fff",
                             borderRight: "1px solid #7f7fff",
                             margin: "10px 0",
-                           
                           }}
-                          id="feedback-card1"
+                          id="contention-card"
                           key={`${contention._id}-${pool}`}
                         >
-                          <div className="feedback-header">
+                          <div className="contention-header">
                             <p>
                               <strong>From:</strong> {contention.pool}
                             </p>
@@ -413,8 +414,8 @@ const [userRole, setUserRole] = useState(null);
                                     style={{
                                       color: "#7f7fff",
                                       textDecoration: "underline",
-                                      wordBreak: "break-all", 
-                                       overflowWrap: "break-word",
+                                      wordBreak: "break-all",
+                                      overflowWrap: "break-word",
                                     }}
                                   >
                                     {contention.drive}
@@ -454,52 +455,55 @@ const [userRole, setUserRole] = useState(null);
                             </small>
                             <div className="status-actions">
                               <span className={`status ${contention.status}`}>
-                              {contention.status}
-                            </span>
-                 <div className="toggle-buttons-box">
-  {/* Accept button — show only if not accepted */}
-  {contention.status !== "accepted" && (
-    <button
-      className="toggle-btn"
-      style={{ backgroundColor: "green" }}
-      title="Accept contention"
-      onClick={() => {
-        if (
-          window.confirm(
-            `✅ Are you sure you want to accept this contention?\n\nPool: ${contention.pool}\nProblem: ${contention.problemStatement}`
-          )
-        ) {
-          socket.emit("mark_accepted", { id: contention._id });
-        }
-      }}
-    >
-      <VscCheck />
-    </button>
-  )}
+                                {contention.status}
+                              </span>
+                              <div className="toggle-buttons-box">
+                                {/* Accept button — show only if not accepted */}
+                                {contention.status !== "accepted" && (
+                                  <button
+                                    className="toggle-btn"
+                                    style={{ backgroundColor: "green" }}
+                                    title="Accept contention"
+                                    onClick={() => {
+                                      if (
+                                        window.confirm(
+                                          `✅ Are you sure you want to accept this contention?\n\nPool: ${contention.pool}\nProblem: ${contention.problemStatement}`
+                                        )
+                                      ) {
+                                        socket.emit("mark_accepted", {
+                                          id: contention._id,
+                                        });
+                                      }
+                                    }}
+                                  >
+                                    <VscCheck />
+                                  </button>
+                                )}
 
-  {/* Reject button — show only if not rejected */}
-  {contention.status !== "rejected" && (
-    <button
-      className="toggle-btn"
-      style={{ backgroundColor: "red" }}
-      title="Reject contention"
-      onClick={() => {
-        if (
-          window.confirm(
-            `❌ Are you sure you want to reject this contention?\n\nPool: ${contention.pool}\nProblem: ${contention.problemStatement}`
-          )
-        ) {
-          socket.emit("mark_rejected", { id: contention._id });
-        }
-      }}
-    >
-      <VscChromeClose />
-    </button>
-  )}
-</div>
-
+                                {/* Reject button — show only if not rejected */}
+                                {contention.status !== "rejected" && (
+                                  <button
+                                    className="toggle-btn"
+                                    style={{ backgroundColor: "red" }}
+                                    title="Reject contention"
+                                    onClick={() => {
+                                      if (
+                                        window.confirm(
+                                          `❌ Are you sure you want to reject this contention?\n\nPool: ${contention.pool}\nProblem: ${contention.problemStatement}`
+                                        )
+                                      ) {
+                                        socket.emit("mark_rejected", {
+                                          id: contention._id,
+                                        });
+                                      }
+                                    }}
+                                  >
+                                    <VscChromeClose />
+                                  </button>
+                                )}
+                              </div>
+                            </div>
                           </div>
-                        </div>
                         </div>
                       );
                     })}

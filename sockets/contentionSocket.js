@@ -1,6 +1,6 @@
-const feedbackController = require("../controllers/feedbackController");
+const contentionController = require("../controllers/contentionController");
 
-const handleFeedbackSocket = (io, socket) => {
+const handlecontentionSocket = (io, socket) => {
   const userRole = socket.user.role;
   const userPool = socket.user.pool;
   const userClub = socket.user.club;
@@ -14,42 +14,42 @@ const handleFeedbackSocket = (io, socket) => {
     console.log(`User ${socket.user.name} joined pool_${userPool} room`);
   }
 
-  // Load and send feedbacks to the connected client
-  const loadFeedbacks = async () => {
+  // Load and send contentions to the connected client
+  const loadcontentions = async () => {
     try {
-      let feedbacks;
+      let contentions;
       if ( userClub === "sntsecy") {
-            const allGrouped = await feedbackController.getFeedbacksGroupedByPoolsForSuperAdmin();
-           // console.log("Emitting all grouped feedbacks to superadmin, pools:", Object.keys(allGrouped).length);
-            socket.emit("load_feedbacks", { type: "grouped", data: allGrouped });
+            const allGrouped = await contentionController.getcontentionsGroupedByPoolsForSuperAdmin();
+           // console.log("Emitting all grouped contentions to superadmin, pools:", Object.keys(allGrouped).length);
+            socket.emit("load_contentions", { type: "grouped", data: allGrouped });
             return;
       }
       else if (userRole === "admin") {
-        feedbacks = await feedbackController.getFeedbacksGroupedByPools({
+        contentions = await contentionController.getcontentionsGroupedByPools({
           role: socket.user.role,
           club: socket.user.club,
         });
-        socket.emit("load_feedbacks", { type: "grouped", data: feedbacks });
+        socket.emit("load_contentions", { type: "grouped", data: contentions });
       } else {
-        feedbacks = await feedbackController.getFeedbacksForUserPool(userPool);
-        socket.emit("load_feedbacks", {
+        contentions = await contentionController.getcontentionsForUserPool(userPool);
+        socket.emit("load_contentions", {
           type: "user_grouped",
-          data: feedbacks,
+          data: contentions,
           userPool: userPool,
         });
       }
     } catch (error) {
-      console.error("Error loading feedbacks:", error);
-      socket.emit("error", { message: "Failed to load feedbacks" });
+      console.error("Error loading contentions:", error);
+      socket.emit("error", { message: "Failed to load contentions" });
     }
   };
 
-  // Handle feedback submission
-  const submitFeedback = async (data) => {
+  // Handle contention submission
+  const submitcontention = async (data) => {
     if (userRole === "admin") return;
 
     try {
-      const feedback = await feedbackController.createFeedback({
+      const contention = await contentionController.createcontention({
         problemStatement: data.problemStatement,
         description: data.description,
         drive: data.drive,
@@ -60,22 +60,22 @@ const handleFeedbackSocket = (io, socket) => {
 
       // Emit to relevant rooms only
       // 1. Emit to admin room
-      io.to("admin").emit("new_feedback", feedback);
+      io.to("admin").emit("new_contention", contention);
 
       // 2. Emit to users in the same pool as the submitter
-      io.to(`pool_${feedback.pool}`).emit("new_feedback", feedback);
+      io.to(`pool_${contention.pool}`).emit("new_contention", contention);
 
-      // 3. Emit to users in the pool that the feedback is against
-      if (feedback.againstPool !== feedback.pool) {
-        io.to(`pool_${feedback.againstPool}`).emit("new_feedback", feedback);
+      // 3. Emit to users in the pool that the contention is against
+      if (contention.againstPool !== contention.pool) {
+        io.to(`pool_${contention.againstPool}`).emit("new_contention", contention);
       }
 
       console.log(
-        `Feedback submitted by ${socket.user.name} from ${feedback.pool} against ${feedback.againstPool}`
+        `contention submitted by ${socket.user.name} from ${contention.pool} against ${contention.againstPool}`
       );
     } catch (error) {
-      console.error("Error submitting feedback:", error);
-      socket.emit("error", { message: "Failed to submit feedback" });
+      console.error("Error submitting contention:", error);
+      socket.emit("error", { message: "Failed to submit contention" });
     }
   };
 
@@ -84,7 +84,7 @@ const handleFeedbackSocket = (io, socket) => {
     if (userRole !== "admin" && userRole !== "superadmin") return;
 
     try {
-      const updatedFeedback = await feedbackController.updateFeedbackStatus(
+      const updatedcontention = await contentionController.updatecontentionStatus(
         { user: socket.user },
         data.id,
         status
@@ -94,22 +94,22 @@ const handleFeedbackSocket = (io, socket) => {
       io.to("admin").emit("status_changed", {
         id: data.id,
         status: status,
-        feedback: updatedFeedback,
+        contention: updatedcontention,
       });
-      io.to(`pool_${updatedFeedback.pool}`).emit("status_changed", {
+      io.to(`pool_${updatedcontention.pool}`).emit("status_changed", {
         id: data.id,
         status: status,
-        feedback: updatedFeedback,
+        contention: updatedcontention,
       });
-      if (updatedFeedback.againstPool !== updatedFeedback.pool) {
-        io.to(`pool_${updatedFeedback.againstPool}`).emit("status_changed", {
+      if (updatedcontention.againstPool !== updatedcontention.pool) {
+        io.to(`pool_${updatedcontention.againstPool}`).emit("status_changed", {
           id: data.id,
           status: status,
-          feedback: updatedFeedback,
+          contention: updatedcontention,
         });
       }
       console.log(
-        `Feedback ${data.id} status changed to ${status} by ${userRole} ${socket.user.name}`
+        `contention ${data.id} status changed to ${status} by ${userRole} ${socket.user.name}`
       );
     } catch (error) {
       console.error("Error changing status:", error);
@@ -129,11 +129,11 @@ const handleFeedbackSocket = (io, socket) => {
     await changeStatus(data, "rejected");
   };
 
-  // Load feedbacks when user connects
-  loadFeedbacks();
+  // Load contentions when user connects
+  loadcontentions();
 
   // Register event listeners
-  socket.on("submit_feedback", submitFeedback);
+  socket.on("submit_contention", submitcontention);
   socket.on("mark_accepted", markAccepted);
   socket.on("mark_rejected", markRejected);
   socket.on("mark_pending", markPending);
@@ -144,4 +144,4 @@ const handleFeedbackSocket = (io, socket) => {
   });
 };
 
-module.exports = { handleFeedbackSocket };
+module.exports = { handlecontentionSocket };

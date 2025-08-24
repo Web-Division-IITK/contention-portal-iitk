@@ -209,7 +209,7 @@
   border-radius: 20px;
   box-shadow: #f8f8f9;
 }
-.feedback-submit {
+.contention-submit {
   border-left: 2px solid rgb(250, 63, 1);
 
   border-radius: 20px;
@@ -405,7 +405,7 @@ label[for="against-hall"] {
 }
 
 /* Select dropdown styling */
-.feedback-submit {
+.contention-submit {
   flex: 1;
   background-color: white;
   color: #333;
@@ -420,25 +420,25 @@ label[for="against-hall"] {
 }
 
 /* Select focus state */
-.feedback-submit:focus {
+.contention-submit:focus {
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
 /* Select hover state */
-.feedback-submit:hover {
+.contention-submit:hover {
   border-color: #999;
 }
 
 /* Option styling */
-.feedback-submit option {
+.contention-submit option {
   background-color: white;
   color: #333;
   padding: 8px;
 }
 
 /* Icon styling (assuming HiMiniBolt is an icon) */
-.feedback-submit + * {
+.contention-submit + * {
   color: #666;
   font-size: 16px;
   margin-left: 4px;
@@ -450,7 +450,7 @@ label[for="against-hall"] {
     padding: 6px 10px;
   }
 
-  .feedback-submit {
+  .contention-submit {
     padding: 6px 10px;
     font-size: 13px;
   }

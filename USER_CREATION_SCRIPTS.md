@@ -1,6 +1,6 @@
 # 👤 User Creation Scripts
 
-This directory contains standalone Node.js scripts for creating users in the feedback portal database.
+This directory contains standalone Node.js scripts for creating users in the contention portal database.
 
 ## 📁 Available Scripts
 
@@ -11,7 +11,7 @@ This directory contains standalone Node.js scripts for creating users in the fee
 - 🔒 Password confirmation
 - 📧 Email uniqueness check
 - 📱 Phone number validation
-- 🎨 Visual feedback and confirmation
+- 🎨 Visual contention and confirmation
 
 ### 2. `createUserSimple.js` - Minimal User Creation Script
 **Features:**
@@ -26,7 +26,7 @@ This directory contains standalone Node.js scripts for creating users in the fee
 1. Ensure MongoDB is running
 2. Set up environment variables in `.env` file:
    ```env
-   MONGO_URI=mongodb://localhost:27017/feedback-portal
+   MONGO_URI=mongodb://localhost:27017/contention-portal
    JWT_SECRET=your-secret-key
    ```
 
@@ -58,16 +58,16 @@ Both scripts will prompt for the following information:
 ## 🎯 User Roles
 
 ### 👤 **User Role:**
-- Can submit feedback
-- Can view pool-specific feedbacks
+- Can submit contention
+- Can view pool-specific contentions
 - Cannot create other users
-- Cannot change feedback status
+- Cannot change contention status
 
 ### 🔧 **Admin Role:**
 - Can create new users (via API)
-- Can view all feedbacks
-- Can change feedback status
-- Cannot submit feedback
+- Can view all contentions
+- Can change contention status
+- Cannot submit contention
 
 ## 🏊‍♂️ Available Pools
 

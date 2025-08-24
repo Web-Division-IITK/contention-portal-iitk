@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { pools, clubs } = require("../config/general");
 
-const feedbackSchema = new mongoose.Schema({
+const contentionSchema = new mongoose.Schema({
   problemStatement: { type: String, required: true },
   description: { type: String, required: true },
   drive: { type: String, required: false },
@@ -16,4 +16,4 @@ const feedbackSchema = new mongoose.Schema({
   // problemStatement: { type: String, required: true },
 });
 
-module.exports = { Feedback: mongoose.model("feedbacks", feedbackSchema) };
+module.exports = { contention: mongoose.model("contentions", contentionSchema) };

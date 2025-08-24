@@ -50,33 +50,36 @@ export function Portal() {
 
     newSocket.on("connect", () => {});
 
-    newSocket.on("load_feedbacks", (a) => {
+    newSocket.on("load_contentions", (a) => {
       setPoolContention(a.data);
     });
 
-    newSocket.on("new_feedback", (feedback) => {
+    newSocket.on("new_contention", (contention) => {
       if (userData.role === "admin") {
         toast.info(
-          `${feedback.pool} filed a contention for ${feedback.club} PS`,
+          `${contention.pool} filed a contention for ${contention.club} PS`,
           toastData
         );
         setPoolContention((data) => {
           let tempData = { ...data };
-          const feedbackExists = tempData[feedback.pool].some(
-            (item) => item._id === feedback._id
+          const contentionExists = tempData[contention.pool].some(
+            (item) => item._id === contention._id
           );
-          if (!feedbackExists) {
-            tempData[feedback.pool].push(feedback);
+          if (!contentionExists) {
+            tempData[contention.pool].push(contention);
           }
           return tempData;
         });
       } else {
-        if (feedback.pool == userData.pool) {
+        if (contention.pool == userData.pool) {
           toast.info(
-            `Your Pool filed a contention for ${feedback.club} PS`,
+            `Your Pool filed a contention for ${contention.club} PS`,
             toastData
           );
-          setPoolContention((prevFeedbacks) => [feedback, ...prevFeedbacks]);
+          setPoolContention((prevcontentions) => [
+            contention,
+            ...prevcontentions,
+          ]);
         }
       }
     });
@@ -85,38 +88,38 @@ export function Portal() {
       if (userData.role === "admin") {
         if (statusData.status == "accepted")
           toast.info(
-            `${statusData.feedback.pool} contention for ${statusData.feedback.club} PS got Accepted`,
+            `${statusData.contention.pool} contention for ${statusData.contention.club} PS got Accepted`,
             toastData
           );
         else
           toast.info(
-            `${statusData.feedback.pool} contention for ${statusData.feedback.club} PS got Rejected`,
+            `${statusData.contention.pool} contention for ${statusData.contention.club} PS got Rejected`,
             toastData
           );
 
         setPoolContention((data) => {
           let tempData = { ...data };
-          tempData[statusData.feedback.pool].find(
-            (e) => e._id == statusData.feedback._id
+          tempData[statusData.contention.pool].find(
+            (e) => e._id == statusData.contention._id
           )["status"] = statusData.status;
           return tempData;
         });
       } else {
-        if (userData.pool == statusData.feedback.pool) {
+        if (userData.pool == statusData.contention.pool) {
           if (statusData.status == "accepted")
             toast.success(
-              `Your contention for ${statusData.feedback.againstPool} PS got Accepted`,
+              `Your contention for ${sstatusData.contention.club} PS got Accepted`,
               toastData
             );
           else
             toast.warn(
-              `Your contention for ${statusData.feedback.againstPool} PS got Rejected`,
+              `Your contention for ${sstatusData.contention.club} PS got Rejected`,
               toastData
             );
 
           setPoolContention((data) => {
             let tempData = [...data];
-            tempData.find((e) => e._id == statusData.feedback._id)["status"] =
+            tempData.find((e) => e._id == statusData.contention._id)["status"] =
               statusData.status;
             return tempData;
           });
@@ -144,7 +147,7 @@ export function Portal() {
       return;
     }
 
-    socket.emit("submit_feedback", {
+    socket.emit("submit_contention", {
       problemStatement: problemStatement,
       club,
       description: para,
@@ -325,11 +328,11 @@ export function Portal() {
               borderLeft: "8px solid #7f7fff",
             }}
           >
-            <form className="feedback-input" onSubmit={handleFormSubmit}>
+            <form className="contention-input" onSubmit={handleFormSubmit}>
               <label htmlFor="club" style={{ color: "white" }}>
                 <b>Entity:</b>
                 <select
-                  className="feedback-submit"
+                  className="contention-submit"
                   value={club}
                   onChange={async (e) => {
                     setPS([]);
@@ -384,7 +387,7 @@ export function Portal() {
               <label htmlFor="ps" style={{ color: "white" }}>
                 <b>PS:</b>
                 <select
-                  className="problem-statement feedback-submit"
+                  className="problem-statement contention-submit"
                   value={problemStatement}
                   onChange={(e) => setProblemStatement(e.target.value)}
                   style={{
@@ -414,7 +417,7 @@ export function Portal() {
 
               <label htmlFor="text" style={{ color: "white" }}>
                 <input
-                  className="feedback-submit"
+                  className="contention-submit"
                   type="text"
                   placeholder="Description"
                   value={para}
@@ -431,7 +434,7 @@ export function Portal() {
 
               <label htmlFor="link" style={{ color: "white" }}>
                 <input
-                  className="feedback-submit"
+                  className="contention-submit"
                   type="text"
                   placeholder="Any drive link"
                   value={link}
@@ -459,11 +462,11 @@ export function Portal() {
         )}
 
         {getUserDetails().role === "user" && activeTab === "my-contentions" && (
-          <MyContentions feedbacks={poolContention} />
+          <MyContentions contentions={poolContention} />
         )}
 
         {/* {getUserDetails().role === "user" && activeTab === "against-me" && (
-          <ContentionsAgainstMe feedbacks={againstContention} socket={socket} />
+          <ContentionsAgainstMe contentions={againstContention} socket={socket} />
         )} */}
 
         {getUserDetails().role === "admin" && (

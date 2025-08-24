@@ -1,5 +1,5 @@
-export function MyContentions({ feedbacks }) {
-  const myContentions = feedbacks;
+export function MyContentions({ contentions }) {
+  const myContentions = contentions;
 
   return (
     <div className="contentions-section">
@@ -10,8 +10,8 @@ export function MyContentions({ feedbacks }) {
       {myContentions.length > 0 ? (
         <div className="contentions-grid" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", maxWidth: "800px", margin: "0 auto" }}>
           {myContentions.map((contention) => (
-            <div className="feedback-card my-contention" style={{margin:"10px", border:"1px solid #7f7fff", width:"200px" }} key={contention._id}>
-              <div className="feedback-header">
+            <div className="contention-card my-contention" style={{margin:"10px", border:"1px solid #7f7fff", width:"200px" }} key={contention._id}>
+              <div className="contention-header">
                
                 <div className="contention-details">
                   <p>

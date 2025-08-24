@@ -14,7 +14,6 @@ export const clubs = [
     "Speedcubing"
 ];
 
-// export const BASEURL = 'http://localhost:8080' + "/api";
-// export const SOCKET_URI = 'http://localhost:8080';
-export const BASEURL = window.location.origin + "/api";
-export const SOCKET_URI = window.location.origin;
+export const BASEURL = import.meta.env.VITE_BASEURL;
+export const SOCKET_URI = import.meta.env.VITE_SOCKET_URI;
+

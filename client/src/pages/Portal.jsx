@@ -55,7 +55,10 @@ export function Portal() {
     });
 
     newSocket.on("new_contention", (contention) => {
-      if (userData.role === "admin") {
+      if (
+        userData.role === "admin" &&
+        (userData.club == "sntsecy" || userData.club == contention.club)
+      ) {
         toast.info(
           `${contention.pool} filed a contention for ${contention.club} PS`,
           toastData
@@ -85,7 +88,11 @@ export function Portal() {
     });
 
     newSocket.on("status_changed", (statusData) => {
-      if (userData.role === "admin") {
+      if (
+        userData.role === "admin" &&
+        (userData.club == "sntsecy" ||
+          userData.club == statusData.contention.club)
+      ) {
         if (statusData.status == "accepted")
           toast.info(
             `${statusData.contention.pool} contention for ${statusData.contention.club} PS got Accepted`,
@@ -108,12 +115,12 @@ export function Portal() {
         if (userData.pool == statusData.contention.pool) {
           if (statusData.status == "accepted")
             toast.success(
-              `Your contention for ${sstatusData.contention.club} PS got Accepted`,
+              `Your contention for ${statusData.contention.club} PS got Accepted`,
               toastData
             );
           else
             toast.warn(
-              `Your contention for ${sstatusData.contention.club} PS got Rejected`,
+              `Your contention for ${statusData.contention.club} PS got Rejected`,
               toastData
             );
 
@@ -356,6 +363,8 @@ export function Portal() {
                     wordBreak: "break-word",
                     display: "block", // dropdown on new line
                     marginTop: "0.3rem",
+                    marginLeft: "1rem",
+                    padding: "10px"
                   }}
                 >
                   {[
@@ -400,6 +409,8 @@ export function Portal() {
                     wordBreak: "break-word",
                     display: "block", // dropdown on new line
                     marginTop: "0.3rem",
+                    marginLeft: "1rem",
+                    padding: "10px"
                   }}
                   required
                 >

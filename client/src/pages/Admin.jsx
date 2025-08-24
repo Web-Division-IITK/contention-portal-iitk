@@ -8,34 +8,41 @@ export function Admin({ poolContention, socket }) {
   const [statusFilter, setStatusFilter] = useState("pending");
   const [selectedPS, setSelectedPS] = useState("all");
   const [PS, setPS] = useState([]);
-
-  // let userClub = getUserDetails().club;
-
-  // const poolNames = Object.keys(poolContention).sort();
-
-  // useEffect(() => {
-  //   if (selectedPool !== "all" && !poolNames.includes(selectedPool)) {
-  //     setSelectedPool("all");
-  //   }
-  // }, [poolContention, selectedPool, poolNames]);
-
-  // useEffect(() => {
-  //   setSelectedPS("all");
-  // }, [poolContention]);
-
-  // let PS
-
+const [userRole, setUserRole] = useState(null); 
   useEffect(() => {
-    async function fetchData() {
-      let res = await getClubPS(getUserDetails().club);
+  async function fetchUserData() {
+    const user = await getUserDetails();
+ 
+    if (!user) return;
+    let role = "user";
+    if (user.club === "sntsecy") role = "sntsecy";
+    else if (user.role === "admin") role = "admin";
+    setUserRole(role);
+   let allPS = [];
+    if (role === "sntsecy") {
+      // get problem statements for all clubs
+      for (const club of config.clubs) {
+        try {
+          const res = await getClubPS(club); 
+          allPS = [...allPS, ...res.data];
+        } catch (err) {
+          console.error(`Failed to fetch PS for club ${club}:`, err);
+        }
+      }
+      setPS([{ title: "all" }, ...allPS]);
+    } else {
+      // Normal club admin
+      const res = await getClubPS(user.club);
       setPS([{ title: "all" }, ...res.data]);
     }
-    fetchData();
-  }, []);
+  }
+
+  fetchUserData();
+}, []);
 
   const getFilteredPools = () => {
     let pools;
-    if (selectedPool === "all") {
+    if (userRole === "sntsecy" || selectedPool === "all") {
       pools = poolContention;
     } else {
       pools = { [selectedPool]: poolContention[selectedPool] || [] };

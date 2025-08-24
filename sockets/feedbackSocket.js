@@ -3,6 +3,7 @@ const feedbackController = require("../controllers/feedbackController");
 const handleFeedbackSocket = (io, socket) => {
   const userRole = socket.user.role;
   const userPool = socket.user.pool;
+  const userClub = socket.user.club;
 
   // Join appropriate rooms based on user role and pool
   if (userRole === "admin" || userRole === "superadmin") {
@@ -17,8 +18,13 @@ const handleFeedbackSocket = (io, socket) => {
   const loadFeedbacks = async () => {
     try {
       let feedbacks;
-
-      if (userRole === "admin") {
+      if ( userClub === "sntsecy") {
+            const allGrouped = await feedbackController.getFeedbacksGroupedByPoolsForSuperAdmin();
+           // console.log("Emitting all grouped feedbacks to superadmin, pools:", Object.keys(allGrouped).length);
+            socket.emit("load_feedbacks", { type: "grouped", data: allGrouped });
+            return;
+      }
+      else if (userRole === "admin") {
         feedbacks = await feedbackController.getFeedbacksGroupedByPools({
           role: socket.user.role,
           club: socket.user.club,

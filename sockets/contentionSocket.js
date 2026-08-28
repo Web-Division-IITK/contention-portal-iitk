@@ -4,9 +4,11 @@ const handlecontentionSocket = (io, socket) => {
   const userRole = socket.user.role;
   const userPool = socket.user.pool;
   const userClub = socket.user.club;
+  const isSuperAdmin = userRole === "superadmin" || userClub === "sntsecy";
+  const isAdmin = userRole === "admin" || isSuperAdmin;
 
   // Join appropriate rooms based on user role and pool
-  if (userRole === "admin" || userRole === "superadmin") {
+  if (isAdmin) {
     socket.join("admin");
     console.log(`${userRole} ${socket.user.name} joined admin room`);
   } else {
@@ -18,13 +20,13 @@ const handlecontentionSocket = (io, socket) => {
   const loadcontentions = async () => {
     try {
       let contentions;
-      if ( userClub === "sntsecy") {
+      if (isSuperAdmin) {
             const allGrouped = await contentionController.getcontentionsGroupedByPoolsForSuperAdmin();
            // console.log("Emitting all grouped contentions to superadmin, pools:", Object.keys(allGrouped).length);
             socket.emit("load_contentions", { type: "grouped", data: allGrouped });
             return;
       }
-      else if (userRole === "admin") {
+      else if (isAdmin) {
         contentions = await contentionController.getcontentionsGroupedByPools({
           role: socket.user.role,
           club: socket.user.club,
@@ -46,7 +48,7 @@ const handlecontentionSocket = (io, socket) => {
 
   // Handle contention submission
   const submitcontention = async (data) => {
-    if (userRole === "admin") return;
+    if (isAdmin) return;
 
     try {
       const contention = await contentionController.createcontention({
@@ -81,7 +83,7 @@ const handlecontentionSocket = (io, socket) => {
 
   // Handle status change (admin only)
   const changeStatus = async (data, status) => {
-    if (userRole !== "admin" && userRole !== "superadmin") return;
+    if (!isAdmin) return;
 
     try {
       const updatedcontention = await contentionController.updatecontentionStatus(

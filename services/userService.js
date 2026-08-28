@@ -56,7 +56,8 @@ class UserService {
         pool: user.pool,
         club: user.club,
       },
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRES_IN || "12h" }
     );
 
     return { message: "Login successful", token };

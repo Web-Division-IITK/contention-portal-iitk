@@ -44,7 +44,8 @@ class contentionController {
   }
 
   async updatecontentionStatus(req, contentionId, status) {
-    const isSuperAdmin = req.user.club === "sntsecy";
+    const isSuperAdmin =
+      req.user.role === "superadmin" || req.user.club === "sntsecy";
     try {
       // Only allow admin to change status of contentions of their club or sntsecy
       const contention = await contentionService.getcontentionById(contentionId);

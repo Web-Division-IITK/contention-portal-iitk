@@ -26,10 +26,17 @@ const toastData = {
 
 export function Portal() {
   const userData = getUserDetails();
+  const userRole = userData?.role;
+  const userClub = userData?.club;
+  const userPool = userData?.pool;
+  const isAdmin =
+    userRole === "admin" || userRole === "superadmin";
+  const isSuperAdmin =
+    userRole === "superadmin" || userClub === "sntsecy";
 
   let navigate = useNavigate();
   const [socket, setSocket] = useState(null);
-  const [poolContention, setPoolContention] = useState("");
+  const [poolContention, setPoolContention] = useState(isAdmin ? {} : []);
   const [PS, setPS] = useState(new Array());
   const [club, setClub] = useState("");
   const [problemStatement, setProblemStatement] = useState("");
@@ -38,6 +45,8 @@ export function Portal() {
   const [activeTab, setActiveTab] = useState("submit");
 
   useEffect(() => {
+    if (!userRole) return;
+
     // Connect to backend
     const newSocket = io(SOCKET_URI, {
       auth: {
@@ -56,25 +65,26 @@ export function Portal() {
 
     newSocket.on("new_contention", (contention) => {
       if (
-        userData.role === "admin" &&
-        (userData.club == "sntsecy" || userData.club == contention.club)
+        isAdmin &&
+        (isSuperAdmin || userClub === contention.club)
       ) {
         toast.info(
           `${contention.pool} filed a contention for ${contention.club} PS`,
           toastData
         );
         setPoolContention((data) => {
-          let tempData = { ...data };
-          const contentionExists = tempData[contention.pool].some(
+          const tempData = { ...data };
+          const poolContentions = tempData[contention.pool] || [];
+          const contentionExists = poolContentions.some(
             (item) => item._id === contention._id
           );
           if (!contentionExists) {
-            tempData[contention.pool].push(contention);
+            tempData[contention.pool] = [...poolContentions, contention];
           }
           return tempData;
         });
       } else {
-        if (contention.pool == userData.pool) {
+        if (contention.pool === userPool) {
           toast.info(
             `Your Pool filed a contention for ${contention.club} PS`,
             toastData
@@ -89,9 +99,8 @@ export function Portal() {
 
     newSocket.on("status_changed", (statusData) => {
       if (
-        userData.role === "admin" &&
-        (userData.club == "sntsecy" ||
-          userData.club == statusData.contention.club)
+        isAdmin &&
+        (isSuperAdmin || userClub === statusData.contention.club)
       ) {
         if (statusData.status == "accepted")
           toast.info(
@@ -105,14 +114,18 @@ export function Portal() {
           );
 
         setPoolContention((data) => {
-          let tempData = { ...data };
-          tempData[statusData.contention.pool].find(
-            (e) => e._id == statusData.contention._id
-          )["status"] = statusData.status;
-          return tempData;
+          const pool = statusData.contention.pool;
+          return {
+            ...data,
+            [pool]: (data[pool] || []).map((contention) =>
+              contention._id === statusData.contention._id
+                ? { ...contention, status: statusData.status }
+                : contention
+            ),
+          };
         });
       } else {
-        if (userData.pool == statusData.contention.pool) {
+        if (userPool === statusData.contention.pool) {
           if (statusData.status == "accepted")
             toast.success(
               `Your contention for ${statusData.contention.club} PS got Accepted`,
@@ -139,11 +152,11 @@ export function Portal() {
     return () => {
       newSocket.disconnect();
     };
-  }, []);
+  }, [isAdmin, isSuperAdmin, userClub, userPool, userRole]);
 
   useEffect(() => {
     if (!isUserLoggedin()) navigate("/");
-  });
+  }, [navigate]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -219,7 +232,7 @@ export function Portal() {
             className="portal-subtitle"
             style={{ fontStyle: "initial", fontFamily: "serif" }}
           >
-            TAKNEEK'25 | IIT Kanpur
+            TAKNEEK&apos;25 | IIT Kanpur
           </h3>
         </div>
 
@@ -233,17 +246,17 @@ export function Portal() {
         </button>
       </div>
 
-      {getUserDetails().role === "admin" && (
+      {isAdmin && (
         <div
           className="admin-info"
           style={{ backgroundColor: "black", width: "100%", padding: "8px" }}
         >
           <span className="club-name" style={{ fontSize: "1.1rem" }}>
-            Welcome {userData.club} Admin
+            Welcome {isSuperAdmin ? "Super Admin" : `${userData.club} Admin`}
           </span>
         </div>
       )}
-      {getUserDetails().role === "user" && (
+      {userData?.role === "user" && (
         <div
           className="admin-info"
           style={{ backgroundColor: "black", width: "100%", padding: "8px" }}
@@ -256,7 +269,7 @@ export function Portal() {
           </span>
         </div>
       )}
-      {getUserDetails().role == "user" && (
+      {userData?.role === "user" && (
         <div
           className="tab-navigation"
           style={{
@@ -324,7 +337,7 @@ export function Portal() {
       )}
 
       <div className="tab-content">
-        {getUserDetails().role === "user" && activeTab === "submit" && (
+        {userData?.role === "user" && activeTab === "submit" && (
           <div
             className="contention-form"
             style={{
@@ -472,7 +485,7 @@ export function Portal() {
           </div>
         )}
 
-        {getUserDetails().role === "user" && activeTab === "my-contentions" && (
+        {userData?.role === "user" && activeTab === "my-contentions" && (
           <MyContentions contentions={poolContention} />
         )}
 
@@ -480,7 +493,7 @@ export function Portal() {
           <ContentionsAgainstMe contentions={againstContention} socket={socket} />
         )} */}
 
-        {getUserDetails().role === "admin" && (
+        {isAdmin && (
           <Admin poolContention={poolContention} socket={socket} />
         )}
       </div>

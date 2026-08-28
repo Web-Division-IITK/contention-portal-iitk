@@ -1,11 +1,9 @@
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { HiEye, HiEyeOff, HiMail } from "react-icons/hi";
-import illustrationImg from "../assets/image.png";  
 import "../css/Login.css";
 import { useEffect, useState } from "react";
 import { createUser, isUserLoggedin, loginUser } from "../utils/Login";
 import logo from "../assets/logo.png";
-import { HiNumberedList } from "react-icons/hi2";
 import { FaUser } from "react-icons/fa";
 export function Signinup() {
   let [isLogin, setIsLogin] = useState(true);
@@ -22,7 +20,7 @@ export function Signinup() {
 
         <div className="navbar-center" style={{ textAlign: "center" }}>
           <h2 className="portal-subtitle">Contention Portal</h2>
-          <h3 className="portal-subtitle">TAKNEEK'25 | IIT Kanpur</h3>
+          <h3 className="portal-subtitle">TAKNEEK&apos;25 | IIT Kanpur</h3>
         </div>
         
       
@@ -31,7 +29,7 @@ export function Signinup() {
        
       </div>
       {isLogin ? (
-        <Login switchToSignup={() => setIsLogin(false)} />
+        <Login />
       ) : (
         <Signup switchToLogin={() => setIsLogin(true)} />
       )}
@@ -39,7 +37,7 @@ export function Signinup() {
   );
 }
 
-export function Login({ switchToSignup }) {
+export function Login() {
   let navigate = useNavigate();
   let [showPassword, setShowPassword] = useState(false);
 
@@ -47,7 +45,7 @@ export function Login({ switchToSignup }) {
   
  <div className="login-box">
        <div className="logo" id="logo1" style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <span style={{color:"whitesmoke", fontStyle:"inherit", fontFamily:"serif"}}  className="eventlogo" >TAKNEEK'25</span>
+        <span style={{color:"whitesmoke", fontStyle:"inherit", fontFamily:"serif"}}  className="eventlogo" >TAKNEEK&apos;25</span>
       </div>
 
       <form
@@ -100,14 +98,13 @@ export function Login({ switchToSignup }) {
 }
 
 export function Signup({ switchToLogin }) {
-  let navigate = useNavigate();
   let [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="login-box">
       <div className="logo">
         {/* <img src="/Logo-Transperent.png" alt="logo" /> */}
-        <span style={{ color: "whitesmoke", fontStyle: "inherit", fontFamily: "serif" ,}} className="eventlogo">TAKNEEK'25</span>
+        <span style={{ color: "whitesmoke", fontStyle: "inherit", fontFamily: "serif" ,}} className="eventlogo">TAKNEEK&apos;25</span>
       </div>
 
       <form

@@ -15,16 +15,11 @@ export async function loginUser(email, password) {
 
     if (data.status == true) {
       localStorage.setItem("token", data.token);
-
-      // detokenise jwt
-      let decodedToken;
-      decodedToken = jwtDecode(data.token);
-
       return { message: data.message, status: true };
     } else {
       return { message: data.message, status: false };
     }
-  } catch (e) {
+  } catch {
     return { message: "Internal Server Error", status: false };
   }
 }
@@ -46,7 +41,7 @@ export async function createUser(name, email, password) {
     } else {
       return { message: data.message, status: false };
     }
-  } catch (e) {
+  } catch {
     return { message: "Internal Server Error", status: false };
   }
 }
@@ -56,13 +51,15 @@ export function isUserLoggedin() {
 
   if (!token) return false;
 
-  let decodedToken;
-
   try {
-    decodedToken = jwtDecode(token);
+    const decodedToken = jwtDecode(token);
+    if (decodedToken.exp && decodedToken.exp * 1000 <= Date.now()) {
+      localStorage.removeItem("token");
+      return false;
+    }
     return true;
-  } catch (error) {
-    logoutUser();
+  } catch {
+    localStorage.removeItem("token");
     return false;
   }
 }
@@ -77,13 +74,15 @@ export function getUserDetails() {
 
   if (!token) return null;
 
-  let decodedToken;
-
   try {
-    decodedToken = jwtDecode(token);
+    const decodedToken = jwtDecode(token);
+    if (decodedToken.exp && decodedToken.exp * 1000 <= Date.now()) {
+      localStorage.removeItem("token");
+      return null;
+    }
     return decodedToken;
-  } catch (error) {
-    logoutUser();
+  } catch {
+    localStorage.removeItem("token");
     return null;
   }
 }
@@ -104,7 +103,7 @@ export async function getClubPS(club) {
     } else {
       return { message: data.message, status: false };
     }
-  } catch (e) {
+  } catch {
     return { message: "Internal Server Error", status: false };
   }
 }

@@ -89,7 +89,7 @@ export function MyContentions({ contentions }) {
       ) : (
         <div className="no-contentions">
           <p style={{ color: "#ccc", textAlign: "center", padding: "20px" }}>
-            You haven't submitted any contentions yet.
+            You haven&apos;t submitted any contentions yet.
           </p>
         </div>
       )}

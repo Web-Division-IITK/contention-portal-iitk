@@ -6,6 +6,9 @@ const socketAuth = (socket, next) => {
 
   try {
     const user = jwt.verify(token, process.env.JWT_SECRET);
+    if (!["user", "admin", "superadmin"].includes(user.role)) {
+      return next(new Error("Invalid user role"));
+    }
     socket.user = user; // save user to socket
     next();
   } catch (err) {

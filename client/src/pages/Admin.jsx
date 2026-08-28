@@ -4,11 +4,15 @@ import { useState, useEffect } from "react";
 import * as config from "../../config/config";
 
 export function Admin({ poolContention, socket }) {
+  const contentionsByPool =
+    poolContention && typeof poolContention === "object" &&
+    !Array.isArray(poolContention)
+      ? poolContention
+      : {};
   const [selectedPool, setSelectedPool] = useState("all");
   const [statusFilter, setStatusFilter] = useState("pending");
   const [selectedPS, setSelectedPS] = useState("all");
   const [PS, setPS] = useState([]);
-  const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
     async function fetchUserData() {
@@ -16,16 +20,17 @@ export function Admin({ poolContention, socket }) {
 
       if (!user) return;
       let role = "user";
-      if (user.club === "sntsecy") role = "sntsecy";
+      if (user.role === "superadmin" || user.club === "sntsecy") {
+        role = "superadmin";
+      }
       else if (user.role === "admin") role = "admin";
-      setUserRole(role);
       let allPS = [];
-      if (role === "sntsecy") {
+      if (role === "superadmin") {
         // get problem statements for all clubs
         for (const club of config.clubs) {
           try {
             const res = await getClubPS(club);
-            allPS = [...allPS, ...res.data];
+            if (res.status) allPS = [...allPS, ...res.data];
           } catch (err) {
             console.error(`Failed to fetch PS for club ${club}:`, err);
           }
@@ -34,7 +39,7 @@ export function Admin({ poolContention, socket }) {
       } else {
         // Normal club admin
         const res = await getClubPS(user.club);
-        setPS([{ title: "all" }, ...res.data]);
+        setPS([{ title: "all" }, ...(res.status ? res.data : [])]);
       }
     }
 
@@ -44,9 +49,9 @@ export function Admin({ poolContention, socket }) {
   const getFilteredPools = () => {
     let pools;
     if (selectedPool === "all") {
-      pools = poolContention;
+      pools = contentionsByPool;
     } else {
-      pools = { [selectedPool]: poolContention[selectedPool] || [] };
+      pools = { [selectedPool]: contentionsByPool[selectedPool] || [] };
     }
     const filtered = {};
 
@@ -82,8 +87,8 @@ export function Admin({ poolContention, socket }) {
 
     const currentPools =
       selectedPool === "all"
-        ? poolContention
-        : { [selectedPool]: poolContention[selectedPool] || [] };
+        ? contentionsByPool
+        : { [selectedPool]: contentionsByPool[selectedPool] || [] };
 
     Object.values(currentPools).forEach((contentions) => {
       // Filter contentions based on admin type and club's problem statements
@@ -164,7 +169,7 @@ export function Admin({ poolContention, socket }) {
             }}
           >
             All Pools (
-            {Object.values(poolContention).reduce((total, pool) => {
+            {Object.values(contentionsByPool).reduce((total, pool) => {
               return total + pool.length;
             }, 0)}
             )
@@ -186,7 +191,7 @@ export function Admin({ poolContention, socket }) {
                 transition: "background-color 0.3s",
               }}
             >
-              {pool} ({poolContention[pool]?.length || 0})
+              {pool} ({contentionsByPool[pool]?.length || 0})
             </button>
           ))}
         </div>

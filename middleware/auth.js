@@ -34,8 +34,13 @@ const authAdmin = (req, res, next) => {
       return res.status(401).json({ status: false, message: "Unauthorized" });
     }
 
-    let data = decoded;
-    if (data.role == "admin") {
+    const data = decoded;
+    const isAdmin =
+      data.role === "admin" ||
+      data.role === "superadmin" ||
+      data.club === "sntsecy";
+
+    if (!isAdmin) {
       return res.status(403).json({ status: false, message: "Forbidden" });
     }
     req.user = data;
